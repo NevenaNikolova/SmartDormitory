@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace DormitorySystem.Data.Models
@@ -10,5 +7,7 @@ namespace DormitorySystem.Data.Models
     public class User : IdentityUser
     {
         public ICollection<UserSensor>Sensors{ get; set; }
+
+        public bool GDPR { get; set; }
     }
 }

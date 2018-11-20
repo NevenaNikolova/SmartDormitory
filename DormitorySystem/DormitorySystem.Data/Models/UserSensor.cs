@@ -16,7 +16,5 @@ namespace DormitorySystem.Data.Models
         public string Longitude { get; set; }
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }
-
-
     }
 }

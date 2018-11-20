@@ -13,32 +13,32 @@ using DormitorySystem.Models;
 using DormitorySystem.Services;
 using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace DormitorySystem
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            this.Environment = env;
         }
 
+        private IHostingEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            this.RegisterData(services);
+            this.RegisterAuthentication(services);
+            this.RegisterServices(services);
+            this.RegisterInfrastructure(services);
 
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,9 +62,62 @@ namespace DormitorySystem
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "administration", // new Controller
+                    template: "{area:exists}/{controller=Users}/{action=Index}/{id?}");
+
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+        }
+
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddMemoryCache();
+
+            services
+               .AddMvc()
+               .AddJsonOptions(options =>
+                   options
+                   .SerializerSettings
+                   .ContractResolver = new DefaultContractResolver());
+
+            services.AddMvc();
+        }
+
+        private void RegisterServices(IServiceCollection services)
+        {
+        }
+
+        private void RegisterAuthentication(IServiceCollection services)
+        {
+            services.AddIdentity<User, IdentityRole>()
+                           .AddEntityFrameworkStores<ApplicationDbContext>()
+                           .AddDefaultTokenProviders();
+
+            if (this.Environment.IsDevelopment())
+            {
+                services.Configure<IdentityOptions>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredUniqueChars = 0;
+
+                });
+            }
+        }
+
+        private void RegisterData(IServiceCollection services)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
     }
 }

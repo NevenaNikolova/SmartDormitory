@@ -4,14 +4,16 @@ using DormitorySystem.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DormitorySystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181120113331_SeedAdmin")]
+    partial class SeedAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,13 +41,9 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<double?>("MaxValue");
-
                     b.Property<int>("MeasureId");
 
                     b.Property<int>("MinPollingInterval");
-
-                    b.Property<double?>("MinValue");
 
                     b.Property<string>("Tag");
 
@@ -53,7 +51,7 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<double>("ValueCurrent");
+                    b.Property<double>("Value");
 
                     b.HasKey("Id");
 
@@ -92,8 +90,6 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<bool>("GDPR");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -130,7 +126,7 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "3d7705e8-52de-46e1-9109-ca3fb7938876", AccessFailedCount = 0, ConcurrencyStamp = "379ad7f4-de13-410e-82d0-bc4a3a491a45", Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = false, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN", PasswordHash = "AQAAAAEAACcQAAAAECrWybnF0rmh3rg25OG9YsM5sN37NvaDZrQ/NezBtWrrPLnqTj17GalT1jLrphRN6g==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "0b811a12-7273-49dd-8d09-4ab8f192530a", TwoFactorEnabled = false, UserName = "InitialAdmin" }
+                        new { Id = "d06d05f0-4e2b-45d4-aea7-7fb07315facd", AccessFailedCount = 0, ConcurrencyStamp = "e0f32e9e-ce99-426b-a570-39a32d19537a", Email = "InitialAdmin@system.com", EmailConfirmed = true, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN", PasswordHash = "AQAAAAEAACcQAAAAEOLs/53maxska07LVxI03pZcI6KW8b9+qwRHDIF3wsgDUARQ9nHOghf9E8YdAg1vLA==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, TwoFactorEnabled = false, UserName = "InitialAdmin" }
                     );
                 });
 
@@ -188,8 +184,8 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "Admin", ConcurrencyStamp = "a3ceb02c-fab6-4295-9678-0580113ad8a6", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "User", ConcurrencyStamp = "02bb63da-0cf7-4404-a9da-e5f08e7a71a8", Name = "User", NormalizedName = "USER" }
+                        new { Id = "Admin", ConcurrencyStamp = "5fb87322-cbea-44bf-9de7-171ff00775b7", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "User", ConcurrencyStamp = "730a0b98-3190-475e-b960-6f82a508b15e", Name = "User", NormalizedName = "USER" }
                     );
                 });
 
@@ -264,7 +260,7 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "3d7705e8-52de-46e1-9109-ca3fb7938876", RoleId = "Admin" }
+                        new { UserId = "d06d05f0-4e2b-45d4-aea7-7fb07315facd", RoleId = "Admin" }
                     );
                 });
 

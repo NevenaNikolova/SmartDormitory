@@ -16,10 +16,12 @@ namespace DormitorySystem.Data.Models
         public Measure Measure { get; set; }
 
         public string TimeStamp { get; set; }
-        public double Value { get; set; }
+        public double ValueCurrent { get; set; }
+        public double? MinValue { get; set; }
+        public double? MaxValue { get; set; }
 
         public int TypeId { get; set; }
-        public Type Type { get; set; }
+        public SensorType Type { get; set; }
 
         public ICollection<UserSensor> UserSensors { get; set; }
     }
