@@ -12,7 +12,8 @@ namespace DormitorySystem.Data.Models
 
         public string Name { get; set; }
         public int PollingInterval { get; set; }
-        public Coordinates Location { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }
 
