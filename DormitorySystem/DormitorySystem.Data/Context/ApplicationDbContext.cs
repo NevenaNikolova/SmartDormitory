@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -78,6 +79,22 @@ namespace DormitorySystem.Data.Context
         private void GetApiData()
         {
             // throw new NotImplementedException();
+        }
+
+        //Double check min max value
+        private double[] RegexMatch(string descr)
+        {         
+            var numbers = Regex.Matches(descr, @"(\+| -)?(\d+)(\,|\.)?(\d*)?");
+
+            var result =new double[] {0,1};
+            
+            if (numbers.Count > 0)
+            {
+                double.TryParse(numbers[0].ToString(), out result[0]);
+                double.TryParse(numbers[1].ToString(), out result[1]);
+            }
+            return result;         
+
         }
     }
 }
