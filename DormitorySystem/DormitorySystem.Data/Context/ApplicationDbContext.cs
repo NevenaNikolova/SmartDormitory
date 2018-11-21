@@ -51,7 +51,7 @@ namespace DormitorySystem.Data.Context
             {
                 Id = Guid.NewGuid().ToString(),
                 UserName = "InitialAdmin",
-                NormalizedUserName = "InitialAdmin".ToUpper(),
+                NormalizedUserName = "InitialAdmin@system.com".ToUpper(),
                 Email = "InitialAdmin@system.com",
                 NormalizedEmail = "InitialAdmin@system.com".ToUpper(),
                 EmailConfirmed = true,
