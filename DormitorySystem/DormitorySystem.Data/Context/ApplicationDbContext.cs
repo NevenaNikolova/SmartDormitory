@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -19,13 +21,13 @@ namespace DormitorySystem.Data.Context
 
         public DbSet<Measure> Measures { get; set; }
         public DbSet<SampleSensor> SampleSensors { get; set; }
-        public DbSet<SensorType> Types { get; set; }
+        public DbSet<SensorType> SensorTypes { get; set; }
         public DbSet<UserSensor> UserSensors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            this.GetApiData();
+            this.GetApiData(builder);
 
             this.SeedAdminUser(builder);
 
@@ -78,48 +80,70 @@ namespace DormitorySystem.Data.Context
                 });
         }
 
-        private void GetApiData()
+        private void GetApiData(ModelBuilder builder)
         {
+            // TODO Refactoring
+            string urlAllSensors = "http://telerikacademy.icb.bg/api/sensor/all";
             var client = new WebClient();
             client.Headers.Add("auth-token", "8e4c46fe-5e1d-4382-b7fc-19541f7bf3b0");
 
-            var responseAll = client.DownloadString("http://telerikacademy.icb.bg/api/sensor/all");
+            var responseAll = client.DownloadString(urlAllSensors);
             responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
 
-            JObject json = JObject.Parse(responseAll);
+            JObject allSansors = JObject.Parse(responseAll);
 
-            var sampleSensor = new Collection<SampleSensor>();
+            var sampleSensorCollection = new Collection<SampleSensor>();
+            var measureCollection = new Dictionary<string, Measure>();
+            var sensorTypesCollection = new Dictionary<string, SensorType>();
 
-            int count = 1;
             try
             {
-                foreach (var item in json["data"])
+                foreach (var item in allSansors["data"])
                 {
-                    var mesureType = new Measure()
+                    var measTypeKey = item["MeasureType"].ToString();
+                    if (!measureCollection.ContainsKey(measTypeKey))
                     {
-                        MeasureType = item["MeasureType"].ToString(),
-                        Id = count++
-                    };
+                        var mesureType = new Measure()
+                        {
+                            Id = measureCollection.Count + 1,
+                            MeasureType = measTypeKey
+                        };
+                        measureCollection.Add(measTypeKey, mesureType);
+                    }
 
-                    
+                    string tagNameKey = item["Tag"].ToString();
+                    tagNameKey = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
+                    if (!sensorTypesCollection.ContainsKey(tagNameKey))
+                    {
+                        var sensorType = new SensorType()
+                        {
+                            Id = sensorTypesCollection.Count + 1,
+                            Name = tagNameKey
+                        };
+                        sensorTypesCollection.Add(tagNameKey, sensorType);
+                    }
 
                     var newSensor = new SampleSensor()
                     {
                         Id = new Guid(item["SensorId"].ToString()),
-                        Tag = item["Tag"].ToString(),
+                        Tag = tagNameKey,
                         Description = item["Description"].ToString(),
                         MinPollingInterval = int.Parse(item["MinPollingIntervalInSeconds"].ToString()),
-                        Measure = mesureType,
-                        MeasureId = mesureType.Id,
+                        MeasureId = measureCollection[measTypeKey].Id,
+                        TypeId = sensorTypesCollection[tagNameKey].Id,
                     };
-                    sampleSensor.Add(newSensor);
+                    sampleSensorCollection.Add(newSensor);
                 }
             }
             // TODO catch exception
             catch (FormatException)
             {
-                throw;
+                //throw;
             }
+
+            builder.Entity<Measure>().HasData(measureCollection.Values.ToArray());
+            builder.Entity<SensorType>().HasData(sensorTypesCollection.Values.ToArray());
+            builder.Entity<SampleSensor>().HasData(sampleSensorCollection.ToArray());
         }
     }
 }

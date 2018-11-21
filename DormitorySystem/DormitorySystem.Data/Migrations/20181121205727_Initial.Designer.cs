@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DormitorySystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181120101411_Initial")]
+    [Migration("20181121205727_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,15 @@ namespace DormitorySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Measure");
+                    b.ToTable("Measures");
+
+                    b.HasData(
+                        new { Id = 1, MeasureType = "°C" },
+                        new { Id = 2, MeasureType = "%" },
+                        new { Id = 3, MeasureType = "W" },
+                        new { Id = 4, MeasureType = "(true/false)" },
+                        new { Id = 5, MeasureType = "dB" }
+                    );
                 });
 
             modelBuilder.Entity("DormitorySystem.Data.Models.SampleSensor", b =>
@@ -41,9 +49,13 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<double?>("MaxValue");
+
                     b.Property<int>("MeasureId");
 
                     b.Property<int>("MinPollingInterval");
+
+                    b.Property<double?>("MinValue");
 
                     b.Property<string>("Tag");
 
@@ -51,7 +63,7 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<double>("Value");
+                    b.Property<double>("ValueCurrent");
 
                     b.HasKey("Id");
 
@@ -59,10 +71,26 @@ namespace DormitorySystem.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("SampleSensor");
+                    b.ToTable("SampleSensors");
+
+                    b.HasData(
+                        new { Id = new Guid("f1796a28-642e-401f-8129-fd7465417061"), Description = "This sensor will return values between 15 and 28", MeasureId = 1, MinPollingInterval = 40, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("81a2e1b1-ea5d-4356-8266-b6b42471653e"), Description = "This sensor will return values between 6 and 18", MeasureId = 1, MinPollingInterval = 30, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("92f7dc9a-f2fe-4b60-82f5-400e42f099b4"), Description = "This sensor will return values between 19 and 23", MeasureId = 1, MinPollingInterval = 70, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("216fc1e7-1496-4532-b9ee-29565b865ad6"), Description = "This sensor will return values between 0 and 60", MeasureId = 2, MinPollingInterval = 40, Tag = "Humidity", TypeId = 2, ValueCurrent = 0.0 },
+                        new { Id = new Guid("61ff0614-64fd-4842-9a05-0b1541d2cc61"), Description = "This sensor will return values between 10 and 90", MeasureId = 2, MinPollingInterval = 50, Tag = "Humidity", TypeId = 2, ValueCurrent = 0.0 },
+                        new { Id = new Guid("08503c1c-963f-4106-9088-82fa67d34f9d"), Description = "This sensor will return values between 1000 and 5000", MeasureId = 3, MinPollingInterval = 70, Tag = "ElectricPowerConsumtion", TypeId = 3, ValueCurrent = 0.0 },
+                        new { Id = new Guid("1f0ef0ff-396b-40cb-ac3d-749196dee187"), Description = "This sensor will return values between 500 and 3500", MeasureId = 3, MinPollingInterval = 105, Tag = "ElectricPowerConsumtion", TypeId = 3, ValueCurrent = 0.0 },
+                        new { Id = new Guid("4008e030-fd3a-4f8c-a8ca-4f7609ecdb1e"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 50, Tag = "Occupancy", TypeId = 4, ValueCurrent = 0.0 },
+                        new { Id = new Guid("7a3b1db5-959d-46ce-82b6-517773327427"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 80, Tag = "Occupancy", TypeId = 4, ValueCurrent = 0.0 },
+                        new { Id = new Guid("a3b8a078-0409-4365-ace6-6f8b5b93d592"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 90, Tag = "Door", TypeId = 5, ValueCurrent = 0.0 },
+                        new { Id = new Guid("ec3c4770-5d57-4d81-9c83-a02140b883a1"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 50, Tag = "Door", TypeId = 5, ValueCurrent = 0.0 },
+                        new { Id = new Guid("d5d37a46-8ab5-41ec-b7d5-d28c2fd68d3d"), Description = "This sensor will return values between 20 and 70", MeasureId = 5, MinPollingInterval = 40, Tag = "Noise", TypeId = 6, ValueCurrent = 0.0 },
+                        new { Id = new Guid("65d98ff7-b524-49de-8d13-f85753d98858"), Description = "This sensor will return values between 40 and 90", MeasureId = 5, MinPollingInterval = 85, Tag = "Noise", TypeId = 6, ValueCurrent = 0.0 }
+                    );
                 });
 
-            modelBuilder.Entity("DormitorySystem.Data.Models.Type", b =>
+            modelBuilder.Entity("DormitorySystem.Data.Models.SensorType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -72,7 +100,16 @@ namespace DormitorySystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Type");
+                    b.ToTable("SensorTypes");
+
+                    b.HasData(
+                        new { Id = 1, Name = "Temperature" },
+                        new { Id = 2, Name = "Humidity" },
+                        new { Id = 3, Name = "ElectricPowerConsumtion" },
+                        new { Id = 4, Name = "Occupancy" },
+                        new { Id = 5, Name = "Door" },
+                        new { Id = 6, Name = "Noise" }
+                    );
                 });
 
             modelBuilder.Entity("DormitorySystem.Data.Models.User", b =>
@@ -89,6 +126,8 @@ namespace DormitorySystem.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("GDPR");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -124,6 +163,10 @@ namespace DormitorySystem.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new { Id = "3f8d0007-4af6-42fb-94fb-e47ad6f066ac", AccessFailedCount = 0, ConcurrencyStamp = "e5cfa491-83c2-40b1-bed3-24ad5ecf815b", Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = false, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN@SYSTEM.COM", PasswordHash = "AQAAAAEAACcQAAAAEKz091Ly0MybDx7o72AyghqSHHllLovtiW54vUoExCQ+P0KT6SXo5e0Z4L4P08+2hw==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "dafbb6cf-2fbc-4181-a202-800bc1d2a0af", TwoFactorEnabled = false, UserName = "InitialAdmin" }
+                    );
                 });
 
             modelBuilder.Entity("DormitorySystem.Data.Models.UserSensor", b =>
@@ -153,7 +196,7 @@ namespace DormitorySystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserSensor");
+                    b.ToTable("UserSensors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -178,6 +221,11 @@ namespace DormitorySystem.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new { Id = "Admin", ConcurrencyStamp = "7057767f-b7bb-4274-9550-39f680b51dd6", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "User", ConcurrencyStamp = "aff09ab6-734d-48aa-b3e5-164b7d357716", Name = "User", NormalizedName = "USER" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -249,6 +297,10 @@ namespace DormitorySystem.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new { UserId = "3f8d0007-4af6-42fb-94fb-e47ad6f066ac", RoleId = "Admin" }
+                    );
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -273,7 +325,7 @@ namespace DormitorySystem.Data.Migrations
                         .HasForeignKey("MeasureId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DormitorySystem.Data.Models.Type", "Type")
+                    b.HasOne("DormitorySystem.Data.Models.SensorType", "Type")
                         .WithMany("SampleSensors")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
