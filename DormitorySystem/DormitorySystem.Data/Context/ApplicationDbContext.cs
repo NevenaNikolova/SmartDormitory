@@ -1,9 +1,15 @@
 ﻿using System;
+<<<<<<< HEAD
 using System.Text.RegularExpressions;
+=======
+using System.Collections.ObjectModel;
+using System.Net;
+>>>>>>> 64d6b44d6242d9fb5b5c5ac4fd792f2d774f758b
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using Utilities;
 
 namespace DormitorySystem.Data.Context
@@ -78,7 +84,46 @@ namespace DormitorySystem.Data.Context
 
         private void GetApiData()
         {
-            // throw new NotImplementedException();
+            var client = new WebClient();
+            client.Headers.Add("auth-token", "8e4c46fe-5e1d-4382-b7fc-19541f7bf3b0");
+
+            var responseAll = client.DownloadString("http://telerikacademy.icb.bg/api/sensor/all");
+            responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
+
+            JObject json = JObject.Parse(responseAll);
+
+            var sampleSensor = new Collection<SampleSensor>();
+
+            int count = 1;
+            try
+            {
+                foreach (var item in json["data"])
+                {
+                    var mesureType = new Measure()
+                    {
+                        MeasureType = item["MeasureType"].ToString(),
+                        Id = count++
+                    };
+
+                    
+
+                    var newSensor = new SampleSensor()
+                    {
+                        Id = new Guid(item["SensorId"].ToString()),
+                        Tag = item["Tag"].ToString(),
+                        Description = item["Description"].ToString(),
+                        MinPollingInterval = int.Parse(item["MinPollingIntervalInSeconds"].ToString()),
+                        Measure = mesureType,
+                        MeasureId = mesureType.Id,
+                    };
+                    sampleSensor.Add(newSensor);
+                }
+            }
+            // TODO catch exception
+            catch (FormatException)
+            {
+                throw;
+            }
         }
 
         //Double check min max value
