@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using DormitorySystem.Data.Models;
+using DormitorySystem.Data.Models.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +26,12 @@ namespace DormitorySystem.Data.Context
         public DbSet<SensorType> SensorTypes { get; set; }
         public DbSet<UserSensor> UserSensors { get; set; }
 
-
+        public override int SaveChanges()
+        {
+            this.ApplyAuditInfoRules();
+            this.ApplyDeletionRules();
+            return base.SaveChanges();
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.GetApiData(builder);
@@ -32,6 +39,40 @@ namespace DormitorySystem.Data.Context
             this.SeedAdminUser(builder);
 
             base.OnModelCreating(builder);
+        }
+        private void ApplyDeletionRules()
+        {
+            var entitiesForDeletion = this.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Deleted && e.Entity is IDeletable);
+
+            foreach (var entry in entitiesForDeletion)
+            {
+                var entity = (IDeletable)entry.Entity;
+                entity.DeletedOn = DateTime.Now;
+                entity.isDeleted = true;
+                entry.State = EntityState.Modified;
+            }
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            var newlyCreatedEntities = this.ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) 
+                || (e.State == EntityState.Modified)));
+
+            foreach (var entry in newlyCreatedEntities)
+            {
+                var entity = (IAuditable)entry.Entity;
+
+                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
         }
 
         private void SeedAdminUser(ModelBuilder builder)
@@ -144,6 +185,22 @@ namespace DormitorySystem.Data.Context
             builder.Entity<Measure>().HasData(measureCollection.Values.ToArray());
             builder.Entity<SensorType>().HasData(sensorTypesCollection.Values.ToArray());
             builder.Entity<SampleSensor>().HasData(sampleSensorCollection.ToArray());
+        }
+
+        //Double check min max value
+        private double[] RegexMatch(string descr)
+        {         
+            var numbers = Regex.Matches(descr, @"(\+| -)?(\d+)(\,|\.)?(\d*)?");
+
+            var result =new double[] {0,1};
+            
+            if (numbers.Count > 0)
+            {
+                double.TryParse(numbers[0].ToString(), out result[0]);
+                double.TryParse(numbers[1].ToString(), out result[1]);
+            }
+            return result;         
+
         }
     }
 }
