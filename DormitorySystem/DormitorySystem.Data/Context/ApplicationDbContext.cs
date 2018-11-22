@@ -1,11 +1,10 @@
 ﻿using System;
-<<<<<<< HEAD
-using System.Text.RegularExpressions;
-=======
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
->>>>>>> 64d6b44d6242d9fb5b5c5ac4fd792f2d774f758b
+using System.Text.RegularExpressions;
 using DormitorySystem.Data.Models;
+using DormitorySystem.Data.Models.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +25,12 @@ namespace DormitorySystem.Data.Context
         public DbSet<SensorType> Types { get; set; }
         public DbSet<UserSensor> UserSensors { get; set; }
 
-
+        public override int SaveChanges()
+        {
+            this.ApplyAuditInfoRules();
+            this.ApplyDeletionRules();
+            return base.SaveChanges();
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.GetApiData();
@@ -34,6 +38,40 @@ namespace DormitorySystem.Data.Context
             this.SeedAdminUser(builder);
 
             base.OnModelCreating(builder);
+        }
+        private void ApplyDeletionRules()
+        {
+            var entitiesForDeletion = this.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Deleted && e.Entity is IDeletable);
+
+            foreach (var entry in entitiesForDeletion)
+            {
+                var entity = (IDeletable)entry.Entity;
+                entity.DeletedOn = DateTime.Now;
+                entity.isDeleted = true;
+                entry.State = EntityState.Modified;
+            }
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            var newlyCreatedEntities = this.ChangeTracker.Entries()
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) 
+                || (e.State == EntityState.Modified)));
+
+            foreach (var entry in newlyCreatedEntities)
+            {
+                var entity = (IAuditable)entry.Entity;
+
+                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
         }
 
         private void SeedAdminUser(ModelBuilder builder)
@@ -87,7 +125,7 @@ namespace DormitorySystem.Data.Context
             var client = new WebClient();
             client.Headers.Add("auth-token", "8e4c46fe-5e1d-4382-b7fc-19541f7bf3b0");
 
-            var responseAll = client.DownloadString("http://telerikacademy.icb.bg/api/sensor/all");
+            var responseAll =client.DownloadString("http://telerikacademy.icb.bg/api/sensor/all");
             responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
 
             JObject json = JObject.Parse(responseAll);
@@ -104,8 +142,6 @@ namespace DormitorySystem.Data.Context
                         MeasureType = item["MeasureType"].ToString(),
                         Id = count++
                     };
-
-                    
 
                     var newSensor = new SampleSensor()
                     {

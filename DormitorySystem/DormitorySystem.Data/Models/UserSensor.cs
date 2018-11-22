@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DormitorySystem.Data.Models.Abstractions;
+using System;
 using Utilities;
 
 namespace DormitorySystem.Data.Models
 {
-    public class UserSensor
+    public class UserSensor:DataModel
     {
         public Guid Id { get; set; }
 
