@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DormitorySystem.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(DormitorySystemContext))]
     [Migration("20181122132737_AddDataModel")]
     partial class AddDataModel
     {

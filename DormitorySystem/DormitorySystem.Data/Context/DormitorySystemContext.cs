@@ -14,9 +14,9 @@ using Utilities;
 
 namespace DormitorySystem.Data.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class DormitorySystemContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public DormitorySystemContext(DbContextOptions<DormitorySystemContext> options)
             : base(options)
         {
         }
@@ -153,13 +153,13 @@ namespace DormitorySystem.Data.Context
                     }
 
                     string tagNameKey = item["Tag"].ToString();
-                    tagNameKey = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
+                   string tagNameKeyType = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
                     if (!sensorTypesCollection.ContainsKey(tagNameKey))
                     {
                         var sensorType = new SensorType()
                         {
                             Id = sensorTypesCollection.Count + 1,
-                            Name = tagNameKey
+                            Name = tagNameKeyType
                         };
                         sensorTypesCollection.Add(tagNameKey, sensorType);
                     }

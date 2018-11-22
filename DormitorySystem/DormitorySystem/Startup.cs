@@ -14,6 +14,7 @@ using DormitorySystem.Services;
 using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using Newtonsoft.Json.Serialization;
+using DormitorySystem.Services.Abstractions;
 
 namespace DormitorySystem
 {
@@ -91,12 +92,13 @@ namespace DormitorySystem
 
         private void RegisterServices(IServiceCollection services)
         {
+            services.AddScoped<IUserService, UserService>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
         {
             services.AddIdentity<User, IdentityRole>()
-                           .AddEntityFrameworkStores<ApplicationDbContext>()
+                           .AddEntityFrameworkStores<DormitorySystemContext>()
                            .AddDefaultTokenProviders();
 
             if (this.Environment.IsDevelopment())
@@ -116,7 +118,7 @@ namespace DormitorySystem
 
         private void RegisterData(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<DormitorySystemContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
     }

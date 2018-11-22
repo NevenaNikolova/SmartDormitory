@@ -11,4 +11,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DormitorySystem.Data\DormitorySystem.Data.csproj" />
+  </ItemGroup>
+
 </Project>
