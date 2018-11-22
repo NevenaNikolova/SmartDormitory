@@ -11,6 +11,9 @@ namespace DormitorySystem.Data.Models
         public Guid SampleSensorId { get; set; }
         public SampleSensor SampleSensor { get; set; }
 
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+
         public string Name { get; set; }
         public int PollingInterval { get; set; }
         public string Latitude { get; set; }
