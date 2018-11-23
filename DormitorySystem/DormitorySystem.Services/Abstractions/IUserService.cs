@@ -19,7 +19,7 @@ namespace DormitorySystem.Services.Abstractions
 
         IEnumerable<UserSensor> ListSensors(string userId = "all");
 
-        User AssignRoles(string userId);
+       // User AssignRoles(string userId);
 
     }
 }
