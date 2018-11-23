@@ -57,7 +57,7 @@ namespace DormitorySystem.Data.Context
         private void ApplyAuditInfoRules()
         {
             var newlyCreatedEntities = this.ChangeTracker.Entries()
-                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added) 
+                .Where(e => e.Entity is IAuditable && ((e.State == EntityState.Added)
                 || (e.State == EntityState.Modified)));
 
             foreach (var entry in newlyCreatedEntities)
@@ -153,7 +153,7 @@ namespace DormitorySystem.Data.Context
                     }
 
                     string tagNameKey = item["Tag"].ToString();
-                   string tagNameKeyType = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
+                    string tagNameKeyType = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
                     if (!sensorTypesCollection.ContainsKey(tagNameKey))
                     {
                         var sensorType = new SensorType()
@@ -164,14 +164,19 @@ namespace DormitorySystem.Data.Context
                         sensorTypesCollection.Add(tagNameKey, sensorType);
                     }
 
+                    string description = item["Description"].ToString();
+                    var extractedValues = ExtractValues(description);
+
                     var newSensor = new SampleSensor()
                     {
                         Id = new Guid(item["SensorId"].ToString()),
                         Tag = tagNameKey,
-                        Description = item["Description"].ToString(),
+                        Description = description,
                         MinPollingInterval = int.Parse(item["MinPollingIntervalInSeconds"].ToString()),
                         MeasureId = measureCollection[measTypeKey].Id,
                         TypeId = sensorTypesCollection[tagNameKey].Id,
+                        MaxValue = Math.Max(extractedValues[0], extractedValues[1]),
+                        MinValue = Math.Min(extractedValues[0], extractedValues[1]),
                     };
                     sampleSensorCollection.Add(newSensor);
                 }
@@ -179,7 +184,7 @@ namespace DormitorySystem.Data.Context
             // TODO catch exception
             catch (FormatException)
             {
-                //throw;
+                throw new FormatException("Can't parse MinPollingInterval");
             }
 
             builder.Entity<Measure>().HasData(measureCollection.Values.ToArray());
@@ -188,19 +193,19 @@ namespace DormitorySystem.Data.Context
         }
 
         //Double check min max value
-        private double[] RegexMatch(string descr)
-        {         
+        private double[] ExtractValues(string descr)
+        {
             var numbers = Regex.Matches(descr, @"(\+| -)?(\d+)(\,|\.)?(\d*)?");
 
-            var result =new double[] {0,1};
-            
+            var result = new double[] { 0, 1 };
+
             if (numbers.Count > 0)
             {
                 double.TryParse(numbers[0].ToString(), out result[0]);
                 double.TryParse(numbers[1].ToString(), out result[1]);
             }
-            return result;         
-
+            return result;
         }
+
     }
 }
