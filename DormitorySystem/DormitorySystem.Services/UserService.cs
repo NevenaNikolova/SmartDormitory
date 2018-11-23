@@ -21,10 +21,12 @@ namespace DormitorySystem.Services
             this.userSensorService = userSensorService;
         }
 
-        public User AssignRoles(string userId)
-        {
-            throw new NotImplementedException();
-        }
+        //public User AssignRoles(string userId)
+        //{
+        //    var user = GetUser(userId);
+        //    if (user.)
+
+        //}
 
         public UserSensor EditSensor(Guid userSensorId, string newName, int newPolling, string newLatitude,
             string newLongitude, bool newNotification, bool newIsPrivate)
@@ -52,14 +54,14 @@ namespace DormitorySystem.Services
         {
             var user = this.contex.Users
                 .Include(u => u.Sensors)
-                    .ThenInclude(us=>us.Name)
+                    .ThenInclude(us => us.Name)                    
                         .SingleOrDefault(u => u.Id == Id);
             if (user == null)
             {
                 throw new UserNullableException("There is no such user.");
             }
             return user;
-               
+
         }
         //TO Beautify
         public IEnumerable<UserSensor> ListSensors(string userId = "all")
@@ -69,10 +71,12 @@ namespace DormitorySystem.Services
             if (userId == "all")
             {
                 allSensors = this.contex.UserSensors
-                    .Include(us=>us.SampleSensor)
-                            .ThenInclude(ss=>ss.Tag)
-                    .Include(us=>us.User)
-                            .ThenInclude(u=>u.Email)
+                    .Include(us => us.SampleSensor)
+                            .ThenInclude(ss => ss.Tag)
+                    .Include(us => us.SampleSensor)
+                            .ThenInclude(ss => ss.ValueCurrent)
+                    .Include(us => us.User)
+                            .ThenInclude(u => u.Email)
                     .ToList();
             }
             else
@@ -93,8 +97,8 @@ namespace DormitorySystem.Services
             return users;
         }
 
-        public UserSensor RegisterSensor(string userId, SampleSensor sampleSensor, string name, 
-            int pollingInterval, string latitude, string longitude, 
+        public UserSensor RegisterSensor(string userId, SampleSensor sampleSensor, string name,
+            int pollingInterval, string latitude, string longitude,
             bool sendNotification, bool isPrivate)
         {
             var user = GetUser(userId);
@@ -103,7 +107,7 @@ namespace DormitorySystem.Services
             {
                 SampleSensorId = sampleSensor.Id,
                 SampleSensor = sampleSensor,
-                User=user,
+                User = user,
                 Name = name,
                 PollingInterval = pollingInterval,
                 Latitude = latitude,
