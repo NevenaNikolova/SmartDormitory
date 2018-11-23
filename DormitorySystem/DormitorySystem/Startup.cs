@@ -93,6 +93,7 @@ namespace DormitorySystem
         private void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddHostedService<TimedHostedService>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)

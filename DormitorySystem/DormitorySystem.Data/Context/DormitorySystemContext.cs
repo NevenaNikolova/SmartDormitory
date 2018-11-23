@@ -154,7 +154,7 @@ namespace DormitorySystem.Data.Context
 
                     string tagNameKey = item["Tag"].ToString();
                     string tagNameKeyType = tagNameKey.Substring(0, tagNameKey.IndexOf("Sensor"));
-                    if (!sensorTypesCollection.ContainsKey(tagNameKey))
+                    if (!sensorTypesCollection.ContainsKey(tagNameKeyType))
                     {
                         var sensorType = new SensorType()
                         {
