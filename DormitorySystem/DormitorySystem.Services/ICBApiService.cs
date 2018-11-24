@@ -26,7 +26,7 @@ namespace DormitorySystem.Services
         {
             var result = new Dictionary<string, SampleSensor>();
 
-            var sensors = this.context.SampleSensors.Include(s => s.Measure).Include(s => s.Type).ToList();
+            var sensors = this.context.SampleSensors;
 
             foreach (var sensor in sensors)
             {
@@ -57,7 +57,7 @@ namespace DormitorySystem.Services
 
                     JObject sensorResponse = JObject.Parse(response);
 
-                    sensor.TimeStamp = DateTime.Now.ToString();
+                    sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
                     sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());
 
                     sensorForUpdate.Add(sensor);
