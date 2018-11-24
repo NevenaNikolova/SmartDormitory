@@ -15,6 +15,7 @@ using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using Newtonsoft.Json.Serialization;
 using DormitorySystem.Services.Abstractions;
+using Utilities.WebProvider;
 
 namespace DormitorySystem
 {
@@ -33,13 +34,10 @@ namespace DormitorySystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             this.RegisterData(services);
             this.RegisterAuthentication(services);
             this.RegisterServices(services);
             this.RegisterInfrastructure(services);
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,9 +73,6 @@ namespace DormitorySystem
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
-            // Add application services.
-            services.AddTransient<IEmailSender, EmailSender>();
-
             services.AddMemoryCache();
 
             services
@@ -90,10 +85,14 @@ namespace DormitorySystem
             services.AddMvc();
         }
 
+        // Add application services.
         private void RegisterServices(IServiceCollection services)
         {
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddSingleton<IUserSensorService, UserSensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddHostedService<TimedHostedService>();
+            services.AddScoped<IApiProvider, ApiProvider>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
