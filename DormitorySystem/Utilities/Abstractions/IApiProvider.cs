@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Utilities.WebProvider
+﻿namespace Utilities.Abstractions
 {
     public interface IApiProvider
     {

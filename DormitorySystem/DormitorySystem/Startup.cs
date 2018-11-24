@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using DormitorySystem.Models;
 using DormitorySystem.Services;
 using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using Newtonsoft.Json.Serialization;
 using DormitorySystem.Services.Abstractions;
 using Utilities.WebProvider;
+using Utilities.Abstractions;
 
 namespace DormitorySystem
 {
@@ -93,6 +88,7 @@ namespace DormitorySystem
             services.AddScoped<IUserService, UserService>();
             services.AddHostedService<TimedHostedService>();
             services.AddScoped<IApiProvider, ApiProvider>();
+            services.AddScoped<IICBApiService, ICBApiService>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)

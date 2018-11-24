@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
+﻿using System.Net;
+using Utilities.Abstractions;
 
 namespace Utilities.WebProvider
 {
