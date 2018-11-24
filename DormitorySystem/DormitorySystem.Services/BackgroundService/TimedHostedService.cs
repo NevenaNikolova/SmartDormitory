@@ -46,9 +46,7 @@ public class TimedHostedService : IHostedService, IDisposable
             var apiProvider = scope.ServiceProvider.GetRequiredService<IApiProvider>();
 
             response = apiProvider.ReturnRespons
-               (ApiConstants.ICBSensorApiListAllSensor,
-               ApiConstants.ICBApiAuthorizationTokenKey,
-               ApiConstants.ICBApiAuthorizationTokenValue);
+               (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
         }
 
         response = "{" + "\"data\"" + ":" + response + "}";
@@ -87,9 +85,7 @@ public class TimedHostedService : IHostedService, IDisposable
                     var apiProvider = scope.ServiceProvider.GetRequiredService<IApiProvider>();
 
                     response = apiProvider.ReturnRespons
-                   (ApiConstants.ICBSensorApiBaseUrl + sensor.Id,
-                   ApiConstants.ICBApiAuthorizationTokenKey,
-                   ApiConstants.ICBApiAuthorizationTokenValue);
+                   (ApiConstants.ICBSensorApiBaseUrl + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
                 }
 
                 JObject sensorResponse = JObject.Parse(response);

@@ -7,10 +7,10 @@ namespace Utilities.WebProvider
 {
     public class ApiProvider : IApiProvider
     {
-        public string ReturnRespons(string url, string headerKey, string headerValue)
+        public string ReturnRespons(string url, string header)
         {
             var client = new WebClient();
-            client.Headers.Add(headerKey, headerValue);
+            client.Headers.Add(header);
             return client.DownloadString(url);
         }
     }
