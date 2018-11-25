@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DormitorySystem.Data.Migrations
 {
     [DbContext(typeof(DormitorySystemContext))]
-    [Migration("20181121205727_Initial")]
+    [Migration("20181125160415_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,19 +74,19 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("SampleSensors");
 
                     b.HasData(
-                        new { Id = new Guid("f1796a28-642e-401f-8129-fd7465417061"), Description = "This sensor will return values between 15 and 28", MeasureId = 1, MinPollingInterval = 40, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
-                        new { Id = new Guid("81a2e1b1-ea5d-4356-8266-b6b42471653e"), Description = "This sensor will return values between 6 and 18", MeasureId = 1, MinPollingInterval = 30, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
-                        new { Id = new Guid("92f7dc9a-f2fe-4b60-82f5-400e42f099b4"), Description = "This sensor will return values between 19 and 23", MeasureId = 1, MinPollingInterval = 70, Tag = "Temperature", TypeId = 1, ValueCurrent = 0.0 },
-                        new { Id = new Guid("216fc1e7-1496-4532-b9ee-29565b865ad6"), Description = "This sensor will return values between 0 and 60", MeasureId = 2, MinPollingInterval = 40, Tag = "Humidity", TypeId = 2, ValueCurrent = 0.0 },
-                        new { Id = new Guid("61ff0614-64fd-4842-9a05-0b1541d2cc61"), Description = "This sensor will return values between 10 and 90", MeasureId = 2, MinPollingInterval = 50, Tag = "Humidity", TypeId = 2, ValueCurrent = 0.0 },
-                        new { Id = new Guid("08503c1c-963f-4106-9088-82fa67d34f9d"), Description = "This sensor will return values between 1000 and 5000", MeasureId = 3, MinPollingInterval = 70, Tag = "ElectricPowerConsumtion", TypeId = 3, ValueCurrent = 0.0 },
-                        new { Id = new Guid("1f0ef0ff-396b-40cb-ac3d-749196dee187"), Description = "This sensor will return values between 500 and 3500", MeasureId = 3, MinPollingInterval = 105, Tag = "ElectricPowerConsumtion", TypeId = 3, ValueCurrent = 0.0 },
-                        new { Id = new Guid("4008e030-fd3a-4f8c-a8ca-4f7609ecdb1e"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 50, Tag = "Occupancy", TypeId = 4, ValueCurrent = 0.0 },
-                        new { Id = new Guid("7a3b1db5-959d-46ce-82b6-517773327427"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 80, Tag = "Occupancy", TypeId = 4, ValueCurrent = 0.0 },
-                        new { Id = new Guid("a3b8a078-0409-4365-ace6-6f8b5b93d592"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 90, Tag = "Door", TypeId = 5, ValueCurrent = 0.0 },
-                        new { Id = new Guid("ec3c4770-5d57-4d81-9c83-a02140b883a1"), Description = "This sensor will return true or false value", MeasureId = 4, MinPollingInterval = 50, Tag = "Door", TypeId = 5, ValueCurrent = 0.0 },
-                        new { Id = new Guid("d5d37a46-8ab5-41ec-b7d5-d28c2fd68d3d"), Description = "This sensor will return values between 20 and 70", MeasureId = 5, MinPollingInterval = 40, Tag = "Noise", TypeId = 6, ValueCurrent = 0.0 },
-                        new { Id = new Guid("65d98ff7-b524-49de-8d13-f85753d98858"), Description = "This sensor will return values between 40 and 90", MeasureId = 5, MinPollingInterval = 85, Tag = "Noise", TypeId = 6, ValueCurrent = 0.0 }
+                        new { Id = new Guid("f1796a28-642e-401f-8129-fd7465417061"), Description = "This sensor will return values between 15 and 28", MaxValue = 28.0, MeasureId = 1, MinPollingInterval = 40, MinValue = 15.0, Tag = "TemperatureSensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("81a2e1b1-ea5d-4356-8266-b6b42471653e"), Description = "This sensor will return values between 6 and 18", MaxValue = 18.0, MeasureId = 1, MinPollingInterval = 30, MinValue = 6.0, Tag = "TemperatureSensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("92f7dc9a-f2fe-4b60-82f5-400e42f099b4"), Description = "This sensor will return values between 19 and 23", MaxValue = 23.0, MeasureId = 1, MinPollingInterval = 70, MinValue = 19.0, Tag = "TemperatureSensor3", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 1, ValueCurrent = 0.0 },
+                        new { Id = new Guid("216fc1e7-1496-4532-b9ee-29565b865ad6"), Description = "This sensor will return values between 0 and 60", MaxValue = 60.0, MeasureId = 2, MinPollingInterval = 40, MinValue = 0.0, Tag = "HumiditySensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 2, ValueCurrent = 0.0 },
+                        new { Id = new Guid("61ff0614-64fd-4842-9a05-0b1541d2cc61"), Description = "This sensor will return values between 10 and 90", MaxValue = 90.0, MeasureId = 2, MinPollingInterval = 50, MinValue = 10.0, Tag = "HumiditySensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 2, ValueCurrent = 0.0 },
+                        new { Id = new Guid("08503c1c-963f-4106-9088-82fa67d34f9d"), Description = "This sensor will return values between 1000 and 5000", MaxValue = 5000.0, MeasureId = 3, MinPollingInterval = 70, MinValue = 1000.0, Tag = "ElectricPowerConsumtionSensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 3, ValueCurrent = 0.0 },
+                        new { Id = new Guid("1f0ef0ff-396b-40cb-ac3d-749196dee187"), Description = "This sensor will return values between 500 and 3500", MaxValue = 3500.0, MeasureId = 3, MinPollingInterval = 105, MinValue = 500.0, Tag = "ElectricPowerConsumtionSensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 3, ValueCurrent = 0.0 },
+                        new { Id = new Guid("4008e030-fd3a-4f8c-a8ca-4f7609ecdb1e"), Description = "This sensor will return true or false value", MaxValue = 1.0, MeasureId = 4, MinPollingInterval = 50, MinValue = 0.0, Tag = "OccupancySensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 4, ValueCurrent = 0.0 },
+                        new { Id = new Guid("7a3b1db5-959d-46ce-82b6-517773327427"), Description = "This sensor will return true or false value", MaxValue = 1.0, MeasureId = 4, MinPollingInterval = 80, MinValue = 0.0, Tag = "OccupancySensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 4, ValueCurrent = 0.0 },
+                        new { Id = new Guid("a3b8a078-0409-4365-ace6-6f8b5b93d592"), Description = "This sensor will return true or false value", MaxValue = 1.0, MeasureId = 4, MinPollingInterval = 90, MinValue = 0.0, Tag = "DoorSensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 5, ValueCurrent = 0.0 },
+                        new { Id = new Guid("ec3c4770-5d57-4d81-9c83-a02140b883a1"), Description = "This sensor will return true or false value", MaxValue = 1.0, MeasureId = 4, MinPollingInterval = 50, MinValue = 0.0, Tag = "DoorSensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 5, ValueCurrent = 0.0 },
+                        new { Id = new Guid("d5d37a46-8ab5-41ec-b7d5-d28c2fd68d3d"), Description = "This sensor will return values between 20 and 70", MaxValue = 70.0, MeasureId = 5, MinPollingInterval = 40, MinValue = 20.0, Tag = "NoiseSensor1", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 6, ValueCurrent = 0.0 },
+                        new { Id = new Guid("65d98ff7-b524-49de-8d13-f85753d98858"), Description = "This sensor will return values between 40 and 90", MaxValue = 90.0, MeasureId = 5, MinPollingInterval = 85, MinValue = 40.0, Tag = "NoiseSensor2", TimeStamp = "25.11.2018 г. 18:04:14", TypeId = 6, ValueCurrent = 0.0 }
                     );
                 });
 
@@ -122,6 +122,10 @@ namespace DormitorySystem.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
@@ -132,6 +136,8 @@ namespace DormitorySystem.Data.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -152,6 +158,8 @@ namespace DormitorySystem.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<bool>("isDeleted");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -165,7 +173,7 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "3f8d0007-4af6-42fb-94fb-e47ad6f066ac", AccessFailedCount = 0, ConcurrencyStamp = "e5cfa491-83c2-40b1-bed3-24ad5ecf815b", Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = false, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN@SYSTEM.COM", PasswordHash = "AQAAAAEAACcQAAAAEKz091Ly0MybDx7o72AyghqSHHllLovtiW54vUoExCQ+P0KT6SXo5e0Z4L4P08+2hw==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "dafbb6cf-2fbc-4181-a202-800bc1d2a0af", TwoFactorEnabled = false, UserName = "InitialAdmin" }
+                        new { Id = "a5422d94-abb6-4de6-91d5-ad49a67b767d", AccessFailedCount = 0, ConcurrencyStamp = "bd70add0-cb47-4cb2-9735-46a1eaa24d7e", Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = false, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN@SYSTEM.COM", PasswordHash = "AQAAAAEAACcQAAAAENirXDriI3t1WKM2yBThD3s9rmT+IG3MUe+D7oiAWbUH/xYazlquv0vLxpNo2Q8Zbg==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "4507e27d-2421-4909-b184-d30a5929bcba", TwoFactorEnabled = false, UserName = "InitialAdmin", isDeleted = false }
                     );
                 });
 
@@ -174,11 +182,17 @@ namespace DormitorySystem.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
                     b.Property<bool>("IsPrivate");
 
                     b.Property<string>("Latitude");
 
                     b.Property<string>("Longitude");
+
+                    b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Name");
 
@@ -188,13 +202,17 @@ namespace DormitorySystem.Data.Migrations
 
                     b.Property<bool>("SendNotification");
 
-                    b.Property<string>("UserId");
+                    b.Property<Guid>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.Property<bool>("isDeleted");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SampleSensorId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("UserSensors");
                 });
@@ -223,8 +241,8 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetRoles");
 
                     b.HasData(
-                        new { Id = "Admin", ConcurrencyStamp = "7057767f-b7bb-4274-9550-39f680b51dd6", Name = "Admin", NormalizedName = "ADMIN" },
-                        new { Id = "User", ConcurrencyStamp = "aff09ab6-734d-48aa-b3e5-164b7d357716", Name = "User", NormalizedName = "USER" }
+                        new { Id = "Admin", ConcurrencyStamp = "73f9b64b-8bc3-409d-99c9-87f57ead2e64", Name = "Admin", NormalizedName = "ADMIN" },
+                        new { Id = "User", ConcurrencyStamp = "a56e9ff7-0b21-4e23-a9ab-6aa04167dc81", Name = "User", NormalizedName = "USER" }
                     );
                 });
 
@@ -299,7 +317,7 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetUserRoles");
 
                     b.HasData(
-                        new { UserId = "3f8d0007-4af6-42fb-94fb-e47ad6f066ac", RoleId = "Admin" }
+                        new { UserId = "a5422d94-abb6-4de6-91d5-ad49a67b767d", RoleId = "Admin" }
                     );
                 });
 
@@ -338,9 +356,9 @@ namespace DormitorySystem.Data.Migrations
                         .HasForeignKey("SampleSensorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DormitorySystem.Data.Models.User")
+                    b.HasOne("DormitorySystem.Data.Models.User", "User")
                         .WithMany("Sensors")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
