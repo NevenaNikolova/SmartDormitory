@@ -11,6 +11,8 @@ using Newtonsoft.Json.Serialization;
 using DormitorySystem.Services.Abstractions;
 using Utilities.WebProvider;
 using Utilities.Abstractions;
+using DormitorySystem.Data.DatabaseSeed;
+using DormitorySystem.Data.Abstractions;
 
 namespace DormitorySystem
 {
@@ -89,6 +91,8 @@ namespace DormitorySystem
             services.AddHostedService<TimedHostedService>();
             services.AddScoped<IApiProvider, ApiProvider>();
             services.AddScoped<IICBApiService, ICBApiService>();
+            services.AddScoped<ISeedUsers, SeedUsers>();
+            services.AddScoped<ISeedApiData, SeedApiData>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
