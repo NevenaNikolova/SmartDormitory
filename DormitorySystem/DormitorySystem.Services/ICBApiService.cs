@@ -40,14 +40,14 @@ namespace DormitorySystem.Services
 
         public string CheckForNewSensor()
         {
-            throw new NotImplementedException();
+            return "Hi";
         }
 
         public IDictionary<string, SampleSensor> UpdateSensors(IDictionary<string, SampleSensor> listOfSensors)
         {
             ICollection<SampleSensor> sensorForUpdate = new List<SampleSensor>();
 
-            bool isAnySensorForUpdata = false;
+            bool isAnySensorForUpdate = false;
             foreach (var sensor in listOfSensors.Values)
             {
                 if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
@@ -62,11 +62,11 @@ namespace DormitorySystem.Services
 
                     sensorForUpdate.Add(sensor);
 
-                    isAnySensorForUpdata = true;
+                    isAnySensorForUpdate = true;
                 }
             }
 
-            if (isAnySensorForUpdata)
+            if (isAnySensorForUpdate)
             {
                 context.UpdateRange(sensorForUpdate);
                 context.SaveChanges();
