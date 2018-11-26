@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DormitorySystem.Models;
+using DormitorySystem.Services.Abstractions;
 
 namespace DormitorySystem.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IUserSensorService sensorService;
+
+        public HomeController(IUserSensorService sensorService)
+        {
+            this.sensorService = sensorService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -32,6 +40,13 @@ namespace DormitorySystem.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // only for test purpose 
+        public IActionResult Test()
+        {
+            this.sensorService.GetSensorByType();
+            return View();
         }
     }
 }

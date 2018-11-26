@@ -26,7 +26,7 @@ namespace DormitorySystem.Services
                 .Include(us => us.User)
                     .ThenInclude(u => u.Email)
                 .Include(us => us.SampleSensor)
-                    .ThenInclude(ss => ss.Tag)                  
+                    .ThenInclude(ss => ss.Tag)
                 .ToList();
 
             return sensors;
@@ -46,6 +46,32 @@ namespace DormitorySystem.Services
             }
 
             return sensor;
+        }
+
+        public IDictionary<string, IEnumerable<SampleSensor>> GetSensorByType()
+        {
+            var sensorList = new Dictionary<string, IEnumerable<SampleSensor>>();
+
+            var sensorTypes = this.context.SensorTypes
+                .Include(s => s.SampleSensors)
+                .ThenInclude(m => m.Measure)
+                .ToArray();
+
+            foreach (var sensorType in sensorTypes)
+            {
+                string typeName = sensorType.Name;
+
+                if (!sensorList.ContainsKey(typeName))
+                {
+                    sensorList.Add(typeName, sensorType.SampleSensors);
+                }
+                else
+                {
+                    sensorList[typeName] = sensorType.SampleSensors;
+                }
+            }
+
+            return sensorList;
         }
     }
 }
