@@ -37,7 +37,7 @@
                     @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
                         <li><a asp-area="User" asp-controller="Home" asp-action="Index">My Sensors</a></li>
-                        <li><a asp-area="User" asp-controller="Home" asp-action="Index">Register New Sensor</a></li>
+                        <li><a asp-area="User" asp-controller="Home" asp-action="RegisterNewSensor">Register New Sensor</a></li>
                     }
                
                     @if (User.IsInRole("Admin"))
