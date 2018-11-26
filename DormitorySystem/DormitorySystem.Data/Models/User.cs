@@ -20,5 +20,6 @@ namespace DormitorySystem.Data.Models
         public DateTime? DeletedOn { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+       
     }
 }
