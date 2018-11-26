@@ -13,11 +13,13 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        //private readonly UserManager<Data.Models.User> _userManager;
+        private readonly UserManager<Data.Models.User> _userManager;
 
-        public HomeController(IUserService userService)      
+        public HomeController(IUserService userService, 
+            UserManager<Data.Models.User> userManager)
         {
-            _userService = userService;        
+            _userService = userService;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -31,6 +33,20 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             }
 
             return View(new ListUsersViewModel(users));
+        }
+
+        public IActionResult Details(string id)
+        {
+            var user = this._userService.GetUser(id);
+            return View(new UserViewModel(user));
+        }
+        public IActionResult AssignRoles(string id)
+        {
+            return View();
+        }
+        public IActionResult Sensors(string id)
+        {
+            return View();
         }
     }
 }

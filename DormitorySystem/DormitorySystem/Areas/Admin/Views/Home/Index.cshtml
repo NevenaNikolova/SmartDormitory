@@ -3,13 +3,42 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h2>Index</h2>
-
-<div>
-    @foreach(var user in Model.Users)
-    {
-     <p>@user.Email</p>
-     <p>@user.UserName</p>        
-    }
+<h2></h2>
+<div class="text-right">
+    <a asp-area="" asp-controller="Books" asp-action="Index"
+       class="btn btn-info btn-lg active" role="button">View All Sensors</a>
 </div>
+<h2>Users</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Details</th>
+            <th>Roles</th>
+            <th>Sensors</th>          
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+        <tr>
+            <td>@(user.UserName)</td>
+            <td>@(user.Email)</td>
+            <td>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Details" asp-route-id="@user.Id"
+                   class="btn btn-toolbar btn-sm active" role="button">Details</a>
+            </td>       
+            <td>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Roles" asp-route-id="@user.Id"
+                   class="btn btn-sm btn-lg active" role="button">Roles</a>
+            </td>
+            <td>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Sensors" asp-route-id="@user.Id"
+                   class="btn btn-sm btn-lg active" role="button">Sensors</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
