@@ -108,6 +108,7 @@ namespace DormitorySystem.Controllers
                   //  await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }

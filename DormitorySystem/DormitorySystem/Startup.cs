@@ -58,12 +58,12 @@ namespace DormitorySystem
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                  name: "admin",
+                  name: "Admin",
                   template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
                 routes.MapRoute(
-                name: "private",
-                template: "{area:exists}/{controller=Sensors}/{action=ViewSensors}/{id?}"
+                name: "User",
+                template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
                 routes.MapRoute(
                     name: "default",
@@ -90,7 +90,7 @@ namespace DormitorySystem
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddSingleton<IUserSensorService, UserSensorService>();
+            services.AddScoped<IUserSensorService, UserSensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddHostedService<TimedHostedService>();
             services.AddScoped<IApiProvider, ApiProvider>();

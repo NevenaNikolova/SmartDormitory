@@ -1,0 +1,15 @@
+﻿@model ListUsersViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    @foreach(var user in Model.Users)
+    {
+     <p>@user.Email</p>
+     <p>@user.UserName</p>        
+    }
+</div>

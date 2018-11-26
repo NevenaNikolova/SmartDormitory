@@ -13,12 +13,10 @@ namespace DormitorySystem.Services
     public class UserService : IUserService
     {
         private readonly DormitorySystemContext contex;
-        private readonly UserSensorService userSensorService;
-
-        public UserService(DormitorySystemContext contex, UserSensorService userSensorService)
+       
+        public UserService(DormitorySystemContext contex)
         {
-            this.contex = contex;
-            this.userSensorService = userSensorService;
+            this.contex = contex;        
         }
 
         //public User AssignRoles(string userId)
@@ -31,7 +29,8 @@ namespace DormitorySystem.Services
         public UserSensor EditSensor(Guid userSensorId, string newName, int newPolling, string newLatitude,
             string newLongitude, bool newNotification, bool newIsPrivate)
         {
-            var sensor = userSensorService.GetSensor(userSensorId);
+            var sensor = this.contex.UserSensors
+                .SingleOrDefault(s => s.Id == userSensorId);
 
             if (sensor == null)
             {
@@ -53,8 +52,7 @@ namespace DormitorySystem.Services
         public User GetUser(string Id)
         {
             var user = this.contex.Users
-                .Include(u => u.Sensors)
-                    .ThenInclude(us => us.Name)                    
+                .Include(u => u.Sensors)                                   
                         .SingleOrDefault(u => u.Id == Id);
             if (user == null)
             {
@@ -90,8 +88,7 @@ namespace DormitorySystem.Services
         public IEnumerable<User> ListUsers()
         {
             var users = this.contex.Users
-                .Include(u => u.Sensors)
-                    .ThenInclude(us => us.Name)
+                .Include(u => u.Sensors)                   
                         .ToList();
 
             return users;
