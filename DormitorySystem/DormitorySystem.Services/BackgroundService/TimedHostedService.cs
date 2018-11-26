@@ -28,12 +28,27 @@ public class TimedHostedService : IHostedService, IDisposable
         string report = InitialSensorLoad();
         this.logger.LogInformation(report);
 
-        //TODO 
-        //this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(24));
+        this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(24));
 
         this.timer = new Timer(UpdateSensor, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
         return Task.CompletedTask;
+    }
+
+    private void CheckForNewSensor(object state)
+    {
+        int number = listOfSensors.Count;
+
+        using (var scope = service.CreateScope())
+        {
+            var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
+            listOfSensors = iCBApiService.CheckForNewSensor(listOfSensors);
+        }
+
+        number = listOfSensors.Count - number;
+
+        this.logger.LogInformation
+        ($"Checking for new sensor is complete. Number of new sensor found is: {number}");
     }
 
     private string InitialSensorLoad()
