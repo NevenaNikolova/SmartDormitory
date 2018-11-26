@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Admin.Controllers
 {
@@ -14,7 +15,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly UserManager<Data.Models.User> _userManager;
-
+        
         public HomeController(IUserService userService, 
             UserManager<Data.Models.User> userManager)
         {
@@ -35,13 +36,16 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             return View(new ListUsersViewModel(users));
         }
 
-        public IActionResult Details(string id)
+        public async Task<IActionResult>Details(string id)
+        {
+            var user = this._userService.GetUser(id); 
+            var roles= await this._userManager.GetRolesAsync(user);
+            return View(new UserViewModel(user, string.Join(", ", roles)));
+        }
+        public async Task<IActionResult> AssignRoles(string id)
         {
             var user = this._userService.GetUser(id);
-            return View(new UserViewModel(user));
-        }
-        public IActionResult AssignRoles(string id)
-        {
+            var result = await this._userManager.AddToRoleAsync(user, "Admin");
             return View();
         }
         public IActionResult Sensors(string id)
