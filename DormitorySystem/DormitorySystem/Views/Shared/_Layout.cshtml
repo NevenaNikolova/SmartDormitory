@@ -33,6 +33,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
                     @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
                         <li><a asp-area="User" asp-controller="Home" asp-action="Index">My Sensors</a></li>
@@ -43,6 +44,9 @@
                     {
                         <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a></li>
                     }
+
+                    <li><a asp-area="" asp-controller="Home" asp-action="Test">Only for test purpose</a></li>
+
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
