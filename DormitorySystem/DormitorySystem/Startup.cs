@@ -90,6 +90,8 @@ namespace DormitorySystem
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddHostedService<TimedHostedService>();
+
             services.AddScoped<IUserSensorService, UserSensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApiProvider, ApiProvider>();

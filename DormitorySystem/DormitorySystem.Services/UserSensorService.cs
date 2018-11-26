@@ -48,7 +48,7 @@ namespace DormitorySystem.Services
             return sensor;
         }
 
-        public IDictionary<string, IEnumerable<SampleSensor>> GetSensorByType()
+        public IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType()
         {
             var sensorList = new Dictionary<string, IEnumerable<SampleSensor>>();
 
