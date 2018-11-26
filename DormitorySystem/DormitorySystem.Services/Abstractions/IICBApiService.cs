@@ -8,7 +8,11 @@ namespace DormitorySystem.Services.Abstractions
     public interface IICBApiService
     {
         IDictionary<string, SampleSensor> InitialSensorLoad();
-        string CheckForNewSensor();
-        IDictionary<string, SampleSensor> UpdateSensors(IDictionary<string, SampleSensor> listOfSensors);
+
+        IDictionary<string, SampleSensor> CheckForNewSensor
+            (IDictionary<string, SampleSensor> listOfSensors);
+
+        IDictionary<string, SampleSensor> UpdateSensors
+            (IDictionary<string, SampleSensor> listOfSensors);
     }
 }
