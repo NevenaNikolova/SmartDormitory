@@ -20,11 +20,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\User\Models\" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
