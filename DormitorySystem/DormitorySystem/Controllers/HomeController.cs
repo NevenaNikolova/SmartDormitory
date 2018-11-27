@@ -45,7 +45,7 @@ namespace DormitorySystem.Controllers
         // only for test purpose 
         public IActionResult Test()
         {
-            this.sensorService.GetSensorByType();
+            this.sensorService.GetSensorsByType();
             return View();
         }
     }

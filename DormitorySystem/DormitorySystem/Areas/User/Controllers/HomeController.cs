@@ -15,5 +15,18 @@ namespace DormitorySystem.Web.Areas.User.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult RegisterNewSensor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RegisterNewSensor(string somting)
+        {
+            return View();
+        }
     }
 }

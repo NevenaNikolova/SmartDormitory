@@ -94,9 +94,15 @@ namespace DormitorySystem.Services
             return users;
         }
 
-        public UserSensor RegisterSensor(string userId, SampleSensor sampleSensor, string name,
-            int pollingInterval, string latitude, string longitude,
-            bool sendNotification, bool isPrivate)
+        public UserSensor RegisterSensor
+            (string userId,
+            SampleSensor sampleSensor,
+            string name,
+            int pollingInterval,
+            string latitude,
+            string longitude,
+            bool sendNotification,
+            bool isPrivate)
         {
             var user = GetUser(userId);
 
