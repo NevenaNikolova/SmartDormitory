@@ -23,6 +23,8 @@ namespace DormitorySystem.Data.Models
         public int TypeId { get; set; }
         public SensorType Type { get; set; }
 
+        public bool isOnline { get; set; }
+
         public ICollection<UserSensor> UserSensors { get; set; }
     }
 }
