@@ -99,6 +99,7 @@ namespace DormitorySystem.Controllers
             {
                 var user = new User { UserName = model.Email, Email = model.Email, GDPR=model.GDPR};
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -108,7 +109,7 @@ namespace DormitorySystem.Controllers
                   //  await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    //await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
