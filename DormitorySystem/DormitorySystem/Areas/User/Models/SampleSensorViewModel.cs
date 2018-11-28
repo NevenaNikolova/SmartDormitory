@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DormitorySystem.Web.Models.SensorViewModels
+namespace DormitorySystem.Web.Areas.User.Models
 {
     public class SampleSensorViewModel
     {
