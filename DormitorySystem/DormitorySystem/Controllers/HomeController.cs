@@ -1,21 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using DormitorySystem.Models;
 using DormitorySystem.Services.Abstractions;
+using DormitorySystem.Data.Models;
+using System.Linq;
+using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace DormitorySystem.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IUserSensorService sensorService;
+        private readonly IUserService userService;
+        private readonly UserManager<User> userManager;
 
-        public HomeController(IUserSensorService sensorService)
+        public HomeController
+            (IUserSensorService sensorService,
+             IUserService userService,
+             UserManager<User> userManager)
         {
             this.sensorService = sensorService;
+            this.userService = userService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -45,7 +53,7 @@ namespace DormitorySystem.Controllers
         // only for test purpose 
         public IActionResult Test()
         {
-            this.sensorService.GetSensorsByType();
+
             return View();
         }
     }
