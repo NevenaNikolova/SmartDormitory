@@ -48,30 +48,13 @@ namespace DormitorySystem.Services
             return sensor;
         }
 
-        public IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType()
+        public IEnumerable<SampleSensor> GetSampleSensors()
         {
-            var sensorList = new Dictionary<string, IEnumerable<SampleSensor>>();
-
-            var sensorTypes = this.context.SensorTypes
-                .Include(s => s.SampleSensors)
-                .ThenInclude(m => m.Measure)
-                .ToArray();
-
-            foreach (var sensorType in sensorTypes)
-            {
-                string typeName = sensorType.Name;
-
-                if (!sensorList.ContainsKey(typeName))
-                {
-                    sensorList.Add(typeName, sensorType.SampleSensors);
-                }
-                else
-                {
-                    sensorList[typeName] = sensorType.SampleSensors;
-                }
-            }
-
-            return sensorList;
+            var sensorTypes = this.context.SampleSensors
+                .Include(s => s.Measure)
+                .Include(s => s.Type)
+                .ToList();
+            return sensorTypes;
         }
     }
 }

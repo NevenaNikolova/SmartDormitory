@@ -6,6 +6,7 @@ using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.User.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DormitorySystem.Web.Areas.User.Controllers
@@ -15,28 +16,24 @@ namespace DormitorySystem.Web.Areas.User.Controllers
     public class HomeController : Controller
     {
         private readonly IUserSensorService sensorService;
+        private readonly IUserService userService;
+        private readonly UserManager<Data.Models.User> userManager;
 
-        public HomeController(IUserSensorService sensorService)
+        public HomeController(
+            IUserSensorService sensorService,
+            IUserService userService,
+            UserManager<Data.Models.User> userManager)
         {
             this.sensorService = sensorService;
+            this.userService = userService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
         {
+            var userId = userManager.GetUserId(HttpContext.User);
+            var sensors = this.userService.ListSensors(userId);
             return View();
-        }
-
-
-        public IActionResult ViewSensorTypes()
-        {
-            var model = new SensorsByTypeViewModel(this.sensorService.GetSensorsByType());
-            return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult ListSensorByType(IEnumerable<SampleSensor> sensors)
-        {
-            return View(sensors);
         }
 
         [HttpGet]
