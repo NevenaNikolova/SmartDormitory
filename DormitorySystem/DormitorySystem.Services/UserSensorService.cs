@@ -48,11 +48,11 @@ namespace DormitorySystem.Services
             return sensor;
         }
 
-        public IEnumerable<SampleSensor>ListSampleSensors()
+        public IEnumerable<SampleSensor> ListSampleSensors()
         {
             var sampleSensors = this.context.SampleSensors
-                .Include(s =>s.SensorType)   
-                .Include(s=>s.Measure)
+                .Include(s => s.SensorType)
+                .Include(s => s.Measure)
                 .ToList();
 
             return sampleSensors;
@@ -82,6 +82,23 @@ namespace DormitorySystem.Services
             }
 
             return sensorList;
+        }
+
+        public void AddUserSensorToDB_Develop()
+        {
+            var userSens = ListSampleSensors().Select(ss => new UserSensor()
+            {
+                Id = new Guid(),
+                CreatedOn = DateTime.Now,
+                Latitude = 1.ToString(),
+                Longitude = 1.ToString(),
+                Name = ss.Tag,
+                PollingInterval = ss.MinPollingInterval,
+                SampleSensor = ss,
+                UserId = "41579000-e126-4399-89eb-b082eeca8f7a",
+            });
+            this.context.UpdateRange(userSens);
+            this.context.SaveChanges();
         }
     }
 }

@@ -11,5 +11,7 @@ namespace DormitorySystem.Services.Abstractions
         IEnumerable<UserSensor> GetPublicSensors();
         IEnumerable<SampleSensor> ListSampleSensors();
         IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType();
+
+        void AddUserSensorToDB_Develop();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DormitorySystem.Web.Areas.User.Models
+namespace DormitorySystem.Web.Areas.Users.Models
 {
     public class ListSampleSensorsViewModel
     {

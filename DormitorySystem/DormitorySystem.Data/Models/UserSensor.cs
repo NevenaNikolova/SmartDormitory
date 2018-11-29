@@ -1,6 +1,5 @@
 ﻿using DormitorySystem.Data.Models.Abstractions;
 using System;
-using Utilities;
 
 namespace DormitorySystem.Data.Models
 {

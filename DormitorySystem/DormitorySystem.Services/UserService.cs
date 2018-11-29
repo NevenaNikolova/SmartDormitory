@@ -19,13 +19,6 @@ namespace DormitorySystem.Services
             this.contex = contex;        
         }
 
-        //public User AssignRoles(string userId)
-        //{
-        //    var user = GetUser(userId);
-        //    if (user.)
-
-        //}
-
         public UserSensor EditSensor(Guid userSensorId, string newName, int newPolling, string newLatitude,
             string newLongitude, bool newNotification, bool newIsPrivate)
         {
@@ -79,8 +72,11 @@ namespace DormitorySystem.Services
             }
             else
             {
-                var user = GetUser(userId);
-                allSensors = user.Sensors.ToList();
+                allSensors = this.contex.UserSensors
+                    .Where(us => us.UserId == userId)
+                    .Include(s => s.SampleSensor.SensorType)
+                    .Include(s => s.SampleSensor.Measure)
+                    .ToList();
             }
             return allSensors;
         }

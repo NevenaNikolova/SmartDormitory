@@ -1,7 +1,7 @@
 ﻿using DormitorySystem.Data.Models;
 using System.Collections.Generic;
 
-namespace DormitorySystem.Web.Areas.User.Models
+namespace DormitorySystem.Web.Areas.Users.Models
 {
     public class SensorsByTypeViewModel
     {
