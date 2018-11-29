@@ -96,7 +96,7 @@ namespace DormitorySystem.Services
 
         public UserSensor RegisterSensor
             (string userId,
-            SampleSensor sampleSensor,
+            Guid sampleSensorId,
             string name,
             int pollingInterval,
             string latitude,
@@ -108,8 +108,7 @@ namespace DormitorySystem.Services
 
             var newSensor = new UserSensor()
             {
-                SampleSensorId = sampleSensor.Id,
-                SampleSensor = sampleSensor,
+                SampleSensorId = sampleSensorId,              
                 User = user,
                 Name = name,
                 PollingInterval = pollingInterval,
