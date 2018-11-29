@@ -10,7 +10,7 @@ namespace DormitorySystem.Services.Abstractions
         User GetUser(string Id);
         IEnumerable<User> ListUsers();
 
-        UserSensor RegisterSensor(string userId, SampleSensor sampleSensor, string name,
+        UserSensor RegisterSensor(string userId, Guid sampleSensorId, string name,
             int pollingInterval, string latitude, string longitude,
             bool sendNotification, bool isPrivate);
 
