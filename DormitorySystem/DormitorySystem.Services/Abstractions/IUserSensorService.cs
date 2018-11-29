@@ -9,6 +9,7 @@ namespace DormitorySystem.Services.Abstractions
     {
         UserSensor GetSensor(Guid id);
         IEnumerable<UserSensor> GetPublicSensors();
+        IEnumerable<SampleSensor> ListSampleSensors();
         IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType();
     }
 }

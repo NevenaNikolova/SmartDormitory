@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace DormitorySystem.Web.Areas.Admin.Controllers
 {
@@ -89,7 +90,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             }
             await this._userManager.AddToRoleAsync(user, role);
           
-            TempData["SuccessMessage"] = $"User {user.Email} added to {role} role!";
+            this.TempData["Success-Message"] = $"User {user.Email} added to {role} role!";
 
             return RedirectToAction(nameof(Index));
         }

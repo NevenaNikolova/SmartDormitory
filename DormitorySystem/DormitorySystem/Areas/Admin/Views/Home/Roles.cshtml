@@ -6,11 +6,11 @@
 <h2>Roles for user @Model.Email</h2>
 
 <div>
-    <a asp-area="Admin" asp-controller="Home" asp-action="AddToRole" asp-route-id="@Model.Id" 
-class="btn btn-primary">Add To Role</a>
+    <a asp-area="Admin" asp-controller="Home" asp-action="AddToRole" asp-route-id="@Model.Id"
+       class="btn btn-primary">Add To Role</a>
 </div>
 
-<br/>
+<br />
 @if (!Model.Roles.Any())
 {
     <h3>No roles for this user.</h3>
@@ -19,8 +19,9 @@ class="btn btn-primary">Add To Role</a>
     @foreach (var role in Model.Roles)
     {
         <li>@role</li>
-    }   
+    }
 </ul>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+

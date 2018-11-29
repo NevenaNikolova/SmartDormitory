@@ -20,8 +20,8 @@ namespace DormitorySystem.Data.Models
         public double? MinValue { get; set; }
         public double? MaxValue { get; set; }
 
-        public int TypeId { get; set; }
-        public SensorType Type { get; set; }
+        public int SensorTypeId { get; set; }
+        public SensorType SensorType { get; set; }
 
         public bool isOnline { get; set; }
 

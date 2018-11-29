@@ -2,6 +2,6 @@
 {
     public interface IApiProvider
     {
-        string ReturnRespons(string url, string header);
+        string ReturnResponse(string url, string header);
     }
 }

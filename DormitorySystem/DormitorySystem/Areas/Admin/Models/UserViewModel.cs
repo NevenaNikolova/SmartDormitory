@@ -39,8 +39,6 @@ namespace DormitorySystem.Web.Areas.Admin.Models
             Roles = roles;
         }
 
-
-
         [Required]
         public string Id { get; set; }
 

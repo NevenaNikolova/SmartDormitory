@@ -51,7 +51,7 @@ namespace DormitorySystem.Data.DatabaseSeed
 
         private JObject LoadApiData()
         {
-            var responseAll = apiProvider.ReturnRespons
+            var responseAll = apiProvider.ReturnResponse
                 (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
 
             responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
@@ -89,7 +89,7 @@ namespace DormitorySystem.Data.DatabaseSeed
                     Description = description,
                     MinPollingInterval = minPollInterval,
                     MeasureId = measures[measure].Id,
-                    TypeId = types[tagKey].Id,
+                    SensorTypeId = types[tagKey].Id,
                     MaxValue = Math.Max(extractedValues[0], extractedValues[1]),
                     MinValue = Math.Min(extractedValues[0], extractedValues[1]),
                     TimeStamp = DateTime.Now.ToString()
