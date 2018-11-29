@@ -41,7 +41,7 @@ namespace DormitorySystem.Services
         public IDictionary<string, SampleSensor> CheckForNewSensor
             (IDictionary<string, SampleSensor> listOfSensors)
         {
-            string response = apiProvider.ReturnRespons
+            string response = apiProvider.ReturnResponse
                        (ApiConstants.ICBSensorApiListAllSensor,
                        ApiConstants.ICBApiAuthorizationToken);
             response = "{" + "\"data\"" + ":" + response + "}";
@@ -91,7 +91,7 @@ namespace DormitorySystem.Services
                 Description = description,
                 MinPollingInterval = minPollInterval,
                 MeasureId = measure.Id,
-                TypeId = type.Id,
+                SensorTypeId = type.Id,
                 MaxValue = Math.Max(extractedValues[0], extractedValues[1]),
                 MinValue = Math.Min(extractedValues[0], extractedValues[1]),
                 TimeStamp = DateTime.Now.ToString()
@@ -149,7 +149,7 @@ namespace DormitorySystem.Services
             {
                 if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
                 {
-                    string response = apiProvider.ReturnRespons
+                    string response = apiProvider.ReturnResponse
                        (ApiConstants.ICBSensorApiBaseUrl
                        + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
 

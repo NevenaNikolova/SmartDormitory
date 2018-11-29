@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
+using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Web.Areas.User.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DormitorySystem.Web.Areas.User.Controllers
@@ -15,28 +14,31 @@ namespace DormitorySystem.Web.Areas.User.Controllers
     [Authorize(Roles = "User, Admin")]
     public class HomeController : Controller
     {
-        private readonly IUserSensorService sensorService;
-        private readonly IUserService userService;
-        private readonly UserManager<Data.Models.User> userManager;
+        private readonly IUserSensorService _userSensorService;
 
-        public HomeController(
-            IUserSensorService sensorService,
-            IUserService userService,
-            UserManager<Data.Models.User> userManager)
+        public HomeController(IUserSensorService userSensorService)
         {
-            this.sensorService = sensorService;
-            this.userService = userService;
-            this.userManager = userManager;
+            _userSensorService = userSensorService;
         }
 
         public IActionResult Index()
         {
-            var userId = userManager.GetUserId(HttpContext.User);
-            var sensors = this.userService.ListSensors(userId);
             return View();
         }
 
-        [HttpGet]
+        public IActionResult ListSampleSensors()
+        {
+            var sampleSensors = this._userSensorService.ListSampleSensors()
+                .Select(s => new SampleSensorViewModel(s));
+
+            if (sampleSensors == null)
+            {
+                throw new SensorNullableException("No sensors at the moment.");
+            }
+
+            return View(new ListSampleSensorsViewModel(sampleSensors));
+        }
+
         public IActionResult RegisterNewSensor()
         {
             return View();
