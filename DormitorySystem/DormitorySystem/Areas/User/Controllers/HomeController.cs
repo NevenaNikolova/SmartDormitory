@@ -39,7 +39,8 @@ namespace DormitorySystem.Web.Areas.User.Controllers
             return View(new ListSampleSensorsViewModel(sampleSensors));
         }
 
-        public IActionResult RegisterNewSensor()
+        [HttpGet]
+        public IActionResult RegisterNewSensor(SampleSensorViewModel sampleSensor)
         {
             return View();
         }
