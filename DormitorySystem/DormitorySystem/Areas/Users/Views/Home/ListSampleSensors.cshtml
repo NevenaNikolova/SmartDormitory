@@ -18,18 +18,19 @@
     <tbody>
         @foreach (var sensor in Model.SampleSensors)
         {
-        <tr>
-            <td>@sensor.Type.Name</td>
-            <td>@sensor.Tag</td>
-            <td>@sensor.Description</td>
-            <td>@(sensor.MinValue + "/ " + sensor.MaxValue + " " + sensor.Measure.MeasureType)</td>
-            <td>@sensor.MinPollingInterval</td>
-            <td>
-                <a asp-area="Users" asp-controller="Home" asp-action="RegisterNewSensor" asp-route-id="@sensor.Id"
-                   class="btn btn-info active" role="button">Add</a>
-            </td>
-        </tr>
-        }      
+            <tr>
+                <td>@sensor.Type.Name</td>
+                <td>@sensor.Tag</td>
+                <td>@sensor.Description</td>
+                <td>@(sensor.MinValue + "/ " + sensor.MaxValue + " " + sensor.Measure.MeasureType)</td>
+                <td>@sensor.MinPollingInterval</td>
+                <td>
+                    <a asp-area="Users" asp-controller="Home" asp-action="RegisterNewSensor"
+                       asp-route-tag="@sensor.Tag" asp-route-description="@sensor.Description"
+                       class="btn btn-info active" role="button">Add</a>
+                </td>
+            </tr>
+        }
     </tbody>
     <tfoot class="text-center">
         <tr>
