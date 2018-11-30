@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Utilities;
@@ -17,16 +18,17 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
-        private readonly UserManager<Data.Models.User> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        
-        public HomeController(IUserService userService, 
-            UserManager<Data.Models.User> userManager,
-           RoleManager<IdentityRole>roleManager)
+        private readonly IUserSensorService _userSensorService;
+
+        public HomeController(IUserService userService, UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager, IUserSensorService userSensorService)
         {
             _userService = userService;
             _userManager = userManager;
             _roleManager = roleManager;
+            _userSensorService = userSensorService;
         }
 
         public IActionResult Index()
@@ -95,9 +97,46 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Sensors(string id)
+        public IActionResult ListUserSensors(string id)
         {
-            return View();
+            var userSensors = this._userService.ListSensors(id)
+                .Select(us => new UserSensorViewModel(us))
+                .ToList();
+            if (userSensors == null)
+            {
+                return NoContent();
+            }
+            return View(new ListUserSensorsViewModel(userSensors));
+        }
+
+        [HttpGet]
+        public IActionResult EditSensor(Guid id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var userSensor = this._userSensorService.GetSensor(id);
+
+            if (userSensor == null)
+            {
+                return NotFound();
+            }
+            return View(new UserSensorViewModel(userSensor));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditSensor([Bind(include: "Id, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]UserSensorViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var sensor = this._userSensorService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
+                model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
+
+            return this.RedirectToAction("ListUserSensors", "Home", new { id = sensor.UserId });
         }
     }
 }

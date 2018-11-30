@@ -41,7 +41,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
 
             return View();
-        } 
+        }
 
         public IActionResult ListSampleSensors()
         {
@@ -58,23 +58,27 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpGet]
         public IActionResult RegisterNewSensor()
-        {         
+        {
             return View();
         }
 
+
+        // TO DO Add min polling interval in model and Sensor Type in View
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor(Guid id, UserSensorViewModel model)
         {
             var userId = this._userManager.GetUserId(HttpContext.User);
-           
-            if (ModelState.IsValid)
-            {
-                this._userService.RegisterSensor(userId, id, model.Name,
-                               model.UserPollingInterval, model.Latitude, model.Longitude,
-                               model.SendNotification, model.IsPrivate);
-            }
 
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var sensor=this._userService.RegisterSensor(userId, id, model.Name,
+                           model.UserPollingInterval, model.Latitude, model.Longitude,
+                           model.SendNotification, model.IsPrivate);
+
+            this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
             return this.RedirectToAction("Index", "Home");
         }
     }

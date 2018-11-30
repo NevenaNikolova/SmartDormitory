@@ -35,10 +35,8 @@ namespace DormitorySystem.Services
         public UserSensor GetSensor(Guid id)
         {
             var sensor = this.context.UserSensors
-                .Include(us => us.User)
-                    .ThenInclude(u => u.Email)
+                .Include(us => us.User)                  
                 .Include(us => us.SampleSensor)
-                    .ThenInclude(ss => ss.Tag)
                  .SingleOrDefault(s => s.Id == id);
             if (sensor == null)
             {
@@ -47,7 +45,27 @@ namespace DormitorySystem.Services
 
             return sensor;
         }
+        public UserSensor EditSensor(Guid id, string name, int pollingInterval, string latitude, 
+            string longitude, bool sendNotification, bool isPrivate)
+        {
+            var sensor = this.context.UserSensors
+                .Include(s => s.SampleSensor)
+                .SingleOrDefault(s => s.Id == id);
+                
+            if (sensor == null)
+            {
+                throw new SensorNullableException("There is no such sensor.");
+            }
+            sensor.Name = name;
+            sensor.PollingInterval = pollingInterval;
+            sensor.Latitude= latitude;
+            sensor.Longitude = longitude;
+            sensor.SendNotification = sendNotification;
+            sensor.IsPrivate = isPrivate;
 
+            this.context.SaveChanges();
+            return sensor;
+        }
         public IEnumerable<SampleSensor> ListSampleSensors()
         {
             var sampleSensors = this.context.SampleSensors
