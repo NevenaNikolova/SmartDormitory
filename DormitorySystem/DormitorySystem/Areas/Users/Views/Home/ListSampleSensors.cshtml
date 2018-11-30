@@ -25,7 +25,7 @@
             <td>@(sensor.MinValue + "/ " + sensor.MaxValue + " " + sensor.Measure.MeasureType)</td>
             <td>@sensor.MinPollingInterval</td>
             <td>
-                <a asp-area="User" asp-controller="Home" asp-action="RegisterNewSensor" asp-route-id="@sensor.Id"
+                <a asp-area="Users" asp-controller="Home" asp-action="RegisterNewSensor" asp-route-id="@sensor.Id"
                    class="btn btn-info active" role="button">Add</a>
             </td>
         </tr>

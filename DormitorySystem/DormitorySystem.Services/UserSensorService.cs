@@ -100,5 +100,20 @@ namespace DormitorySystem.Services
             this.context.UpdateRange(userSens);
             this.context.SaveChanges();
         }
+
+        public SampleSensor GetSampleSensor(Guid id)
+        {
+            var sensor = this.context.SampleSensors
+                .Include(s => s.SensorType)
+                .Include(s => s.Measure)
+                .SingleOrDefault(s => s.Id == id);
+
+            if (sensor == null)
+            {
+                throw new SensorNullableException("There is no such sensor.");
+            }
+
+            return sensor;
+        }
     }
 }

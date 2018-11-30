@@ -4,7 +4,6 @@ using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Web.Areas.Users.Models;
-using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +23,9 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             UserManager<User> userManager,
             IUserService userService)
         {
-          this._userSensorService = userSensorService;
-          this._userService = userService;
-          this._userManager = userManager;
+            this._userSensorService = userSensorService;
+            this._userService = userService;
+            this._userManager = userManager;
         }
 
         public IActionResult Index()
@@ -53,17 +52,24 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpGet]
         public IActionResult RegisterNewSensor()
-        {           
+        {         
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterNewSensor(Guid sampleSensorId, [Bind(include: "sampleSensorId")]UserSensorViewModel model)
+        public IActionResult RegisterNewSensor(Guid sampleSensorId, UserSensorViewModel model)
         {
             var userId = this._userManager.GetUserId(HttpContext.User);
-           // this._userService.RegisterSensor(userId,model. )
-            return View();
+           
+            if (ModelState.IsValid)
+            {
+                this._userService.RegisterSensor(userId, sampleSensorId, model.Name,
+                               model.UserPollingInterval, model.Latitude, model.Longitude,
+                               model.SendNotification, model.IsPrivate);
+            }
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

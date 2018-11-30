@@ -17,6 +17,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         {
             Id = userSensor.Id;
             SampleSensorId = userSensor.SampleSensorId;
+            SensorType = userSensor.SampleSensor.SensorType;
             SampleSensor = userSensor.SampleSensor;
             User = userSensor.User;
             Name = userSensor.Name;
@@ -33,8 +34,9 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         [Required]
         public Guid SampleSensorId { get; set; }
 
-        [Required]
         public SampleSensor SampleSensor { get; set; }
+     
+        public SensorType SensorType { get; set; }
 
         [Required]
         public Guid UserId { get; set; }
@@ -47,6 +49,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         public string Name { get; set; }
      
         [Required]
+    
         public int PollingInterval { get; set; }
 
         [Required]
