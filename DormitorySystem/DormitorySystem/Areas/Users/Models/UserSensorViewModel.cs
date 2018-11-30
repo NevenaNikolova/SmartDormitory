@@ -31,6 +31,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
         public Guid Id { get; set; }
 
         [Required]
+        [Display(Name="Name")]
         public string Name { get; set; }
 
         public Guid SampleSensorId { get; set; }
@@ -39,11 +40,14 @@ namespace DormitorySystem.Web.Areas.Users.Models
         public SensorType SensorType { get; set; }
 
         [Required]
+        [Display(Name="Update Sensor Interval in Seconds")]
         public int UserPollingInterval { get; set; }
         public int MinPollingInterval { get; set; }
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+        [Display(Name="Send Email if Sensor Values are Out of Range")]
         public bool SendNotification { get; set; }
+        [Display(Name="This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
     }
 }

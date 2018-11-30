@@ -58,13 +58,13 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterNewSensor(Guid sampleSensorId, UserSensorViewModel model)
+        public IActionResult RegisterNewSensor(Guid id, UserSensorViewModel model)
         {
             var userId = this._userManager.GetUserId(HttpContext.User);
            
             if (ModelState.IsValid)
             {
-                this._userService.RegisterSensor(userId, sampleSensorId, model.Name,
+                this._userService.RegisterSensor(userId, id, model.Name,
                                model.UserPollingInterval, model.Latitude, model.Longitude,
                                model.SendNotification, model.IsPrivate);
             }
