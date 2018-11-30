@@ -39,8 +39,8 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public IActionResult SensorDetails(Guid userSensorid)
         {
-
-            return View();
+            var model = new UserSensorViewModel(this._userSensorService.GetSensor(userSensorid));
+            return View(model);
         }
 
         public IActionResult ListSampleSensors()
@@ -57,9 +57,13 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterNewSensor()
+        public IActionResult RegisterNewSensor(string tag, string description)
         {
-            return View();
+            var model = new UserSensorViewModel()
+            {
+                SampleSensor = new SampleSensor { Tag = tag, Description = description }
+            };
+            return View(model);
         }
 
 
@@ -74,7 +78,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             {
                 return View();
             }
-            var sensor=this._userService.RegisterSensor(userId, id, model.Name,
+            var sensor = this._userService.RegisterSensor(userId, id, model.Name,
                            model.UserPollingInterval, model.Latitude, model.Longitude,
                            model.SendNotification, model.IsPrivate);
 
