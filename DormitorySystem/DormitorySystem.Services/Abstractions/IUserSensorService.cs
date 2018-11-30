@@ -1,7 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DormitorySystem.Services.Abstractions
 {
@@ -12,7 +11,5 @@ namespace DormitorySystem.Services.Abstractions
         IEnumerable<SampleSensor> ListSampleSensors();
         IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType();
         SampleSensor GetSampleSensor(Guid id);
-
-        void AddUserSensorToDB_Develop();
     }
 }

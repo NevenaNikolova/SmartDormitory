@@ -39,8 +39,9 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public IActionResult SensorDetails(Guid userSensorid)
         {
-
-            return View();
+            var userSensor = this._userSensorService.GetSensor(userSensorid);
+            var model = new UserSensorViewModel(userSensor);
+            return View(model);
         } 
 
         public IActionResult ListSampleSensors()

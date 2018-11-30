@@ -36,10 +36,9 @@ namespace DormitorySystem.Services
         {
             var sensor = this.context.UserSensors
                 .Include(us => us.User)
-                    .ThenInclude(u => u.Email)
-                .Include(us => us.SampleSensor)
-                    .ThenInclude(ss => ss.Tag)
-                 .SingleOrDefault(s => s.Id == id);
+                .Include(us => us.SampleSensor.SensorType)
+                .Include(us => us.SampleSensor.Measure)
+                 .SingleOrDefault(us => us.Id == id);
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
@@ -82,23 +81,6 @@ namespace DormitorySystem.Services
             }
 
             return sensorList;
-        }
-
-        public void AddUserSensorToDB_Develop()
-        {
-            var userSens = ListSampleSensors().Select(ss => new UserSensor()
-            {
-                Id = new Guid(),
-                CreatedOn = DateTime.Now,
-                Latitude = 1.ToString(),
-                Longitude = 1.ToString(),
-                Name = ss.Tag,
-                PollingInterval = ss.MinPollingInterval,
-                SampleSensor = ss,
-                UserId = "41579000-e126-4399-89eb-b082eeca8f7a",
-            });
-            this.context.UpdateRange(userSens);
-            this.context.SaveChanges();
         }
 
         public SampleSensor GetSampleSensor(Guid id)
