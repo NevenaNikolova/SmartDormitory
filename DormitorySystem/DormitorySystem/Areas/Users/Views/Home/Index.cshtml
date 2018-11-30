@@ -8,7 +8,7 @@
             <th class="col-md-4 text-center">Description</th>
             <th class="col-md-1 text-center">Current value</th>
             <th class="col-md-1 text-center">Access level</th>
-            <th class="col-md-1 text-center"></th>
+            <th class="col-md-1 text-center">View more details</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +20,10 @@
                 <td>@sensor.CurrentValue</td>
                 <td class="col-lg-offset-12">@sensor.Accesslevel</td>
                 <td>
-                    <button type="submit"class="btn btn-info active" role="button">Details</button>
+                    <a asp-area="Users" asp-controller="Home" asp-action="SensorDetails"
+                       asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
+                        Details
+                    </a>
                 </td>
             </tr>
         }

@@ -1,4 +1,5 @@
 ﻿using DormitorySystem.Data.Models;
+using System;
 
 namespace DormitorySystem.Web.Areas.Users.Models
 {
@@ -6,6 +7,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
     {
         public HomeIndexViewModel(UserSensor userSensors)
         {
+            this.Id = userSensors.Id;
             this.Name = userSensors.Name;
             this.Description = userSensors.SampleSensor.Description;
             this.CurrentValue =
@@ -13,6 +15,8 @@ namespace DormitorySystem.Web.Areas.Users.Models
                 + " " + userSensors.SampleSensor.Measure.MeasureType.ToString();
             this.Accesslevel = userSensors.IsPrivate;
         }
+
+        public Guid Id { get; set; }
 
         public string Name { get; set; }
 
