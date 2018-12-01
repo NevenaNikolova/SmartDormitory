@@ -7,6 +7,8 @@
 
     <link rel="stylesheet" href="~/datatables.css" />
 
+    @RenderSection("Styles", required: false)
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
@@ -36,13 +38,13 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
 
-                    
+
                     @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
                         <li><a asp-area="Users" asp-controller="Home" asp-action="Index">My Sensors</a></li>
                         <li><a asp-area="Users" asp-controller="Home" asp-action="ListSampleSensors">Register New Sensor</a></li>
                     }
-               
+
                     @if (User.IsInRole("Admin"))
                     {
                         <li><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a></li>
@@ -54,7 +56,7 @@
         </div>
     </nav>
     <div class="container body-content">
-        @RenderBody()       
+        @RenderBody()
         <hr />
         <footer>
             <p>&copy; 2018 - DormitorySystem</p>

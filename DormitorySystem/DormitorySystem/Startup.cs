@@ -119,6 +119,7 @@ namespace DormitorySystem
 
                 });
             }
+
         }
 
         private void RegisterData(IServiceCollection services)
