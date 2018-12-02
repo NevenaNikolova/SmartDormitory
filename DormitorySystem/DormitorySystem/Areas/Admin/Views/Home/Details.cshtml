@@ -5,68 +5,57 @@
 }
 
 <h2>Details</h2>
-
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Roles)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Roles)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.GDPR)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.GDPR)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DeletedOn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DeletedOn)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ModifiedOn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ModifiedOn)
-        </dd>
-    </dl>
+<hr />
+<div class="clearfix">
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>@Model.Id</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>@Model.Email</td>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <td>@Model.UserName</td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>@Model.Roles</td>
+                </tr>
+                <tr>
+                    <th>Accepts GDPR Policy</th>
+                    <td> @Html.DisplayFor(model => model.GDPR)</td>
+                </tr>
+                <tr>
+                    <th>Is Not Active</th>
+                    <td>@Html.DisplayFor(model => model.isDeleted)</td>
+                </tr>
+                <tr>
+                    <th>Created On</th>
+                    <td>@Model.CreatedOn</td>
+                </tr>
+                <tr>
+                    <th>Modified On</th>
+                    <td>@Model.ModifiedOn</td>
+                </tr>
+                <tr>
+                    <th>Registered Sensors</th>
+                    <td>
+                        @foreach (var sensor in Model.Sensors)
+                        {
+                            <p> @sensor.Name</p>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
 

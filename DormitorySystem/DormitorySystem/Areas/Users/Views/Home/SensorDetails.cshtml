@@ -1,71 +1,116 @@
 ﻿@model UserSensorViewModel
 
-
-
-<h2>SensorDetails</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th class="col-md-2 text-center">Information</th>
-            <th class="col-md-2 text-center">Value</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                <div>
-                    <hr />
-                    <dl class="dl-horizontal">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Name)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.UserPollingInterval)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.UserPollingInterval)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Latitude)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Latitude)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Longitude)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.Longitude)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.SendNotification)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.SendNotification)
-                        </dd>
-                        <dt>
-                            @Html.DisplayNameFor(model => model.IsPrivate)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.IsPrivate)
-                        </dd>
-                    </dl>
-                </div>
-            </td>
-            <td>
-                <div class="chart" id="graph"></div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<h2>Sensor Details</h2>
+<div class="clearfix">
+    <div class="col-md-6 text-center">
+        <h3>Information</h3>
+        <hr />
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>Update Sensor Interval</th>
+                    <td>@Model.UserPollingInterval</td>
+                </tr>
+                <tr>
+                    <th>Latitude</th>
+                    <td>@Model.Latitude</td>
+                </tr>
+                <tr>
+                    <th>Longitude</th>
+                    <td>@Model.Longitude</td>
+                </tr>
+                <tr>
+                    <th>Send Email if Sensor Values are Out Of Range</th>
+                    <td>@Html.DisplayFor(model => model.SendNotification)</td>
+                </tr>
+                <tr>
+                    <th>This Sensor is Visible only for Me</th>
+                    <td>@Html.DisplayFor(model => model.IsPrivate)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6 text-center">
+        <h3>Value</h3>
+        <hr />
+        <div class="chart" id="graph"></div>
+    </div>
+</div>
 
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+@*<h2>Sensor Details</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-md-2 text-center">Information</th>
+                <th class="col-md-2 text-center">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div>
+                        <hr />
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.UserPollingInterval)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.UserPollingInterval)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Latitude)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Latitude)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Longitude)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Longitude)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.SendNotification)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.SendNotification)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.IsPrivate)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.IsPrivate)
+                            </dd>
+                        </dl>
+                    </div>
+                </td>
+                <td>
+                    <div class="chart" id="graph"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a>
+    </div>*@
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -108,7 +153,7 @@
         span {
         }
 
-        .table{
+        .table {
         }
     </style>
 }
