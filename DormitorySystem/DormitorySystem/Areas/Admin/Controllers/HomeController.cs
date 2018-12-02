@@ -137,5 +137,17 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             return this.RedirectToAction("ListUserSensors", "Home", new { id = sensor.UserId });
         }
+
+        public IActionResult AllSensors()
+        {
+            var userSensors = this._userService.ListSensors()
+                .Select(us => new UserSensorViewModel(us))
+                .ToList();
+            if (userSensors == null)
+            {
+                return NoContent();
+            }
+            return View(new ListUserSensorsViewModel(userSensors));
+        }
     }
 }

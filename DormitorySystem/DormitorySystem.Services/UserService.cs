@@ -62,12 +62,8 @@ namespace DormitorySystem.Services
             if (userId == "all")
             {
                 allSensors = this.contex.UserSensors
-                    .Include(us => us.SampleSensor)
-                            .ThenInclude(ss => ss.Tag)
-                    .Include(us => us.SampleSensor)
-                            .ThenInclude(ss => ss.ValueCurrent)
+                    .Include(us => us.SampleSensor)                                               
                     .Include(us => us.User)
-                            .ThenInclude(u => u.Email)
                     .ToList();
             }
             else

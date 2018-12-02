@@ -5,7 +5,7 @@
 }
 <h2></h2>
 <div class="text-right">
-    <a asp-area="" asp-controller="Books" asp-action="Index"
+    <a asp-area="Admin" asp-controller="Home" asp-action="AllSensors"
        class="btn btn-info btn-lg active" role="button">View All Sensors</a>
 </div>
 <h2>Users</h2>
@@ -28,15 +28,15 @@
                 <td>@(user.Email)</td>
                 <td>
                     <a asp-area="Admin" asp-controller="Home" asp-action="Details" asp-route-id="@user.Id"
-                       class="btn btn-toolbar btn-sm active" role="button">Details</a>
+                       class="btn-sm btn-info active" role="button">Details</a>
                 </td>
                 <td>
                     <a asp-area="Admin" asp-controller="Home" asp-action="Roles" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-lg active" role="button">Roles</a>
+                       class="btn-sm btn-info active" role="button">Roles</a>
                 </td>
                 <td>
                     <a asp-area="Admin" asp-controller="Home" asp-action="ListUserSensors" asp-route-id="@user.Id"
-                       class="btn btn-sm btn-lg active" role="button">Sensors</a>
+                       class="btn-sm btn-info active" role="button">Sensors</a>
                 </td>
             </tr>
         }

@@ -38,6 +38,12 @@
         }
     </tbody>   
 </table>
+<div>
+    <a asp-area="Users" asp-controller="Home" asp-action="ListSampleSensors"
+       @*asp-route-id=""*@>Register New Sensor</a>
+    <br />
+    <a asp-action="Index">Back to List</a>
+</div>
 @section Scripts {
     <script script type="text/javascript" language="javascript">
         $(document).ready(function () {

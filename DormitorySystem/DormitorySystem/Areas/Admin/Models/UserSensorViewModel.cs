@@ -25,7 +25,8 @@ namespace DormitorySystem.Web.Areas.Admin.Models
             Latitude = model.Latitude;
             Longitude = model.Longitude;
             SendNotification = model.SendNotification;
-            IsPrivate = model.IsPrivate;            
+            IsPrivate = model.IsPrivate;
+            User = model.User;
         }
 
         public Guid Id { get; set; }
@@ -56,6 +57,8 @@ namespace DormitorySystem.Web.Areas.Admin.Models
 
         [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
+
+        public User User { get; set; }
     }
 }
 
