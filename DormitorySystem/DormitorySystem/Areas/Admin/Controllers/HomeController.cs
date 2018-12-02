@@ -108,7 +108,6 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             }
             return View(new ListUserSensorsViewModel(userSensors));
         }
-
         [HttpGet]
         public IActionResult EditSensor(Guid id)
         {

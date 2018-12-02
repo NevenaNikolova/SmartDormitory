@@ -85,5 +85,34 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
             return this.RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public IActionResult EditSensor(Guid id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var userSensor = this._userSensorService.GetSensor(id);
+
+            if (userSensor == null)
+            {
+                return NotFound();
+            }
+            return View(new UserSensorViewModel(userSensor));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditSensor([Bind(include: "Id, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]UserSensorViewModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var sensor = this._userSensorService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
+                model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
+
+            return this.RedirectToAction("Index", "Home");
+        }
     }
 }
