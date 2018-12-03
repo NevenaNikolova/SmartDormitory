@@ -18,7 +18,7 @@ namespace DormitorySystem.Data.Models
         public bool GDPR { get; set; }
         public bool isDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
-        public DateTime? CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
        
     }

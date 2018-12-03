@@ -25,7 +25,7 @@
             <td>@DateTime.Now</td>
             <td>@(sensor.Latitude + "/ " + sensor.Longitude)</td>
             <td>
-                <a asp-area="Users" asp-controller="Home" asp-action="SensorDetails"
+                <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
                    asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
                     Details
                 </a>

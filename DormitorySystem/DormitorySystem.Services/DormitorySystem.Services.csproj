@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DormitorySystem.Data\DormitorySystem.Data.csproj" />
-    <ProjectReference Include="..\Utilities\Utilities.csproj" />
   </ItemGroup>
 
 </Project>

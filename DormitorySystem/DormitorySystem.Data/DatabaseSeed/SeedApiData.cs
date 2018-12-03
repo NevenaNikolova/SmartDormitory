@@ -1,12 +1,12 @@
-﻿using DormitorySystem.Data.Abstractions;
+﻿using DormitorySystem.Common.Abstractions;
+using DormitorySystem.Common.Constants;
+using DormitorySystem.Data.Abstractions;
 using DormitorySystem.Data.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Utilities.Abstractions;
-using Utilities.Constants;
 
 namespace DormitorySystem.Data.DatabaseSeed
 {

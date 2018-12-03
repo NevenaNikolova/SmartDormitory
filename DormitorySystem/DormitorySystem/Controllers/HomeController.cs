@@ -12,13 +12,13 @@ namespace DormitorySystem.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IUserSensorService sensorService;
-        private readonly IUserService userService;
+        private readonly ISensorsService sensorService;
+        private readonly IUsersService userService;
         private readonly UserManager<User> userManager;
 
         public HomeController
-            (IUserSensorService sensorService,
-             IUserService userService,
+            (ISensorsService sensorService,
+             IUsersService userService,
              UserManager<User> userManager)
         {
             this.sensorService = sensorService;

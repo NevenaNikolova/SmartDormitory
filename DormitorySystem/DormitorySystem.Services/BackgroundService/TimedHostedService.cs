@@ -8,84 +8,87 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-public class TimedHostedService : IHostedService, IDisposable
+namespace DormitorySystem.Services.BackgroundService
 {
-    private readonly ILogger logger;
-    private readonly IServiceProvider service;
-    private Timer timer;
-    private IDictionary<string, SampleSensor> listOfSensors;
-
-    public TimedHostedService(ILogger<TimedHostedService> logger, IServiceProvider service)
+    public class TimedHostedService : IHostedService, IDisposable
     {
-        this.logger = logger;
-        this.service = service;
-    }
+        private readonly ILogger logger;
+        private readonly IServiceProvider service;
+        private Timer timer;
+        private IDictionary<string, SampleSensor> listOfSensors;
 
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        this.logger.LogInformation("Timed Background Service is starting.");
-
-        string report = InitialSensorLoad();
-        this.logger.LogInformation(report);
-
-        this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(24));
-
-        this.timer = new Timer(UpdateSensor, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-
-        return Task.CompletedTask;
-    }
-
-    private void CheckForNewSensor(object state)
-    {
-        int number = listOfSensors.Count;
-
-        using (var scope = service.CreateScope())
+        public TimedHostedService(ILogger<TimedHostedService> logger, IServiceProvider service)
         {
-            var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-            listOfSensors = iCBApiService.CheckForNewSensor(listOfSensors);
+            this.logger = logger;
+            this.service = service;
         }
 
-        number = listOfSensors.Count - number;
-
-        this.logger.LogInformation
-        ($"Checking for new sensor is complete. Number of new sensor found is: {number}");
-    }
-
-    private string InitialSensorLoad()
-    {
-        using (var scope = service.CreateScope())
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-            listOfSensors = iCBApiService.InitialSensorLoad();
+            this.logger.LogInformation("Timed Background Service is starting.");
+
+            string report = InitialSensorLoad();
+            this.logger.LogInformation(report);
+
+            this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(24));
+
+            this.timer = new Timer(UpdateSensor, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+
+            return Task.CompletedTask;
         }
 
-        return $"Initial sensor load was completed on {DateTime.Now.Date}";
-    }
-
-    private void UpdateSensor(object state)
-    {
-        this.logger.LogInformation("Start searching for outdated sensors.");
-
-        using (var scope = service.CreateScope())
+        private void CheckForNewSensor(object state)
         {
-            var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-            listOfSensors = iCBApiService.UpdateSensors(listOfSensors);
+            int number = listOfSensors.Count;
+
+            using (var scope = service.CreateScope())
+            {
+                var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
+                listOfSensors = iCBApiService.CheckForNewSensor(listOfSensors);
+            }
+
+            number = listOfSensors.Count - number;
+
+            this.logger.LogInformation
+            ($"Checking for new sensor is complete. Number of new sensor found is: {number}");
         }
 
-        this.logger.LogInformation("Sensors are up to date.");
-    }
+        private string InitialSensorLoad()
+        {
+            using (var scope = service.CreateScope())
+            {
+                var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
+                listOfSensors = iCBApiService.InitialSensorLoad();
+            }
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        this.logger.LogInformation("Timed Background Service is stopping.");
+            return $"Initial sensor load was completed on {DateTime.Now.Date}";
+        }
 
-        this.timer?.Change(Timeout.Infinite, 0);
+        private void UpdateSensor(object state)
+        {
+            this.logger.LogInformation("Start searching for outdated sensors.");
 
-        return Task.CompletedTask;
-    }
+            using (var scope = service.CreateScope())
+            {
+                var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
+                listOfSensors = iCBApiService.UpdateSensors(listOfSensors);
+            }
 
-    public void Dispose()
-    {
-        this.timer?.Dispose();
+            this.logger.LogInformation("Sensors are up to date.");
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            this.logger.LogInformation("Timed Background Service is stopping.");
+
+            this.timer?.Change(Timeout.Infinite, 0);
+
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            this.timer?.Dispose();
+        }
     }
 }

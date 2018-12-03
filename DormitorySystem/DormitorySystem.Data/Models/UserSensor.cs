@@ -19,5 +19,7 @@ namespace DormitorySystem.Data.Models
         public string Longitude { get; set; }
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }
+        public double? UserMinValue { get; set; }
+        public double? UserMaxValue { get; set; }
     }
 }
