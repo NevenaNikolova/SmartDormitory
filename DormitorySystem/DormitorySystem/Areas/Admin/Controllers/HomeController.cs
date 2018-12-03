@@ -108,7 +108,6 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             }
             return View(new ListUserSensorsViewModel(userSensors));
         }
-
         [HttpGet]
         public IActionResult EditSensor(Guid id)
         {
@@ -137,6 +136,18 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
 
             return this.RedirectToAction("ListUserSensors", "Home", new { id = sensor.UserId });
+        }
+
+        public IActionResult AllSensors()
+        {
+            var userSensors = this._userService.ListSensors()
+                .Select(us => new UserSensorViewModel(us))
+                .ToList();
+            if (userSensors == null)
+            {
+                return NoContent();
+            }
+            return View(new ListUserSensorsViewModel(userSensors));
         }
     }
 }

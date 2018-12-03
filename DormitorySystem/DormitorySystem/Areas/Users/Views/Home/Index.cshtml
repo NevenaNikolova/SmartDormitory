@@ -8,24 +8,24 @@
             <th class="col-md-4 text-center">Description</th>
             <th class="col-md-1 text-center">Current value</th>
             <th class="col-md-1 text-center">Access level</th>
-            <th class="col-md-1 text-center">View more details</th>
+            <th class="col-md-1 text-center">View Details</th>            
         </tr>
     </thead>
     <tbody>
         @foreach (var sensor in Model)
         {
-            <tr>
-                <td>@sensor.Name</td>
-                <td>@sensor.Description</td>
-                <td>@sensor.CurrentValue</td>
-                <td class="col-lg-offset-12">@sensor.Accesslevel</td>
-                <td>
-                    <a asp-area="Users" asp-controller="Home" asp-action="SensorDetails"
-                       asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
-                        Details
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>@sensor.Name</td>
+            <td>@sensor.Description</td>
+            <td>@sensor.CurrentValue</td>
+            <td class="col-lg-offset-12">@sensor.Accesslevel</td>
+            <td>
+                <a asp-area="Users" asp-controller="Home" asp-action="SensorDetails"
+                   asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
+                    Details
+                </a>
+            </td>           
+        </tr>
         }
     </tbody>
 </table>

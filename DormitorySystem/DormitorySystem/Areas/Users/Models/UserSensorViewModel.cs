@@ -25,7 +25,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
             Latitude = model.Latitude;
             Longitude = model.Longitude;
             SendNotification = model.SendNotification;
-            IsPrivate = model.IsPrivate;
+            IsPrivate = model.IsPrivate;           
         }
 
         public Guid Id { get; set; }
