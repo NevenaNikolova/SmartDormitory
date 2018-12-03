@@ -97,7 +97,14 @@ namespace DormitorySystem.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Email, Email = model.Email, GDPR=model.GDPR};
+                var user = new User
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    GDPR = model.GDPR,
+                    CreatedOn = DateTime.Now,
+                    
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -105,13 +112,13 @@ namespace DormitorySystem.Controllers
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                   // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                  //  await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    //  await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Login");
                 }
                 AddErrors(result);
             }
