@@ -9,10 +9,12 @@ using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using Newtonsoft.Json.Serialization;
 using DormitorySystem.Services.Abstractions;
-using Utilities.WebProvider;
-using Utilities.Abstractions;
 using DormitorySystem.Data.DatabaseSeed;
 using DormitorySystem.Data.Abstractions;
+using DormitorySystem.Services.BackgroundService;
+using DormitorySystem.Services.AppServices;
+using DormitorySystem.Common.WebProvider;
+using DormitorySystem.Common.Abstractions;
 
 namespace DormitorySystem
 {
@@ -92,8 +94,8 @@ namespace DormitorySystem
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddHostedService<TimedHostedService>();
 
-            services.AddScoped<IUserSensorService, UserSensorService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISensorsService, SensorService>();
+            services.AddScoped<IUsersService, UserService>();
             services.AddScoped<IApiProvider, ApiProvider>();
             services.AddScoped<IICBApiService, ICBApiService>();
             services.AddScoped<ISeedUsers, SeedUsers>();

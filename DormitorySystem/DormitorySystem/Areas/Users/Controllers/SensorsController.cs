@@ -12,26 +12,26 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 {
     [Area("Users")]
     [Authorize(Roles = "User, Admin")]
-    public class HomeController : Controller
+    public class SensorsController : Controller
     {
-        private readonly IUserSensorService _userSensorService;
-        private readonly UserManager<User> _userManager;
-        private readonly IUserService _userService;
+        private readonly ISensorsService sensorsService;
+        private readonly UserManager<User> userManager;
+        private readonly IUsersService usersService;
 
-        public HomeController(
-            IUserSensorService userSensorService,
+        public SensorsController(
+            ISensorsService userSensorService,
             UserManager<User> userManager,
-            IUserService userService)
+            IUsersService userService)
         {
-            this._userSensorService = userSensorService;
-            this._userService = userService;
-            this._userManager = userManager;
+            this.sensorsService = userSensorService;
+            this.usersService = userService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            var user = this._userManager.GetUserId(HttpContext.User);
-            var userSensors = this._userService.ListSensors(user);
+            var user = this.userManager.GetUserId(HttpContext.User);
+            var userSensors = this.sensorsService.ListSensors(user);
             var model = userSensors.Select(us => new HomeIndexViewModel(us)).ToList();
 
             return View(model);
@@ -39,13 +39,13 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public IActionResult SensorDetails(Guid userSensorid)
         {
-            var model = new UserSensorViewModel(this._userSensorService.GetSensor(userSensorid));
+            var model = new UserSensorViewModel(this.sensorsService.GetUserSensor(userSensorid));
             return View(model);
         }
 
         public IActionResult ListSampleSensors()
         {
-            var sampleSensors = this._userSensorService.ListSampleSensors()
+            var sampleSensors = this.sensorsService.ListSampleSensors()
                 .Select(s => new SampleSensorViewModel(s));
 
             if (sampleSensors == null)
@@ -72,18 +72,18 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor(Guid id, UserSensorViewModel model)
         {
-            var userId = this._userManager.GetUserId(HttpContext.User);
+            var userId = this.userManager.GetUserId(HttpContext.User);
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            var sensor = this._userService.RegisterSensor(userId, id, model.Name,
+            var sensor = this.sensorsService.RegisterSensor(userId, id, model.Name,
                            model.UserPollingInterval, model.Latitude, model.Longitude,
                            model.SendNotification, model.IsPrivate);
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Sensors");
         }
         [HttpGet]
         public IActionResult EditSensor(Guid id)
@@ -92,7 +92,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             {
                 return BadRequest();
             }
-            var userSensor = this._userSensorService.GetSensor(id);
+            var userSensor = this.sensorsService.GetUserSensor(id);
 
             if (userSensor == null)
             {
@@ -109,10 +109,10 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 return View();
             }
 
-            var sensor = this._userSensorService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
+            var sensor = this.sensorsService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
                 model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
 
-            return this.RedirectToAction("Index", "Home");
+            return this.RedirectToAction("Index", "Sensors");
         }
     }
 }

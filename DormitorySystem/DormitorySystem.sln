@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DormitorySystem.Services", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DormitorySystem.Tests", "DormitorySystem.Tests\DormitorySystem.Tests.csproj", "{79CA8784-A7B2-4F47-A493-B0BE3F378965}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{565C4D4F-47A0-4060-965A-2067F718AC03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DormitorySystem.Common", "DormitorySystem.Common\DormitorySystem.Common.csproj", "{63B00E50-EEAA-4A35-A9C2-16C4A2A326AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{79CA8784-A7B2-4F47-A493-B0BE3F378965}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79CA8784-A7B2-4F47-A493-B0BE3F378965}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79CA8784-A7B2-4F47-A493-B0BE3F378965}.Release|Any CPU.Build.0 = Release|Any CPU
-		{565C4D4F-47A0-4060-965A-2067F718AC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{565C4D4F-47A0-4060-965A-2067F718AC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{565C4D4F-47A0-4060-965A-2067F718AC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{565C4D4F-47A0-4060-965A-2067F718AC03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63B00E50-EEAA-4A35-A9C2-16C4A2A326AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63B00E50-EEAA-4A35-A9C2-16C4A2A326AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63B00E50-EEAA-4A35-A9C2-16C4A2A326AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63B00E50-EEAA-4A35-A9C2-16C4A2A326AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿using DormitorySystem.Data.Context;
+﻿using DormitorySystem.Common.Abstractions;
+using DormitorySystem.Common.Constants;
+using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using Newtonsoft.Json.Linq;
@@ -6,10 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Utilities.Abstractions;
-using Utilities.Constants;
 
-namespace DormitorySystem.Services
+
+namespace DormitorySystem.Services.BackgroundService
 {
     public class ICBApiService : IICBApiService
     {

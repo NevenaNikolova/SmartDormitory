@@ -8,24 +8,24 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DormitorySystem.Web.Areas.Users.Controllers
+namespace DormitorySystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestController
+    public class APIController
     {
-        private readonly IUserSensorService userSensorService;
+        private readonly ISensorsService sensorsService;
 
-        public TestController(IUserSensorService userSensorService)
+        public APIController(ISensorsService userSensorService)
         {
-            this.userSensorService = userSensorService;
+            this.sensorsService = userSensorService;
         }
         
         // GET: api/Test
         [HttpGet]
         public double Get()
         {
-            var sensor = this.userSensorService
+            var sensor = this.sensorsService
                 .GetSampleSensor(Guid.Parse("81A2E1B1-EA5D-4356-8266-B6B42471653E"));
             var model = new SensorInformationViewModel(sensor);
 

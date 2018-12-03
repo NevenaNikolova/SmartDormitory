@@ -31,7 +31,7 @@
             <td>@sensor.IsPrivate</td>
             <td>@sensor.SendNotification</td>           
             <td>
-                <a asp-area="Admin" asp-controller="Home" asp-action="EditSensor" asp-route-id="@sensor.Id"
+                <a asp-area="Admin" asp-controller="ManageSensors" asp-action="EditSensor" asp-route-id="@sensor.Id"
                    class="btn btn-info active" role="button">Edit</a>
             </td>
         </tr>
@@ -39,7 +39,7 @@
     </tbody>   
 </table>
 <div>
-    <a asp-area="Users" asp-controller="Home" asp-action="ListSampleSensors"
+    <a asp-area="Users" asp-controller="Sensors" asp-action="ListSampleSensors"
        @*asp-route-id=""*@>Register New Sensor</a>
     <br />
     <a asp-action="Index">Back to List</a>

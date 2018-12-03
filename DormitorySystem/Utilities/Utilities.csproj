@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="WebProviders\ProviderModels\" />
+    <Compile Remove="WebProviders\ProviderModels\**" />
+    <EmbeddedResource Remove="WebProviders\ProviderModels\**" />
+    <None Remove="WebProviders\ProviderModels\**" />
   </ItemGroup>
 
 </Project>

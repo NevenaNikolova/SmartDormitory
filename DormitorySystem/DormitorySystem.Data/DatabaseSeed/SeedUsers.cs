@@ -1,9 +1,9 @@
-﻿using DormitorySystem.Data.Abstractions;
+﻿using DormitorySystem.Common;
+using DormitorySystem.Data.Abstractions;
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using Utilities;
 
 namespace DormitorySystem.Data.DatabaseSeed
 {

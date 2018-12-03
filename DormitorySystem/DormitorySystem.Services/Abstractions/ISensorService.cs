@@ -4,14 +4,23 @@ using System.Collections.Generic;
 
 namespace DormitorySystem.Services.Abstractions
 {
-    public interface IUserSensorService
+    public interface ISensorsService
     {
-        UserSensor GetSensor(Guid id);
+        UserSensor GetUserSensor(Guid id);
+
+        UserSensor RegisterSensor(string userId, Guid sampleSensorId, string name,
+            int pollingInterval, string latitude, string longitude,
+            bool sendNotification, bool isPrivate);
+
         UserSensor EditSensor(Guid id, string name, int pollingInterval, 
             string latitude, string longitude, bool sendNotification, bool isPrivate);
+
         IEnumerable<UserSensor> GetPublicSensors();
+
         IEnumerable<SampleSensor> ListSampleSensors();
-        IDictionary<string, IEnumerable<SampleSensor>> GetSensorsByType();
+
+        IEnumerable<UserSensor> ListSensors(string userId = "all");
+
         SampleSensor GetSampleSensor(Guid id);
     }
 }
