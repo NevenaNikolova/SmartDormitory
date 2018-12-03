@@ -63,7 +63,7 @@ namespace DormitorySystem.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "CreatedOn", "DeletedOn", "Email", "EmailConfirmed", "GDPR", "LockoutEnabled", "LockoutEnd", "ModifiedOn", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName", "isDeleted" },
-                values: new object[] { "8da7d484-6177-4deb-93f5-c62e9002de73", 0, "d1e7c714-3bd3-4111-bccd-f2d111909970", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "InitialAdmin@system.com", true, false, false, null, null, "INITIALADMIN@SYSTEM.COM", "INITIALADMIN@SYSTEM.COM", "AQAAAAEAACcQAAAAEMTGdFtWi2MFF7jUagS5PxxVHkcRYiqnoFWh6mWDIPZx4Kjky+Q8xhgP/MG+2BZHZg==", "+00000001", true, "a3dfb9dd-00be-404b-a3b9-ad1399b7e6ea", false, "InitialAdmin", false });
+                values: new object[] { "8da7d484-6177-4deb-93f5-c62e9002de73", 0, "d1e7c714-3bd3-4111-bccd-f2d111909970", DateTime.Now, null, "InitialAdmin@system.com", true, true, false, null, null, "INITIALADMIN@SYSTEM.COM", "INITIALADMIN@SYSTEM.COM", "AQAAAAEAACcQAAAAEMTGdFtWi2MFF7jUagS5PxxVHkcRYiqnoFWh6mWDIPZx4Kjky+Q8xhgP/MG+2BZHZg==", "+00000001", true, "a3dfb9dd-00be-404b-a3b9-ad1399b7e6ea", false, "InitialAdmin", false });
 
             migrationBuilder.UpdateData(
                 table: "SampleSensors",

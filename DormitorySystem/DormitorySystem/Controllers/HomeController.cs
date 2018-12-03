@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using DormitorySystem.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Data.Models;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 using Microsoft.AspNetCore.Identity;
 
 namespace DormitorySystem.Controllers
@@ -48,13 +45,6 @@ namespace DormitorySystem.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        // only for test purpose 
-        public IActionResult Test()
-        {
-
-            return View();
         }
     }
 }

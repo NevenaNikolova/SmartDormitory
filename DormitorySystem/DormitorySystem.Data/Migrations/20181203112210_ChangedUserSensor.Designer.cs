@@ -175,7 +175,7 @@ namespace DormitorySystem.Data.Migrations
                     b.ToTable("AspNetUsers");
 
                     b.HasData(
-                        new { Id = "8da7d484-6177-4deb-93f5-c62e9002de73", AccessFailedCount = 0, ConcurrencyStamp = "d1e7c714-3bd3-4111-bccd-f2d111909970", CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = false, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN@SYSTEM.COM", PasswordHash = "AQAAAAEAACcQAAAAEMTGdFtWi2MFF7jUagS5PxxVHkcRYiqnoFWh6mWDIPZx4Kjky+Q8xhgP/MG+2BZHZg==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "a3dfb9dd-00be-404b-a3b9-ad1399b7e6ea", TwoFactorEnabled = false, UserName = "InitialAdmin", isDeleted = false }
+                        new { Id = "8da7d484-6177-4deb-93f5-c62e9002de73", AccessFailedCount = 0, ConcurrencyStamp = "d1e7c714-3bd3-4111-bccd-f2d111909970", CreatedOn = DateTime.Now, Email = "InitialAdmin@system.com", EmailConfirmed = true, GDPR = true, LockoutEnabled = false, NormalizedEmail = "INITIALADMIN@SYSTEM.COM", NormalizedUserName = "INITIALADMIN@SYSTEM.COM", PasswordHash = "AQAAAAEAACcQAAAAEMTGdFtWi2MFF7jUagS5PxxVHkcRYiqnoFWh6mWDIPZx4Kjky+Q8xhgP/MG+2BZHZg==", PhoneNumber = "+00000001", PhoneNumberConfirmed = true, SecurityStamp = "a3dfb9dd-00be-404b-a3b9-ad1399b7e6ea", TwoFactorEnabled = false, UserName = "InitialAdmin", isDeleted = false }
                     );
                 });
 

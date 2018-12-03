@@ -40,7 +40,9 @@ namespace DormitorySystem.Data.DatabaseSeed
                 EmailConfirmed = true,
                 PhoneNumber = "+00000001",
                 PhoneNumberConfirmed = true,
-                SecurityStamp = Guid.NewGuid().ToString("D")
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                CreatedOn = DateTime.Now,
+                GDPR = true
             };
 
             var hashPass = new PasswordHasher<User>()
