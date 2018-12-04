@@ -50,19 +50,18 @@ namespace DormitorySystem.Services.AppServices
 
         public IEnumerable<UserSensor> ListSensors(string userId = "all")
         {
-            var allSensors = this.context.UserSensors
+            IQueryable<UserSensor> allSensors = this.context.UserSensors
                     .Include(us => us.SampleSensor)
                     .Include(s => s.SampleSensor.SensorType)
                     .Include(s => s.SampleSensor.Measure)
                     .Include(us => us.User);
-                                       
+
             if (userId != "all")
             {
-                allSensors.Where(us => us.UserId == userId);
-                   
+                allSensors = allSensors.Where(id => id.UserId == userId);
             }
 
-            return allSensors.ToList();
+            return allSensors;
         }
 
         public IEnumerable<UserSensor> GetPublicSensors()
@@ -84,7 +83,7 @@ namespace DormitorySystem.Services.AppServices
         public UserSensor GetUserSensor(Guid userSensorId)
         {
             var sensor = this.context.UserSensors
-                .Include(us => us.User)                  
+                .Include(us => us.User)
                 .Include(us => us.SampleSensor)
                  .SingleOrDefault(s => s.Id == userSensorId);
             if (sensor == null)
@@ -105,7 +104,7 @@ namespace DormitorySystem.Services.AppServices
             bool sendNotification,
             bool isPrivate)
         {
-          //  var user = this.context.Users.Find(userId);
+            //  var user = this.context.Users.Find(userId);
 
             var newSensor = new UserSensor()
             {
@@ -125,26 +124,26 @@ namespace DormitorySystem.Services.AppServices
             return newSensor;
         }
         //TO DO
-        public UserSensor EditSensor(Guid id, string name, int pollingInterval, string latitude, 
+        public UserSensor EditSensor(Guid id, string name, int pollingInterval, string latitude,
             string longitude, bool sendNotification, bool isPrivate)
         {
             var sensor = this.context.UserSensors
                 .Include(s => s.SampleSensor)
                 .SingleOrDefault(s => s.Id == id);
-                
+
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
             }
             sensor.Name = name;
             sensor.PollingInterval = pollingInterval;
-            sensor.Latitude= latitude;
+            sensor.Latitude = latitude;
             sensor.Longitude = longitude;
             sensor.SendNotification = sendNotification;
             sensor.IsPrivate = isPrivate;
 
             this.context.SaveChanges();
             return sensor;
-        }      
+        }
     }
 }
