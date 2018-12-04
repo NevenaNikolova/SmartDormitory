@@ -114,7 +114,6 @@ namespace DormitorySystem.Services.AppServices
                 Longitude = longitude,
                 SendNotification = sendNotification,
                 IsPrivate = isPrivate,
-                CreatedOn = DateTime.Now
             };
 
             this.context.UserSensors.Add(newSensor);

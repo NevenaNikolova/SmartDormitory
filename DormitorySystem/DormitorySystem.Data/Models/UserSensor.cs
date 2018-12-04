@@ -13,9 +13,12 @@ namespace DormitorySystem.Data.Models
         public string UserId { get; set; }
         public User User { get; set; }
 
+        //Required min 3 max 60
         public string Name { get; set; }
         public int PollingInterval { get; set; }
+        //Required 
         public string Latitude { get; set; }
+        //Required 
         public string Longitude { get; set; }
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }

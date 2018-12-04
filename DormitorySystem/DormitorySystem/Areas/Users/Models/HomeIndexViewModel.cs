@@ -10,10 +10,14 @@ namespace DormitorySystem.Web.Areas.Users.Models
             this.Id = userSensors.Id;
             this.Name = userSensors.Name;
             this.Description = userSensors.SampleSensor.Description;
+
+            // this.can't work for bool
             this.CurrentValue =
                 userSensors.SampleSensor.ValueCurrent.ToString()
                 + " " + userSensors.SampleSensor.Measure.MeasureType.ToString();
-            this.Accesslevel = userSensors.IsPrivate;
+
+            this.IsPrivate = userSensors.IsPrivate;
+            this.SensorType = userSensors.SampleSensor.SensorType.Name;
         }
 
         public Guid Id { get; set; }
@@ -24,6 +28,8 @@ namespace DormitorySystem.Web.Areas.Users.Models
 
         public string CurrentValue { get; set; }
 
-        public bool Accesslevel { get; set; }
+        public bool IsPrivate { get; set; }
+
+        public string SensorType { get; set; }
     }
 }

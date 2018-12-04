@@ -19,8 +19,14 @@
                     <td> @Html.DisplayFor(model => model.GDPR)</td>
                 </tr>
                 <tr>
-                    <th>Is Not Active</th>
-                    <td>@Html.DisplayFor(model => model.isDeleted)</td>
+                    <th>Status</th>
+                    @if (Model.isDeleted)
+                    {
+                        <td>Deleted</td> }
+                    else
+                    {
+                        <td>Active</td>
+                    }
                 </tr>
                 <tr>
                     <th>Created On</th>

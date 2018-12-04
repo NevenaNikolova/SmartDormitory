@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<HomeIndexViewModel>
 
-<h2>Sensors</h2>
+<h2>My Sensors</h2>
 <table id="user-sensors" class="table table-striped table-bordered">
     <thead>
         <tr>
             <th class="col-md-2 text-center">Sensor name</th>
+            <th class="col-md-2 text-center">Sensor type</th>
             <th class="col-md-4 text-center">Description</th>
             <th class="col-md-1 text-center">Current value</th>
             <th class="col-md-1 text-center">Access level</th>
@@ -16,9 +17,17 @@
         {
         <tr>
             <td>@sensor.Name</td>
+            <td>@sensor.SensorType</td>
             <td>@sensor.Description</td>
             <td>@sensor.CurrentValue</td>
-            <td class="col-lg-offset-12">@sensor.Accesslevel</td>
+           @if (!sensor.IsPrivate)
+           {
+               <td>Public</td>
+           }
+           else
+           {
+               <td>Private</td>
+           }
             <td>
                 <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
                    asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
