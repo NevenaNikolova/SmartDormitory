@@ -4,6 +4,7 @@ using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Web.Areas.Users.Models;
+using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             var user = this.userManager.GetUserId(HttpContext.User);
             var userSensors = this.sensorsService.ListSensors(user);
-            var model = userSensors.Select(us => new HomeIndexViewModel(us)).ToList();
+            var model = userSensors.Select(us => new UserIndexViewModel(us)).ToList();
 
             return View(model);
         }
@@ -53,7 +54,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 throw new SensorNullableException("No sensors at the moment.");
             }
 
-            return View(new ListSampleSensorsViewModel(sampleSensors));
+            return View(sampleSensors);
         }
 
         [HttpGet]

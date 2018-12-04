@@ -3,9 +3,9 @@ using System;
 
 namespace DormitorySystem.Web.Areas.Users.Models
 {
-    public class HomeIndexViewModel
+    public class UserIndexViewModel
     {
-        public HomeIndexViewModel(UserSensor userSensors)
+        public UserIndexViewModel(UserSensor userSensors)
         {
             this.Id = userSensors.Id;
             this.Name = userSensors.Name;
@@ -24,12 +24,12 @@ namespace DormitorySystem.Web.Areas.Users.Models
 
         public string Name { get; set; }
 
+        public string SensorType { get; set; }
+
         public string Description { get; set; }
 
         public string CurrentValue { get; set; }
 
         public bool IsPrivate { get; set; }
-
-        public string SensorType { get; set; }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Web.Areas.Users.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
+using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DormitorySystem.Controllers

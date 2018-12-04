@@ -1,11 +1,8 @@
 ﻿using DormitorySystem.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DormitorySystem.Web.Areas.Users.Models
+namespace DormitorySystem.Web.Models.SensorViewModels
 {
+    // Model for api
     public class SensorInformationViewModel
     {
         public SensorInformationViewModel(SampleSensor sampleSensor)
