@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserSensorViewModel>
+﻿@model ListUserSensorsViewModel
 
 <h2>Registered Sensors</h2>
 <h4>for user .........</h4>
@@ -16,42 +16,42 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sensor in Model)
+        @foreach (var sensor in Model.UserSensors)
         {
-        <tr>
-            <td>@sensor.Name</td>
-            <td>@sensor.SensorType.Name</td>
-            <td>@sensor.CreatedOn</td>
-            <td>@sensor.ModifiedOn</td>
-            <td>@sensor.UserPollingInterval</td>
-            @if (@sensor.IsPrivate)
-            {
-                <td>Public</td>
-            }
-            else
-            {
-                <td>Private</td>
-            }
-            @if (@sensor.SendNotification)
-            {
-                <td>Yes</td>
-            }
-            else
-            {
-                <td>No</td>
-            }
-            <td>
-                <a asp-area="Admin" asp-controller="ManageSensors" asp-action="EditSensor" asp-route-id="@sensor.Id"
-                   class="btn btn-info active" role="button">Edit</a>
-            </td>
-        </tr>
+            <tr>
+                <td>@sensor.Name</td>
+                <td>@sensor.SensorType.Name</td>
+                <td>@sensor.CreatedOn</td>
+                <td>@sensor.ModifiedOn</td>
+                <td>@sensor.UserPollingInterval</td>
+                @if (@sensor.IsPrivate)
+                {
+                    <td>Public</td>
+                }
+                else
+                {
+                    <td>Private</td>
+                }
+                @if (@sensor.SendNotification)
+                {
+                    <td>Yes</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+                <td>
+                    <a asp-area="Admin" asp-controller="ManageSensors" asp-action="EditSensor" asp-route-id="@sensor.Id"
+                       class="btn btn-info active" role="button">Edit</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 <div>
-    <a asp-area="Users" asp-controller="Sensors" asp-action="ListSampleSensors"
-       class="btn btn-info active" role="button"
-       @*asp-route-id="" *@>Register New Sensor</a>
+    <a asp-area="Users" asp-controller="Sensors"
+       asp-action="ListSampleSensors" asp-route-userId="@Model.UserId"
+       class="btn btn-info active" role="button">Register New Sensor</a>
     <br />
     <a asp-controller="Home" asp-action="Index">Back to Admin panel</a>
 </div>

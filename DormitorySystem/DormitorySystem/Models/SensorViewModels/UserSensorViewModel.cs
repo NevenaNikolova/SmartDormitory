@@ -26,6 +26,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.User = model.User;
             this.CreatedOn = model.CreatedOn;
             this.ModifiedOn = model.ModifiedOn;
+            this.UserId = model.UserId;
         }
 
         public Guid Id { get; set; }
@@ -55,6 +56,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
 
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public DateTime CreatedOn { get; }

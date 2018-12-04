@@ -44,24 +44,31 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             return View(model);
         }
 
-        public IActionResult ListSampleSensors()
+        public IActionResult ListSampleSensors(string userId)
         {
             var sampleSensors = this.sensorsService.ListSampleSensors()
                 .Select(s => new SampleSensorViewModel(s));
+
+            var a = userId;
 
             if (sampleSensors == null)
             {
                 throw new SensorNullableException("No sensors at the moment.");
             }
 
-            return View(sampleSensors);
+            var model = new ListSampleSensorViewModel(sampleSensors, userId);
+
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult RegisterNewSensor(string tag, string description)
+        public IActionResult RegisterNewSensor
+            (Guid sampleSensorId, string userId, string tag, string description)
         {
             var model = new UserSensorViewModel()
             {
+                UserId = userId,
+                SampleSensorId = sampleSensorId,
                 SampleSensor = new SampleSensor { Tag = tag, Description = description }
             };
             return View(model);
@@ -71,19 +78,30 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         // TO DO Add min polling interval in model and Sensor Type in View
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterNewSensor(Guid id, UserSensorViewModel model)
+        public IActionResult RegisterNewSensor
+            ([Bind(include: "UserId, SampleSensorId, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]
+                     UserSensorViewModel model)
         {
-            var userId = this.userManager.GetUserId(HttpContext.User);
+            //var userId = this.userManager.GetUserId(HttpContext.User);
 
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            var sensor = this.sensorsService.RegisterSensor(userId, id, model.Name,
-                           model.UserPollingInterval, model.Latitude, model.Longitude,
-                           model.SendNotification, model.IsPrivate);
+            var sensor = this.sensorsService.RegisterSensor(
+                model.UserId,
+                model.SampleSensorId,
+                model.Name,
+                model.UserPollingInterval,
+                model.Latitude,
+                model.Longitude,
+                model.SendNotification,
+                model.IsPrivate
+                );
 
+            // add Sensors message to view
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
+            //check if this user is admin redirect to Admin/ListUserSensors
             return this.RedirectToAction("Index", "Sensors");
         }
         [HttpGet]

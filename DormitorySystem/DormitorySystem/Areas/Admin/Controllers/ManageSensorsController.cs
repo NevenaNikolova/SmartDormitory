@@ -37,12 +37,15 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             var userSensors = this.sensorsService.ListSensors(id)
                 .Select(us => new UserSensorViewModel(us))
                 .ToList();
+
             if (userSensors == null)
             {
                 return NoContent();
             }
 
-            return View(userSensors);
+            var model = new ListUserSensorsViewModel(userSensors, id);
+
+            return View(model);
         }
         [HttpGet]
         public IActionResult EditSensor(Guid id)
