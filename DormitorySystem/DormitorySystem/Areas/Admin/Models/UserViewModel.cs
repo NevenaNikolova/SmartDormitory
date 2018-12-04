@@ -2,41 +2,29 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Admin.Models
 {
     public class UserViewModel
     {
-        public UserViewModel()
+        public UserViewModel() { }
+
+        public UserViewModel(User user)
         {
+            this.Id = user.Id;
+            this.Email = user.Email;
+            this.UserName = user.UserName;
+            this.GDPR = user.GDPR;
+            this.IsDeleted = user.isDeleted;
+            this.DeletedOn = user.DeletedOn;
+            this.CreatedOn = user.CreatedOn;
+            this.ModifiedOn = user.ModifiedOn;
+            this.Sensors = user.Sensors;
         }
 
-        public UserViewModel(Data.Models.User user)
+        public UserViewModel(User user, string roles) : this(user)
         {
-            Id = user.Id;
-            Email = user.Email;
-            UserName = user.UserName;
-            GDPR = user.GDPR;
-            isDeleted = user.isDeleted;
-            DeletedOn = user.DeletedOn;
-            CreatedOn = user.CreatedOn;
-            ModifiedOn = user.ModifiedOn;
-            Sensors = user.Sensors;           
-        }
-        public UserViewModel(Data.Models.User user, string roles)
-        {
-            Id = user.Id;
-            Email = user.Email;
-            UserName = user.UserName;
-            GDPR = user.GDPR;
-            isDeleted = user.isDeleted;
-            DeletedOn = user.DeletedOn;
-            CreatedOn = user.CreatedOn;
-            ModifiedOn = user.ModifiedOn;
-            Sensors = user.Sensors;
-            Roles = roles;
+            this.Roles = roles;
         }
 
         [Required]
@@ -49,18 +37,18 @@ namespace DormitorySystem.Web.Areas.Admin.Models
         [Required]
         public string UserName { get; set; }
 
-        [Display(Name ="Sensors")]
+        [Display(Name = "Sensors")]
         public ICollection<UserSensor> Sensors { get; set; }
 
         [Required]
         public bool GDPR { get; set; }
 
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
         public DateTime? DeletedOn { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
 
-        [Display(Name="Roles")]
+        [Display(Name = "Roles")]
         public string Roles { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model ListUsersViewModel
+﻿@model IEnumerable<UserViewModel>
 
 <h2></h2>
 <div class="text-right">
@@ -19,12 +19,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model.Users)
+        @foreach (var user in Model)
         {
             <tr>
                 <td>@user.UserName</td>
                 <td>@user.CreatedOn</td>
-                @if (user.isDeleted)
+                @if (user.IsDeleted)
                 {
                     <td>Deleted</td> }
                 else

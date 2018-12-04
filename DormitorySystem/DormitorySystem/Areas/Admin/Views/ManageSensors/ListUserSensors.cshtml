@@ -1,4 +1,4 @@
-﻿@model ListUserSensorsViewModel
+﻿@model IEnumerable<UserSensorViewModel>
 
 <h2>Registered Sensors</h2>
 <h4>for user .........</h4>
@@ -16,7 +16,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var sensor in Model.UserSensors)
+        @foreach (var sensor in Model)
         {
         <tr>
             <td>@sensor.Name</td>

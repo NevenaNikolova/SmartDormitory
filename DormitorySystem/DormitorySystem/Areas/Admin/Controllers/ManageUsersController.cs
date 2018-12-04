@@ -51,13 +51,10 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 throw new UserNullableException("There is no such user.");
             }
             var roles = await this.userManager.GetRolesAsync(user);
-            return View(new UserWithRolesViewModel
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Roles = roles
-            });
+
+            var model = new UserWithRolesViewModel(user, roles);
+
+            return View(model);
         }
 
         public IActionResult AddToRole(string id)
@@ -67,9 +64,9 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 .Select(r => new SelectListItem
                 {
                     Text = r.Name,
-                    Value = r.Name
-                })
-                .ToList();
+                    Value = r.Name,
+                });
+               
             return View(rolesSelectListItems);
         }
 

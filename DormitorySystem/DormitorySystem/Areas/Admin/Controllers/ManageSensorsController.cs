@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models;
+using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +41,8 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             {
                 return NoContent();
             }
-            return View(new ListUserSensorsViewModel(userSensors));
+
+            return View(userSensors);
         }
         [HttpGet]
         public IActionResult EditSensor(Guid id)
@@ -85,7 +85,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             {
                 return NoContent();
             }
-            return View(new ListUserSensorsViewModel(userSensors));
+            return View(userSensors);
         }
     }
 }

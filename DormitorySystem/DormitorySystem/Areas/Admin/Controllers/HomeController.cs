@@ -27,10 +27,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(new ListUsersViewModel(users));
+            return View(users);
         }
-
-        
-        
     }
 }
