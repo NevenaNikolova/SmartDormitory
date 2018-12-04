@@ -1,8 +1,5 @@
 ﻿@model ListUsersViewModel
 
-@{
-    ViewData["Title"] = "Index";
-}
 <h2></h2>
 <div class="text-right">
     <a asp-area="Admin" asp-controller="ManageSensors" asp-action="AllUserSensors"
@@ -14,7 +11,8 @@
     <thead>
         <tr>
             <th>Username</th>
-            <th>Email</th>
+            <th>Registered On</th>
+            <th>Active/Deleted</th>
             <th>Details</th>
             <th>Roles</th>
             <th>Sensors</th>
@@ -24,8 +22,15 @@
         @foreach (var user in Model.Users)
         {
             <tr>
-                <td>@(user.UserName)</td>
-                <td>@(user.Email)</td>
+                <td>@user.UserName</td>
+                <td>@user.CreatedOn</td>
+                @if (user.isDeleted)
+                {
+                    <td>Deleted</td> }
+                else
+                {
+                    <td>Active</td>
+                }
                 <td>
                     <a asp-area="Admin" asp-controller="ManageUsers" asp-action="UserDetails" asp-route-id="@user.Id"
                        class="btn-sm btn-info active" role="button">Details</a>

@@ -1,7 +1,4 @@
 ﻿@model UserWithRolesViewModel
-@{
-    ViewData["Title"] = "Roles";
-}
 
 <h2>Roles for user @Model.Email</h2>
 
@@ -22,6 +19,6 @@
     }
 </ul>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Home" asp-action="Index">Back to Admin panel</a>
 </div>
 
