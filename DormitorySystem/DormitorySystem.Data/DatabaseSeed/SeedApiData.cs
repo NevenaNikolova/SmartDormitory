@@ -21,23 +21,9 @@ namespace DormitorySystem.Data.DatabaseSeed
         public SeedApiData(IApiProvider apiProvider)
         {
             this.apiProvider = apiProvider;
-            SetCollections();
         }
 
-        public Measure[] MeasureCollection
-        {
-            get => this.measureCollection; private set => this.measureCollection = value;
-        }
-        public SensorType[] TypesCollection
-        {
-            get => this.typesCollection; private set => this.typesCollection = value;
-        }
-        public SampleSensor[] SensorCollection
-        {
-            get => sensorCollection; private set => sensorCollection = value;
-        }
-
-        private void SetCollections()
+        public void SetCollections()
         {
             this.apiData = LoadApiData();
 
@@ -47,6 +33,21 @@ namespace DormitorySystem.Data.DatabaseSeed
             this.MeasureCollection = measures.Values.ToArray();
             this.TypesCollection = types.Values.ToArray();
             this.SensorCollection = CreateSensorsCollection(measures, types);
+        }
+
+        public Measure[] MeasureCollection
+        {
+            get => this.measureCollection; private set => this.measureCollection = value;
+        }
+
+        public SensorType[] TypesCollection
+        {
+            get => this.typesCollection; private set => this.typesCollection = value;
+        }
+
+        public SampleSensor[] SensorCollection
+        {
+            get => sensorCollection; private set => sensorCollection = value;
         }
 
         private JObject LoadApiData()

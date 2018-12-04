@@ -9,7 +9,8 @@ namespace DormitorySystem.Common.WebProvider
         {
             var client = new WebClient();
             client.Headers.Add(header);
-            return client.DownloadString(url);
+            var response = client.DownloadString(url);
+            return response;
         }
     }
 }
