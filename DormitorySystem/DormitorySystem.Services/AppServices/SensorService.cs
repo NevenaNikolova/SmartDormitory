@@ -104,8 +104,6 @@ namespace DormitorySystem.Services.AppServices
             bool sendNotification,
             bool isPrivate)
         {
-            //  var user = this.context.Users.Find(userId);
-
             var newSensor = new UserSensor()
             {
                 SampleSensorId = sampleSensorId,
@@ -115,7 +113,8 @@ namespace DormitorySystem.Services.AppServices
                 Latitude = latitude,
                 Longitude = longitude,
                 SendNotification = sendNotification,
-                IsPrivate = isPrivate
+                IsPrivate = isPrivate,
+                CreatedOn = DateTime.Now
             };
 
             this.context.UserSensors.Add(newSensor);

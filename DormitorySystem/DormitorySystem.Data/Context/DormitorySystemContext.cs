@@ -71,7 +71,7 @@ namespace DormitorySystem.Data.Context
             {
                 var entity = (IAuditable)entry.Entity;
 
-                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                if (entry.State == EntityState.Added)
                 {
                     entity.CreatedOn = DateTime.Now;
                 }

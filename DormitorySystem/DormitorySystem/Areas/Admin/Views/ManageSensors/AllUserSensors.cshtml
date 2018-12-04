@@ -9,9 +9,9 @@
         <tr>
             <th class="col-md-2 text-center">User</th>
             <th class="col-md-2 text-center">Sensor Name</th>
+            <th class="col-md-2 text-center">Sensor Type</th>
             <th class="col-md-2 text-center">Registered On</th>
             <th class="col-md-2 text-center">Modified On</th>
-            <th class="col-md-2 text-center">Location</th>
             <th class="col-md-2 text-center">Details</th>
         </tr>
     </thead>
@@ -21,9 +21,9 @@
         <tr>
             <td>@sensor.User.Email</td>
             <td>@sensor.Name</td>
-            <td>@DateTime.Now</td>
-            <td>@DateTime.Now</td>
-            <td>@(sensor.Latitude + "/ " + sensor.Longitude)</td>
+            <td>@sensor.SensorType.Name</td>
+            <td>@sensor.CreatedOn</td>
+            <td>@sensor.ModifiedOn</td>
             <td>
                 <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
                    asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
