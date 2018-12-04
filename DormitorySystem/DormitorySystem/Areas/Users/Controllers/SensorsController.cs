@@ -69,25 +69,34 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             {
                 UserId = userId,
                 SampleSensorId = sampleSensorId,
-                SampleSensor = new SampleSensor { Tag = tag, Description = description }
+                SampleSensor = new SampleSensor
+                {
+                    Tag = tag,
+                    Description = description,
+                    // TO DO Add min polling interval in model and Sensor Type in View
+                    MinPollingInterval = 0,
+                    SensorType = null
+                }
             };
             return View(model);
         }
 
-
-        // TO DO Add min polling interval in model and Sensor Type in View
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor
             ([Bind(include: "UserId, SampleSensorId, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]
                      UserSensorViewModel model)
         {
-            //var userId = this.userManager.GetUserId(HttpContext.User);
-
             if (!ModelState.IsValid)
             {
                 return View();
             }
+
+            if (model.UserId == null)
+            {
+                model.UserId = this.userManager.GetUserId(HttpContext.User);
+            }
+
             var sensor = this.sensorsService.RegisterSensor(
                 model.UserId,
                 model.SampleSensorId,
@@ -99,11 +108,11 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 model.IsPrivate
                 );
 
-            // add Sensors message to view
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
-            //check if this user is admin redirect to Admin/ListUserSensors
-            return this.RedirectToAction("Index", "Sensors");
+
+            return this.RedirectToAction("ListSampleSensors", new { userId = model.UserId });
         }
+
         [HttpGet]
         public IActionResult EditSensor(Guid id)
         {
@@ -119,6 +128,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             }
             return View(new UserSensorViewModel(userSensor));
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditSensor([Bind(include: "Id, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]UserSensorViewModel model)
