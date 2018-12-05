@@ -1,4 +1,55 @@
-﻿
-<h1>This is our home page that needs a map with all public sensors</h1>>
-<h2>Info about the system</h2>
-<h2>And Login/Register pages</h2>
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<h2>Map with public sensors</h2>
+<div class="row">
+    <div id="map" style="height:500px; width:700px;"></div>
+
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        var map;
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 42.697708, lng: 23.321867 },
+                zoom: 13
+            });
+              $.get("@Url.Action("GetPublicSensors", "Home")", function(data)
+            {
+                    var marker = [];
+                    var contentStr = [];
+                    var infowindow = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        marker[i] = new google.maps.Marker({
+                            position: { lat: data[i].Latitude, lng: data[i].Longitude},
+                            map: map
+                        });
+                        contentStr[i] = data[i].Name;
+
+                        infowindow[i] = new google.maps.InfoWindow({
+                            content: contentStr[i]
+                        });
+
+                        var mdl = marker[i];
+                        google.maps.event.addListener(marker[i], 'mouseover', function (mdl, i) {
+                            return function () {
+                                infoWindow[i].open(map, marker[i]);
+                            }
+                        });
+
+                        google.maps.event.addListener(marker[i], 'mouseout', function (mdl, i) {
+                            return function () {
+                                infoWindow[i].close();
+                            }
+                        });
+                    }
+                }
+            );
+         }
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSf7uuCGHIfwKEs5FjbBwG7ajA_0NuME4&callback=initMap">
+    </script>
+}

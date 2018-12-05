@@ -1,57 +1,90 @@
 ﻿@model UserSensorViewModel
 
-<h2>Register New @Model.SampleSensor.Tag Sensor</h2>
-<h3>"@Model.SampleSensor.Description"</h3>
-
+<div class="text-center">
+    <h3>Register New @Model.SampleSensor.Tag Sensor</h3>
+    <h4>"@Model.SampleSensor.Description"</h4>
+</div>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="RegisterNewSensor">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>             
-            <div class="form-group">
+<div class="clearfix">
+    <form asp-action="RegisterNewSensor" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group col-md-6">
+            <div class="form-row">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-row">
                 <label asp-for="UserPollingInterval" class="control-label"></label>
                 <input asp-for="UserPollingInterval" class="form-control" />
                 <span asp-validation-for="UserPollingInterval" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Latitude" class="control-label"></label>
-                <input asp-for="Latitude" class="form-control" />
-                <span asp-validation-for="Latitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Longitude" class="control-label"></label>
-                <input asp-for="Longitude" class="form-control" />
-                <span asp-validation-for="Longitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-row">
                 <div class="checkbox">
                     <label>
                         <input asp-for="SendNotification" /> @Html.DisplayNameFor(model => model.SendNotification)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-row">
                 <div class="checkbox">
                     <label>
                         <input asp-for="IsPrivate" /> @Html.DisplayNameFor(model => model.IsPrivate)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
-                <input asp-for="SampleSensorId" class="form-control hidden"/>
-                <input asp-for="UserId" class="form-control hidden"/>
-                <input type="submit" value="Register" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group col-md-6">
+            <div id="map" style="height:400px; width:400px;"></div>
+            <input asp-for="Latitude" class="form-control" type="hidden" id="lat" value="" />
+            <span asp-validation-for="Latitude" class="text-danger"></span>
+            <input asp-for="Longitude" class="form-control" type="hidden" id="lng" value="" />
+            <span asp-validation-for="Longitude" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="SampleSensorId" class="form-control hidden" />
+            <input asp-for="UserId" class="form-control hidden" />
+            <input type="submit" value="Register" class="btn btn-default" />
+        </div>
+    </form>
 </div>
 
 <div>
     <a asp-action="ListSampleSensors">Back to List</a>
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            initMap();
+        });
+        var marker;
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 42.697708, lng: 23.321867 },
+                zoom: 13
+            });
+            map.addListener('click', function (event) {
+                getCoordinates(event.latLng, map);
+            });
+            function getCoordinates(position, map) {
+                if (!marker || !marker.setPosition) {
+                    marker = new google.maps.Marker({
+                        position: position,
+                        map: map
+                    });
+                } else {
+                    marker.setPosition(position);
+                }
+                $('#lat').val(position.lat);
+                $('#lng').val(position.lng);
+            }
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSf7uuCGHIfwKEs5FjbBwG7ajA_0NuME4&callback=initMap">
+    </script>
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
