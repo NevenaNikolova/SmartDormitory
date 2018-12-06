@@ -40,6 +40,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.User = model.User;
             this.CreatedOn = model.CreatedOn;
             this.ModifiedOn = model.ModifiedOn;
+            this.MaxValue = model.SampleSensor.MaxValue;
+            this.MinValue = model.SampleSensor.MinValue;
         }
 
         public Guid Id { get; set; }
@@ -60,8 +62,12 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public int MinPollingInterval { get; set; }
 
+        public double? MinValue { get; set; }
+
         [Display(Name = "Acceptable minimal value")]
         public double UserMinValue { get; set; }
+
+        public double? MaxValue { get; set; }
 
         [Display(Name = "Acceptable maximum value")]
         public double UserMaxValue { get; set; }
