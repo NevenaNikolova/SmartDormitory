@@ -38,6 +38,14 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             return View(model);
         }
 
+        public JsonResult ViewSensorsOnMap()
+        {
+            var user = this.userManager.GetUserId(HttpContext.User);
+            var data = this.sensorsService.ListSensors(user)
+                .Select(s=>new UserSensorsCoordinatesModel(s));         
+            return Json(data);
+        }
+
         public IActionResult SensorDetails(Guid userSensorid)
         {
             var model = new UserSensorViewModel(this.sensorsService.GetUserSensor(userSensorid));
