@@ -55,6 +55,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public string Latitude { get; set; }
 
+        [Required]
         public string Longitude { get; set; }
 
         [Display(Name = "Send Email if Sensor Values are Out of Range")]

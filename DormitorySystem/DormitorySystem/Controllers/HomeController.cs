@@ -27,7 +27,11 @@ namespace DormitorySystem.Controllers
         {
             return View();
         }
-
+        public JsonResult GetPublicSensors()
+        {
+            var data = this.sensorService.GetPublicSensors();
+            return Json(data);
+        }
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
