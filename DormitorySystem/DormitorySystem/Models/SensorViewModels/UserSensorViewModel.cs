@@ -19,6 +19,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.MinPollingInterval = sampleSensor.MinPollingInterval;
             this.UserMinValue = sampleSensor.MinValue ?? 0;
             this.UserMaxValue = sampleSensor.MaxValue ?? 0;
+            this.MinValue = sampleSensor.MinValue;
+            this.MaxValue = sampleSensor.MaxValue;
         }
 
         public UserSensorViewModel(UserSensor model)
@@ -32,6 +34,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.MinPollingInterval = model.SampleSensor.MinPollingInterval;
             this.UserMinValue = model.UserMinValue ?? 0;
             this.UserMaxValue = model.UserMaxValue ?? 0;
+            this.MaxValue = model.SampleSensor.MaxValue;
+            this.MinValue = model.SampleSensor.MinValue;
             this.Latitude = model.Latitude;
             this.Longitude = model.Longitude;
             this.SendNotification = model.SendNotification;
@@ -40,8 +44,6 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.User = model.User;
             this.CreatedOn = model.CreatedOn;
             this.ModifiedOn = model.ModifiedOn;
-            this.MaxValue = model.SampleSensor.MaxValue;
-            this.MinValue = model.SampleSensor.MinValue;
         }
 
         public Guid Id { get; set; }
@@ -56,8 +58,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public SensorType SensorType { get; set; }
 
-        [Required]
-        [Display(Name = "Update Sensor Interval in Seconds")]
+        [Display(Name = "Minimal update Sensor interval in Seconds")]
         public int UserPollingInterval { get; set; }
 
         public int MinPollingInterval { get; set; }
@@ -74,7 +75,6 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public string Latitude { get; set; }
 
-        [Required]
         public string Longitude { get; set; }
 
         [Display(Name = "Send Email if Sensor Values are Out of Range")]
