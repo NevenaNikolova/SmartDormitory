@@ -7,8 +7,8 @@
         <table class="table table-striped">
             <tbody>
                 <tr>
-                    <th >Email</th>
-                    <td >@Model.Email</td>
+                    <th>Email</th>
+                    <td>@Model.Email</td>
                 </tr>
                 <tr>
                     <th>Roles</th>
@@ -16,7 +16,13 @@
                 </tr>
                 <tr>
                     <th>Accepts GDPR Policy</th>
-                    <td> @Html.DisplayFor(model => model.GDPR)</td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                <input asp-for="@Model.GDPR" />
+                            </label>
+                        </div>                   
+                    </td>
                 </tr>
                 <tr>
                     <th>Status</th>
