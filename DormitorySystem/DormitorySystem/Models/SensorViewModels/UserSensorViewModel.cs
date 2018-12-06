@@ -23,16 +23,17 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.Longitude = model.Longitude;
             this.SendNotification = model.SendNotification;
             this.IsPrivate = model.IsPrivate;
+            this.UserId = model.UserId;
             this.User = model.User;
             this.CreatedOn = model.CreatedOn;
             this.ModifiedOn = model.ModifiedOn;
-            this.UserId = model.UserId;
         }
 
         public Guid Id { get; set; }
 
         [Required]
         [Display(Name = "Name")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The {0} must be at list {2} and at max {1} characters long")]
         public string Name { get; set; }
 
         public Guid SampleSensorId { get; set; }
@@ -46,7 +47,12 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public int MinPollingInterval { get; set; }
 
-        [Required]
+        [Display(Name = "Acceptable minimal value")]
+        public double UserMinValue { get;  set; }
+
+        [Display(Name = "Acceptable maximum value")]
+        public double UserMaxValue { get;  set; }
+
         public string Latitude { get; set; }
 
         [Required]

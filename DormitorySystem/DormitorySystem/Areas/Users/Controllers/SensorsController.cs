@@ -84,7 +84,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor
-            ([Bind(include: "UserId, SampleSensorId, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]
+            ([Bind(include: "UserId, SampleSensorId, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate, UserMinValue, UserMaxValue")]
                      UserSensorViewModel model)
         {
             if (!ModelState.IsValid)
