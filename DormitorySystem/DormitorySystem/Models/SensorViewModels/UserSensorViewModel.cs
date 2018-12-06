@@ -43,6 +43,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public string SensorType { get; set; }
 
+        public string MeasureType { get; set; }
+
         public string SempleSensorTag { get; set; }
 
         public string SampleSensorDescription { get; set; }
@@ -80,7 +82,7 @@ namespace DormitorySystem.Web.Models.SensorViewModels
 
         public DateTime? ModifiedOn { get; }
 
-        private string LoadSampleSensorData (SampleSensor sampleSensor)
+        private string LoadSampleSensorData(SampleSensor sampleSensor)
         {
             this.SampleSensorId = sampleSensor.Id;
             this.SensorType = sampleSensor.SensorType.Name;
@@ -91,9 +93,9 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.MaxValue = sampleSensor.MaxValue;
             this.SempleSensorTag = sampleSensor.Tag;
             this.SampleSensorDescription = sampleSensor.Description;
+            this.MeasureType = sampleSensor.Measure.MeasureType;
 
             return "Initialization of internal properties was completed";
         }
     }
 }
-

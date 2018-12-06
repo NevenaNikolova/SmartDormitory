@@ -12,19 +12,24 @@
            data-val-required="This field is required and the minimum value is @Model.MinPollingInterval" />
     <span asp-validation-for="UserPollingInterval" class="text-danger"></span>
 </div>
-<div class="form-group">
-    <label asp-for="UserMinValue" class="control-label"></label>
-    <input asp-for="UserMinValue" class="form-control"
-           type="number" value="@Model.MinValue"
-           required min="@Model.MinValue" max="@Model.MaxValue" />
-    <span asp-validation-for="UserMinValue" class="text-danger"></span>
-</div>
-<div class="form-group">
-    <label asp-for="UserMaxValue" class="control-label"></label>
-    <input asp-for="UserMaxValue" class="form-control"
-           type="number" required min="@Model.MinValue" max="@Model.MaxValue" value="@Model.MaxValue" />
-    <span asp-validation-for="UserMaxValue" class="text-danger"></span>
-</div>
+
+@if (!Model.MeasureType.Contains("true") && !Model.MeasureType.Contains("false"))
+{
+    <div class="form-group">
+        <label asp-for="UserMinValue" class="control-label"></label>
+        <input asp-for="UserMinValue" class="form-control"
+               type="number" value="@Model.MinValue"
+               required min="@Model.MinValue" max="@Model.MaxValue" />
+        <span asp-validation-for="UserMinValue" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="UserMaxValue" class="control-label"></label>
+        <input asp-for="UserMaxValue" class="form-control"
+               type="number" required min="@Model.MinValue" max="@Model.MaxValue" value="@Model.MaxValue" />
+        <span asp-validation-for="UserMaxValue" class="text-danger"></span>
+    </div>
+}
+
 <div class="form-group">
     <label asp-for="Latitude" class="control-label"></label>
     <input asp-for="Latitude" class="form-control" />

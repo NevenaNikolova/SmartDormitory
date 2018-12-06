@@ -20,7 +20,14 @@
                 <td>@sensor.Type.Name</td>
                 <td>@sensor.Tag</td>
                 <td>@sensor.Description</td>
-                <td>@(sensor.MinValue + "/ " + sensor.MaxValue + " " + sensor.Measure.MeasureType)</td>
+                @if (!sensor.Measure.MeasureType.Contains("true") && !sensor.Measure.MeasureType.Contains("false"))
+                {
+                    <td>@(sensor.MinValue + "/ " + sensor.MaxValue + " " + sensor.Measure.MeasureType)</td>
+                }
+                else
+                {
+                    <td>@sensor.Type.Name</td>
+                }
                 <td>@sensor.MinPollingInterval</td>
                 <td>
                     <a asp-area="Users" asp-controller="Sensors" asp-action="RegisterNewSensor"
