@@ -4,6 +4,8 @@ using DormitorySystem.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using DormitorySystem.Web.Models.SensorViewModels;
 
 namespace DormitorySystem.Controllers
 {
@@ -29,7 +31,8 @@ namespace DormitorySystem.Controllers
         }
         public JsonResult GetPublicSensors()
         {
-            var data = this.sensorService.GetPublicSensors();
+            var data = this.sensorService.GetPublicSensors()
+                .Select(s=>new PublicSensorsCoordinates(s));
             return Json(data);
         }
         public IActionResult About()
