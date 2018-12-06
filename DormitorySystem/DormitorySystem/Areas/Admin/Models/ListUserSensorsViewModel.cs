@@ -12,13 +12,17 @@ namespace DormitorySystem.Web.Areas.Admin.Models
         {
         }
 
-        public ListUserSensorsViewModel(IEnumerable<UserSensorViewModel> userSensors, string userId)
+        public ListUserSensorsViewModel
+            (IEnumerable<UserSensorViewModel> userSensors, string userId, string userName)
         {
             this.UserSensors = userSensors;
             this.UserId = userId;
+            UserName = userName;
         }
 
         public string UserId { get; set; }
+
+        public string UserName { get; set; }
 
         public IEnumerable<UserSensorViewModel> UserSensors { get; }
     }

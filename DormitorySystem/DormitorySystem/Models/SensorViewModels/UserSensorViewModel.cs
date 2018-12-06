@@ -17,6 +17,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.SampleSensorId = sampleSensor.Id;
             this.SensorType = sampleSensor.SensorType;
             this.MinPollingInterval = sampleSensor.MinPollingInterval;
+            this.UserMinValue = sampleSensor.MinValue ?? 0;
+            this.UserMaxValue = sampleSensor.MaxValue ?? 0;
         }
 
         public UserSensorViewModel(UserSensor model)

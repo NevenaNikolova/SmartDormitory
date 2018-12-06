@@ -40,7 +40,8 @@
                        class="btn-sm btn-info active" role="button">Roles</a>
                 </td>
                 <td>
-                    <a asp-area="Admin" asp-controller="ManageSensors" asp-action="ListUserSensors" asp-route-id="@user.Id"
+                    <a asp-area="Admin" asp-controller="ManageSensors" asp-action="ListUserSensors"
+                       asp-route-id="@user.Id" asp-route-userName="@user.UserName"
                        class="btn-sm btn-info active" role="button">Sensors</a>
                 </td>
             </tr>

@@ -33,7 +33,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public IActionResult ListUserSensors(string id)
+        public IActionResult ListUserSensors(string id, string userName)
         {
             var userSensors = this.sensorsService.ListSensors(id)
                 .Select(us => new UserSensorViewModel(us))
@@ -44,7 +44,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 return NoContent();
             }
 
-            var model = new ListUserSensorsViewModel(userSensors, id);
+            var model = new ListUserSensorsViewModel(userSensors, id, userName);
 
             return View(model);
         }
