@@ -2,11 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 <h2>Map with public sensors</h2>
-<div class="row">
-    <div id="map" style="height:500px; width:700px;"></div>
 
+<div class="container">
+    <div id="map" style="height:400px; width:100%"></div>
+    <div id="info">    
+        <h2>Company info</h2>
+    </div>
 </div>
 @section Scripts{
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSf7uuCGHIfwKEs5FjbBwG7ajA_0NuME4&callback=initMap">
+    </script>
     <script type="text/javascript">
         var map;
         function initMap() {
@@ -22,34 +28,32 @@
 
                     for (var i = 0; i < data.length; i++) {
                         marker[i] = new google.maps.Marker({
-                            position: { lat: data[i].Latitude, lng: data[i].Longitude},
-                            map: map
+                            position: { lat: parseFloat(data[i].Latitude), lng: parseFloat(data[i].Longitude)},
+                            map: map,
+                            title: data[i].Name
                         });
-                        contentStr[i] = data[i].Name;
+                        //contentStr[i] = data[i].Name;
 
-                        infowindow[i] = new google.maps.InfoWindow({
-                            content: contentStr[i]
-                        });
+                        //infowindow[i] = new google.maps.InfoWindow({
+                        //    content: contentStr[i]
+                        //});
 
-                        var mdl = marker[i];
-                        google.maps.event.addListener(marker[i], 'mouseover', function (mdl, i) {
-                            return function () {
-                                infoWindow[i].open(map, marker[i]);
-                            }
-                        });
+                        //var mdl = marker[i];
+                        //google.maps.event.addListener(marker[i], 'mouseover', function (mdl, i) {
+                        //    return function () {
+                        //        infoWindow[i].open(map, marker[i]);
+                        //    }
+                        //});
 
-                        google.maps.event.addListener(marker[i], 'mouseout', function (mdl, i) {
-                            return function () {
-                                infoWindow[i].close();
-                            }
-                        });
+                        //google.maps.event.addListener(marker[i], 'mouseout', function (mdl, i) {
+                        //    return function () {
+                        //        infoWindow[i].close();
+                        //    }
+                        //});
                     }
                 }
             );
          }
     </script>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSf7uuCGHIfwKEs5FjbBwG7ajA_0NuME4&callback=initMap">
-    </script>
 }
