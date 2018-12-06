@@ -13,35 +13,21 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         public UserSensorViewModel(SampleSensor sampleSensor, string userId)
         {
             this.UserId = userId;
-            this.SampleSensor = sampleSensor;
-            this.SampleSensorId = sampleSensor.Id;
-            this.SensorType = sampleSensor.SensorType;
-            this.MinPollingInterval = sampleSensor.MinPollingInterval;
-            this.UserMinValue = sampleSensor.MinValue ?? 0;
-            this.UserMaxValue = sampleSensor.MaxValue ?? 0;
-            this.MinValue = sampleSensor.MinValue;
-            this.MaxValue = sampleSensor.MaxValue;
+            this.LoadSampleSensorData(sampleSensor);
         }
 
         public UserSensorViewModel(UserSensor model)
         {
             this.Id = model.Id;
             this.Name = model.Name;
-            this.SampleSensor = model.SampleSensor;
-            this.SampleSensorId = model.SampleSensorId;
-            this.SensorType = model.SampleSensor.SensorType;
+            this.LoadSampleSensorData(model.SampleSensor);
             this.UserPollingInterval = model.PollingInterval;
-            this.MinPollingInterval = model.SampleSensor.MinPollingInterval;
-            this.UserMinValue = model.UserMinValue ?? 0;
-            this.UserMaxValue = model.UserMaxValue ?? 0;
-            this.MaxValue = model.SampleSensor.MaxValue;
-            this.MinValue = model.SampleSensor.MinValue;
             this.Latitude = model.Latitude;
             this.Longitude = model.Longitude;
             this.SendNotification = model.SendNotification;
             this.IsPrivate = model.IsPrivate;
             this.UserId = model.UserId;
-            this.User = model.User;
+            this.UserEmail = model.User.Email;
             this.CreatedOn = model.CreatedOn;
             this.ModifiedOn = model.ModifiedOn;
         }
@@ -54,9 +40,12 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         public string Name { get; set; }
 
         public Guid SampleSensorId { get; set; }
-        public SampleSensor SampleSensor { get; set; }
 
-        public SensorType SensorType { get; set; }
+        public string SensorType { get; set; }
+
+        public string SempleSensorTag { get; set; }
+
+        public string SampleSensorDescription { get; set; }
 
         [Display(Name = "Minimal update Sensor interval in Seconds")]
         public int UserPollingInterval { get; set; }
@@ -84,11 +73,27 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         public bool IsPrivate { get; set; }
 
         public string UserId { get; set; }
-        public User User { get; set; }
+
+        public string UserEmail { get; set; }
 
         public DateTime CreatedOn { get; }
 
         public DateTime? ModifiedOn { get; }
+
+        private string LoadSampleSensorData (SampleSensor sampleSensor)
+        {
+            this.SampleSensorId = sampleSensor.Id;
+            this.SensorType = sampleSensor.SensorType.Name;
+            this.MinPollingInterval = sampleSensor.MinPollingInterval;
+            this.UserMinValue = sampleSensor.MinValue ?? 0;
+            this.UserMaxValue = sampleSensor.MaxValue ?? 0;
+            this.MinValue = sampleSensor.MinValue;
+            this.MaxValue = sampleSensor.MaxValue;
+            this.SempleSensorTag = sampleSensor.Tag;
+            this.SampleSensorDescription = sampleSensor.Description;
+
+            return "Initialization of internal properties was completed";
+        }
     }
 }
 

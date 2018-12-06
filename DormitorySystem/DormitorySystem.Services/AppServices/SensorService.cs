@@ -86,6 +86,7 @@ namespace DormitorySystem.Services.AppServices
             var sensor = this.context.UserSensors
                 .Include(us => us.User)
                 .Include(us => us.SampleSensor)
+                .Include(us => us.SampleSensor.SensorType)
                  .SingleOrDefault(s => s.Id == userSensorId);
             if (sensor == null)
             {
