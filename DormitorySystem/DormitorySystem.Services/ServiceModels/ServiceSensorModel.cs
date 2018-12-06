@@ -6,6 +6,7 @@ namespace DormitorySystem.Services.ServiceModels
     {
         public string Name { get; set; }
         public string UserId { get; set; }
+        public Guid UserSensorId { get; set; }
         public Guid SampleSensorId { get; set; }
         public int UserPollingInterval { get; set; }
         public double UserMinValue { get; set; }

@@ -28,6 +28,8 @@ namespace DormitorySystem.Web.Models.SensorViewModels
             this.SensorType = model.SampleSensor.SensorType;
             this.UserPollingInterval = model.PollingInterval;
             this.MinPollingInterval = model.SampleSensor.MinPollingInterval;
+            this.UserMinValue = model.UserMinValue ?? 0;
+            this.UserMaxValue = model.UserMaxValue ?? 0;
             this.Latitude = model.Latitude;
             this.Longitude = model.Longitude;
             this.SendNotification = model.SendNotification;

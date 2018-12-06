@@ -48,36 +48,6 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             return View(model);
         }
-        [HttpGet]
-        public IActionResult EditSensor(Guid id)
-        {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-            var userSensor = this.sensorsService.GetUserSensor(id);
-
-            if (userSensor == null)
-            {
-                return NotFound();
-            }
-            return View(new UserSensorViewModel(userSensor));
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditSensor
-            ([Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return View();
-            }
-
-           // var sensor = this.sensorsService.EditSensor();
-
-            return this.RedirectToAction("ListUserSensors", "ManageSensors", new { id = model.UserId });
-        }
-
         public IActionResult AllUserSensors()
         {
             var userSensors = this.sensorsService.ListSensors()

@@ -117,7 +117,10 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             {
                 return NotFound();
             }
-            return View(new UserSensorViewModel(userSensor));
+
+            var model = new UserSensorViewModel(userSensor);
+
+            return View(model);
         }
 
         [HttpPost]
@@ -134,7 +137,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var sensor = this.sensorsService.EditSensor(editedSensor);
 
-            return this.RedirectToAction("Index", "Sensors");
+            return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id});
         }
 
         private ServiceSensorModel ConvertUserSensorViewModelToServiceSensorModel
@@ -143,6 +146,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             var serviceSensorModel = new ServiceSensorModel()
             {
                 Name = userSensor.Name,
+                UserSensorId = userSensor.Id,
                 UserId = userSensor.UserId,
                 SampleSensorId = userSensor.SampleSensorId,
                 UserPollingInterval = userSensor.UserPollingInterval,

@@ -109,7 +109,7 @@ namespace DormitorySystem.Services.AppServices
         {
             var sensor = this.context.UserSensors
                 .Include(s => s.SampleSensor)
-                .SingleOrDefault(s => s.Id == editData.SampleSensorId);
+                .SingleOrDefault(s => s.Id == editData.UserSensorId);
 
             if (sensor == null)
             {
@@ -125,6 +125,7 @@ namespace DormitorySystem.Services.AppServices
         private UserSensor ConvertServiceSensorModelToUserSensor
             (ServiceSensorModel serviceSensorModel, UserSensor userSensor)
         {
+            userSensor.Id = serviceSensorModel.UserSensorId;
             userSensor.Name = serviceSensorModel.Name;
             userSensor.UserId = serviceSensorModel.UserId;
             userSensor.SampleSensorId = serviceSensorModel.SampleSensorId;
