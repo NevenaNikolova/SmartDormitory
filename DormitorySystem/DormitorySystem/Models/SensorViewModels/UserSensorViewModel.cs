@@ -10,6 +10,15 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         {
         }
 
+        public UserSensorViewModel(SampleSensor sampleSensor, string userId)
+        {
+            this.UserId = userId;
+            this.SampleSensor = sampleSensor;
+            this.SampleSensorId = sampleSensor.Id;
+            this.SensorType = sampleSensor.SensorType;
+            this.MinPollingInterval = sampleSensor.MinPollingInterval;
+        }
+
         public UserSensorViewModel(UserSensor model)
         {
             this.Id = model.Id;
@@ -48,10 +57,10 @@ namespace DormitorySystem.Web.Models.SensorViewModels
         public int MinPollingInterval { get; set; }
 
         [Display(Name = "Acceptable minimal value")]
-        public double UserMinValue { get;  set; }
+        public double UserMinValue { get; set; }
 
         [Display(Name = "Acceptable maximum value")]
-        public double UserMaxValue { get;  set; }
+        public double UserMaxValue { get; set; }
 
         public string Latitude { get; set; }
 

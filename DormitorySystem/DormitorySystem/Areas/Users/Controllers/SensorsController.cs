@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using DormitorySystem.Common.Constants;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
+using DormitorySystem.Services.ServiceModels;
 using DormitorySystem.Web.Areas.Users.Models;
 using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -62,34 +64,22 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterNewSensor
-            (Guid sampleSensorId, string userId, string tag, string description)
+        public IActionResult RegisterNewSensor(Guid sampleSensorId, string userId)
         {
-            var model = new UserSensorViewModel()
-            {
-                UserId = userId,
-                SampleSensorId = sampleSensorId,
-                SampleSensor = new SampleSensor
-                {
-                    Tag = tag,
-                    Description = description,
-                },
-                // TO DO Add min polling interval in model and Sensor Type in View
-                SensorType = new SensorType() { Name = "Test" },
-                MinPollingInterval = 10,
-            };
+            var sensor = this.sensorsService.GetSampleSensor(sampleSensorId);
+            var model = new UserSensorViewModel(sensor, userId);
+
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor
-            ([Bind(include: "UserId, SampleSensorId, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate, UserMinValue, UserMaxValue")]
-                     UserSensorViewModel model)
+            ([Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             if (model.UserId == null)
@@ -97,16 +87,9 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 model.UserId = this.userManager.GetUserId(HttpContext.User);
             }
 
-            var sensor = this.sensorsService.RegisterSensor(
-                model.UserId,
-                model.SampleSensorId,
-                model.Name,
-                model.UserPollingInterval,
-                model.Latitude,
-                model.Longitude,
-                model.SendNotification,
-                model.IsPrivate
-                );
+            var registrationData = ConvertUserSensorViewModelToServiceSensorModel(model);
+
+            var sensor = this.sensorsService.RegisterSensor(registrationData);
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
@@ -131,17 +114,39 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditSensor([Bind(include: "Id, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]UserSensorViewModel model)
+        public IActionResult EditSensor(
+            [Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return View();
             }
 
-            var sensor = this.sensorsService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
-                model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
+            var editedSensor = ConvertUserSensorViewModelToServiceSensorModel(model);
+
+            var sensor = this.sensorsService.EditSensor(editedSensor);
 
             return this.RedirectToAction("Index", "Sensors");
+        }
+
+        private ServiceSensorModel ConvertUserSensorViewModelToServiceSensorModel
+            (UserSensorViewModel userSensor)
+        {
+            var serviceSensorModel = new ServiceSensorModel()
+            {
+                Name = userSensor.Name,
+                UserId = userSensor.UserId,
+                SampleSensorId = userSensor.SampleSensorId,
+                UserPollingInterval = userSensor.UserPollingInterval,
+                UserMinValue = userSensor.UserMinValue,
+                UserMaxValue = userSensor.UserMaxValue,
+                Latitude = userSensor.Latitude,
+                Longitude = userSensor.Longitude,
+                SendNotification = userSensor.SendNotification,
+                IsPrivate = userSensor.IsPrivate
+            };
+
+            return serviceSensorModel;
         }
     }
 }

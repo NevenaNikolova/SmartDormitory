@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DormitorySystem.Common.Constants;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models;
@@ -65,18 +66,16 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditSensor
-            ([Bind(include: "Id, Name, UserPollingInterval, Latitude, Longitude, SendNotification, IsPrivate")]
-        UserSensorViewModel model)
+            ([Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return View();
             }
 
-            var sensor = this.sensorsService.EditSensor(model.Id, model.Name, model.UserPollingInterval,
-                model.Latitude, model.Longitude, model.SendNotification, model.IsPrivate);
+           // var sensor = this.sensorsService.EditSensor();
 
-            return this.RedirectToAction("ListUserSensors", "ManageSensors", new { id = sensor.UserId });
+            return this.RedirectToAction("ListUserSensors", "ManageSensors", new { id = model.UserId });
         }
 
         public IActionResult AllUserSensors()

@@ -1,4 +1,5 @@
 ﻿using DormitorySystem.Data.Models;
+using DormitorySystem.Services.ServiceModels;
 using System;
 using System.Collections.Generic;
 
@@ -8,12 +9,9 @@ namespace DormitorySystem.Services.Abstractions
     {
         UserSensor GetUserSensor(Guid id);
 
-        UserSensor RegisterSensor(string userId, Guid sampleSensorId, string name,
-            int pollingInterval, string latitude, string longitude,
-            bool sendNotification, bool isPrivate);
+        UserSensor RegisterSensor(ServiceSensorModel registrationData);
 
-        UserSensor EditSensor(Guid id, string name, int pollingInterval, 
-            string latitude, string longitude, bool sendNotification, bool isPrivate);
+        UserSensor EditSensor(ServiceSensorModel editData);
 
         IEnumerable<UserSensor> GetPublicSensors();
 

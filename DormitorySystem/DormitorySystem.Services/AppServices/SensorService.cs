@@ -2,6 +2,7 @@
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
+using DormitorySystem.Services.ServiceModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -94,54 +95,48 @@ namespace DormitorySystem.Services.AppServices
             return sensor;
         }
 
-        public UserSensor RegisterSensor
-            (string userId,
-            Guid sampleSensorId,
-            string name,
-            int pollingInterval,
-            string latitude,
-            string longitude,
-            bool sendNotification,
-            bool isPrivate)
+        public UserSensor RegisterSensor(ServiceSensorModel registrationData)
         {
-            var newSensor = new UserSensor()
-            {
-                SampleSensorId = sampleSensorId,
-                UserId = userId,
-                Name = name,
-                PollingInterval = pollingInterval,
-                Latitude = latitude,
-                Longitude = longitude,
-                SendNotification = sendNotification,
-                IsPrivate = isPrivate,
-            };
+            var newSensor = ConvertServiceSensorModelToUserSensor(registrationData, new UserSensor());
 
             this.context.UserSensors.Add(newSensor);
             this.context.SaveChanges();
 
             return newSensor;
         }
-        //TO DO
-        public UserSensor EditSensor(Guid id, string name, int pollingInterval, string latitude,
-            string longitude, bool sendNotification, bool isPrivate)
+
+        public UserSensor EditSensor(ServiceSensorModel editData)
         {
             var sensor = this.context.UserSensors
                 .Include(s => s.SampleSensor)
-                .SingleOrDefault(s => s.Id == id);
+                .SingleOrDefault(s => s.Id == editData.SampleSensorId);
 
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
             }
-            sensor.Name = name;
-            sensor.PollingInterval = pollingInterval;
-            sensor.Latitude = latitude;
-            sensor.Longitude = longitude;
-            sensor.SendNotification = sendNotification;
-            sensor.IsPrivate = isPrivate;
+
+            sensor = ConvertServiceSensorModelToUserSensor(editData, sensor);
 
             this.context.SaveChanges();
             return sensor;
+        }
+
+        private UserSensor ConvertServiceSensorModelToUserSensor
+            (ServiceSensorModel serviceSensorModel, UserSensor userSensor)
+        {
+            userSensor.Name = serviceSensorModel.Name;
+            userSensor.UserId = serviceSensorModel.UserId;
+            userSensor.SampleSensorId = serviceSensorModel.SampleSensorId;
+            userSensor.PollingInterval = serviceSensorModel.UserPollingInterval;
+            userSensor.UserMinValue = serviceSensorModel.UserMinValue;
+            userSensor.UserMaxValue = serviceSensorModel.UserMaxValue;
+            userSensor.Latitude = serviceSensorModel.Latitude;
+            userSensor.Longitude = serviceSensorModel.Longitude;
+            userSensor.SendNotification = serviceSensorModel.SendNotification;
+            userSensor.IsPrivate = serviceSensorModel.IsPrivate;
+
+            return userSensor;
         }
     }
 }
