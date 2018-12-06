@@ -73,10 +73,10 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 {
                     Tag = tag,
                     Description = description,
-                    // TO DO Add min polling interval in model and Sensor Type in View
-                    MinPollingInterval = 0,
-                    SensorType = null
-                }
+                },
+                // TO DO Add min polling interval in model and Sensor Type in View
+                SensorType = new SensorType() { Name = "Test" },
+                MinPollingInterval = 10,
             };
             return View(model);
         }
