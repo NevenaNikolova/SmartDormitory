@@ -119,7 +119,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 return NotFound();
             }
 
-            var model = new RegisterSensorModel(userSensor);
+            var model = new EditSensorModel(userSensor);
 
             return View(model);
         }
@@ -127,7 +127,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditSensor(
-            [Bind(include: WebConstants.UserSensorViewModelBindingString)] RegisterSensorModel model)
+            [Bind(include: WebConstants.UserSensorViewModelBindingString)] EditSensorModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -142,7 +142,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         }
 
         private ServiceSensorModel ConvertUserSensorViewModelToServiceSensorModel
-            (RegisterSensorModel userSensor)
+            (EditSensorModel userSensor)
         {
             var serviceSensorModel = new ServiceSensorModel()
             {
