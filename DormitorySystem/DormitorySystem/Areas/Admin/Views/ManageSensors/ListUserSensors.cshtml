@@ -1,4 +1,4 @@
-﻿@model SensorsPerUserModel
+﻿@model ListSensorSViewModel
 
 <h2>Registered Sensors</h2>
 <h4>for user @Model.UserName</h4>
@@ -21,7 +21,7 @@
             <tr>
                 <td>@sensor.Name</td>
                 <td>@sensor.Type</td>
-                <td>@sensor.RegisteredOn</td>
+                <td>@sensor.CreatedOn</td>
                 <td>@sensor.ModifiedOn</td>
                 <td>@sensor.UserPollingInterval</td>
                 @if (@sensor.IsPrivate)

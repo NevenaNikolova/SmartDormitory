@@ -4,18 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DormitorySystem.Web.Areas.Admin.Models.AllUserSensorsModels
+namespace DormitorySystem.Web.Areas.Admin.Models.AbstractModels
 {
-    public class SingleAllSensorsModel
+    public class BaseUserSensorViewModel
     {
-        public SingleAllSensorsModel()
-        {
-        }
-
-        public SingleAllSensorsModel(UserSensor model)
+        public BaseUserSensorViewModel(UserSensor model)
         {
             Id = model.Id;
-            UserEmail = model.User.Email;
             Name = model.Name;
             Type = model.SampleSensor.SensorType.Name;
             CreatedOn = model.CreatedOn;
@@ -23,7 +18,6 @@ namespace DormitorySystem.Web.Areas.Admin.Models.AllUserSensorsModels
         }
 
         public Guid Id { get; set; }
-        public string UserEmail { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public DateTime CreatedOn { get; set; }

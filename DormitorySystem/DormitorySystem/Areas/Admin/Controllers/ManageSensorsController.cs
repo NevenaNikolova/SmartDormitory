@@ -33,7 +33,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         public IActionResult ListUserSensors(string id, string userName)
         {
             var userSensors = this.sensorsService.ListSensors(id)
-                .Select(us => new SingleSensorPerUserModel(us))
+                .Select(us => new ListSensorViewModel(us))
                 .ToList();
 
             if (userSensors == null)
@@ -41,14 +41,14 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 return NoContent();
             }
 
-            var model = new SensorsPerUserModel(userSensors, id, userName);
+            var model = new ListSensorSViewModel(userSensors, id, userName);
 
             return View(model);
         }
         public IActionResult AllUserSensors()
         {
             var userSensors = this.sensorsService.ListSensors()
-                .Select(us => new SingleSensorPerUserModel(us))
+                .Select(us => new ListSensorViewModel(us))
                 .ToList();
             if (userSensors == null)
             {
