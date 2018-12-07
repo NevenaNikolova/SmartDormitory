@@ -7,6 +7,7 @@ using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Web.Areas.Users.Models;
 using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
 using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
+using DormitorySystem.Web.Models.SensorsViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +45,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             var user = this.userManager.GetUserId(HttpContext.User);
             var data = this.sensorsService.ListSensors(user)
-                .Select(s => new UserSensorsCoordinatesModel(s));
+                .Select(s => new SensorsCoordinatesModel(s));
             return Json(data);
         }
 
@@ -149,6 +150,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var editedSensor = new UserSensor()
             {
+                Id = model.Id,
                 Name = model.Name,
                 PollingInterval = model.UserPollingInterval,
                 SampleSensorId = model.SampleSensorId,

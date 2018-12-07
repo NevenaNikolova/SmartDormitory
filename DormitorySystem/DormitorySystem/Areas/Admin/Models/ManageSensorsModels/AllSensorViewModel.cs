@@ -1,9 +1,5 @@
 ﻿using DormitorySystem.Data.Models;
-using DormitorySystem.Web.Areas.Admin.Models.AbstractViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DormitorySystem.Web.Areas.Admin.Models.AbstractModels;
 
 namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
 {

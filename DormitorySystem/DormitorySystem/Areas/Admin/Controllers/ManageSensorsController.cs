@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Web.Areas.Admin.Models.SensorsPerUserViewModels;
+using DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -48,13 +48,16 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         public IActionResult AllUserSensors()
         {
             var userSensors = this.sensorsService.ListSensors()
-                .Select(us => new ListSensorViewModel(us))
+                .Select(us => new AllSensorViewModel(us))
                 .ToList();
             if (userSensors == null)
             {
                 return NoContent();
             }
-            return View(userSensors);
+
+            var model = new AllSensorSViewModel(userSensors);
+
+            return View(model);
         }
     }
 }

@@ -105,19 +105,9 @@ namespace DormitorySystem.Services.AppServices
 
         public UserSensor EditSensor(UserSensor editedSensor)
         {
-            var sensor = this.context.UserSensors
-                .Include(s => s.SampleSensor)
-                .SingleOrDefault(s => s.Id == editedSensor.Id);
-
-            if (sensor == null)
-            {
-                throw new SensorNullableException("There is no such sensor.");
-            }
-
-            sensor = editedSensor;
-
+            this.context.Update(editedSensor);
             this.context.SaveChanges();
-            return sensor;
+            return editedSensor;
         }
     }
 }

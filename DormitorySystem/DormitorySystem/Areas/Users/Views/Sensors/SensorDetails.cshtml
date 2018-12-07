@@ -26,11 +26,19 @@
                 </tr>
                 <tr>
                     <th>Notify me if Sensor Values are Out Of Range</th>
-                    <td>@Html.DisplayFor(model => model.SendNotification)</td>
+                    <td>
+                        <div class="checkbox">
+                            <input class="col-md-6" asp-for="@Model.SendNotification" disabled>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <th>This Sensor is Visible only for Me</th>
-                    <td>@Html.DisplayFor(model => model.IsPrivate)</td>
+                    <td>
+                        <div class="checkbox">
+                            <input class="col-md-6" asp-for="@Model.IsPrivate" disabled>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
