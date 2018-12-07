@@ -6,7 +6,8 @@ using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Services.ServiceModels;
 using DormitorySystem.Web.Areas.Users.Models;
-using DormitorySystem.Web.Models.SensorViewModels;
+using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
+using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public IActionResult SensorDetails(Guid userSensorid)
         {
-            var model = new UserSensorViewModel(this.sensorsService.GetUserSensor(userSensorid));
+            var model = new UserSensorDetailsModel(this.sensorsService.GetUserSensor(userSensorid));
             return View(model);
         }
 
@@ -75,7 +76,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         public IActionResult RegisterNewSensor(Guid sampleSensorId, string userId)
         {
             var sensor = this.sensorsService.GetSampleSensor(sampleSensorId);
-            var model = new UserSensorViewModel(sensor, userId);
+            var model = new RegisterSensorModel(sensor, userId);
 
             return View(model);
         }
@@ -83,7 +84,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RegisterNewSensor
-            ([Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
+            ([Bind(include: WebConstants.UserSensorViewModelBindingString)] RegisterSensorModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -118,7 +119,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 return NotFound();
             }
 
-            var model = new UserSensorViewModel(userSensor);
+            var model = new RegisterSensorModel(userSensor);
 
             return View(model);
         }
@@ -126,7 +127,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditSensor(
-            [Bind(include: WebConstants.UserSensorViewModelBindingString)] UserSensorViewModel model)
+            [Bind(include: WebConstants.UserSensorViewModelBindingString)] RegisterSensorModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -141,7 +142,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         }
 
         private ServiceSensorModel ConvertUserSensorViewModelToServiceSensorModel
-            (UserSensorViewModel userSensor)
+            (RegisterSensorModel userSensor)
         {
             var serviceSensorModel = new ServiceSensorModel()
             {

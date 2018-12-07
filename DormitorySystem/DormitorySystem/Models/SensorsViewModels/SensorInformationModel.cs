@@ -3,9 +3,9 @@
 namespace DormitorySystem.Web.Models.SensorsViewModels
 {
     // Model for api
-    public class SensorInformationViewModel
+    public class SensorInformationModel
     {
-        public SensorInformationViewModel(SampleSensor sampleSensor)
+        public SensorInformationModel(SampleSensor sampleSensor)
         {
             this.Value = sampleSensor.ValueCurrent;
             this.PollingInterval = sampleSensor.MinPollingInterval;

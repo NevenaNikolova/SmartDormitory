@@ -6,6 +6,7 @@ using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
 using DormitorySystem.Web.Areas.Admin.Models;
+using DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         {
             var user = this.usersService.GetUser(id);
             var roles = await this.userManager.GetRolesAsync(user);
-            return View(new UserViewModel(user, string.Join(", ", roles)));
+            return View(new UserModel(user, string.Join(", ", roles)));
         }
 
         public async Task<IActionResult> Roles(string id)
@@ -52,7 +53,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             }
             var roles = await this.userManager.GetRolesAsync(user);
 
-            var model = new UserWithRolesViewModel(user, roles);
+            var model = new UserWithRolesModel(user, roles);
 
             return View(model);
         }

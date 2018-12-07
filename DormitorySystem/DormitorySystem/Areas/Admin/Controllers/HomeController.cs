@@ -1,5 +1,6 @@
 ﻿using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models;
+using DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var users = this.usersService.ListUsers()
-                .Select(u => new UserViewModel(u));
+                .Select(u => new UserModel(u));
 
             if (users.Count() == 0)
             {

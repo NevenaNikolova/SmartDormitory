@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 {
-    public class RegisterEditSensorModel
+    public class EditSensorModel
     {
-        public RegisterEditSensorModel()
+        public EditSensorModel()
         {
         }
 
-        public RegisterEditSensorModel(UserSensor model)
+        public EditSensorModel(UserSensor model)
         {
-            Id =model.Id;
+            Id = model.Id;
             Name = model.Name;
             UserPollingInterval = model.PollingInterval;
             MinPollingInterval = model.SampleSensor.MinPollingInterval;
-            UserMinValue =  model.UserMinValue ?? 0;
+            UserMinValue = model.UserMinValue ?? 0;
             MinValue = model.SampleSensor.MinValue;
-            UserMaxValue =model.UserMaxValue??0;
+            UserMaxValue = model.UserMaxValue ?? 0;
             MaxValue = model.SampleSensor.MaxValue;
             Latitude = model.Latitude;
             Longitude = model.Longitude;

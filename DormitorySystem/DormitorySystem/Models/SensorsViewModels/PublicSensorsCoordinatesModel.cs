@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Models.SensorsViewModels
 {
-    public class PublicSensorsCoordinates
+    public class PublicSensorsCoordinatesModel
     {
-        public PublicSensorsCoordinates(UserSensor model)
+        public PublicSensorsCoordinatesModel(UserSensor model)
         {
             Name = model.Name;
             Latitude = model.Latitude;

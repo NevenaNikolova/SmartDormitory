@@ -32,7 +32,7 @@ namespace DormitorySystem.Controllers
         public JsonResult GetPublicSensors()
         {
             var data = this.sensorService.GetPublicSensors()
-                .Select(s=>new PublicSensorsCoordinates(s));
+                .Select(s=>new PublicSensorsCoordinatesModel(s));
             return Json(data);
         }
         public IActionResult About()
