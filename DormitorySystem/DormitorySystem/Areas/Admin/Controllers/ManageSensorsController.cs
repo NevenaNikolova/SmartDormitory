@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
-using DormitorySystem.Common.Constants;
+﻿using System.Linq;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Web.Areas.Admin.Models;
-using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +40,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                 return NoContent();
             }
 
-            var model = new ListUserSensorsViewModel(userSensors, id, userName);
+            var model = new SensorsPerUserViewModel(userSensors, id, userName);
 
             return View(model);
         }

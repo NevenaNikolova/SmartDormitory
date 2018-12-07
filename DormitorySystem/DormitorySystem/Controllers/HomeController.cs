@@ -5,7 +5,7 @@ using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
-using DormitorySystem.Web.Models.SensorViewModels;
+using DormitorySystem.Web.Models.SensorsViewModels;
 
 namespace DormitorySystem.Controllers
 {

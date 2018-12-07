@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DormitorySystem.Web.Areas.Admin.Models
+namespace DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels
 {
-    public class UserViewModel
+    public class UserModel
     {
-        public UserViewModel() { }
+        public UserModel() { }
 
-        public UserViewModel(User user)
+        public UserModel(User user)
         {
             this.Id = user.Id;
             this.Email = user.Email;
@@ -22,7 +22,7 @@ namespace DormitorySystem.Web.Areas.Admin.Models
             this.Sensors = user.Sensors;
         }
 
-        public UserViewModel(User user, string roles) : this(user)
+        public UserModel(User user, string roles) : this(user)
         {
             this.Roles = roles;
         }

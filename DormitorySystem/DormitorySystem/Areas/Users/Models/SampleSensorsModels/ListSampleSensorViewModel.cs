@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DormitorySystem.Web.Areas.Users.Models
+namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 {
     public class ListSampleSensorViewModel
     {

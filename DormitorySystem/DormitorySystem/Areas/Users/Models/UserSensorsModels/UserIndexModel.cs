@@ -3,9 +3,9 @@ using System;
 
 namespace DormitorySystem.Web.Areas.Users.Models
 {
-    public class UserIndexViewModel
+    public class UserIndexModel
     {
-        public UserIndexViewModel(UserSensor userSensors)
+        public UserIndexModel(UserSensor userSensors)
         {
             this.Id = userSensors.Id;
             this.Name = userSensors.Name;

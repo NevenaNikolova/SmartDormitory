@@ -1,7 +1,7 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
 
-namespace DormitorySystem.Web.Areas.Users.Models
+namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 {
     public class SampleSensorViewModel
     {

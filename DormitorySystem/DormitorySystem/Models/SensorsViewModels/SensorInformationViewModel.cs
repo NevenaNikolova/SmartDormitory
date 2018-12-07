@@ -1,6 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 
-namespace DormitorySystem.Web.Models.SensorViewModels
+namespace DormitorySystem.Web.Models.SensorsViewModels
 {
     // Model for api
     public class SensorInformationViewModel

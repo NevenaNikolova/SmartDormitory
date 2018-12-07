@@ -1,16 +1,16 @@
 ﻿using DormitorySystem.Data.Models;
 using System.Collections.Generic;
 
-namespace DormitorySystem.Web.Areas.Admin.Models
+namespace DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels
 {
-    public class UserWithRolesViewModel
+    public class UserWithRolesModel
     {
-        public UserWithRolesViewModel()
+        public UserWithRolesModel()
         {
 
         }
 
-        public UserWithRolesViewModel(User user, IEnumerable<string> roles)
+        public UserWithRolesModel(User user, IEnumerable<string> roles)
         {
             Id = user.Id;
             UserName = user.UserName;

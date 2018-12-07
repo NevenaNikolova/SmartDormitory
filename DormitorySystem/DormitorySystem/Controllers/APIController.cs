@@ -1,6 +1,5 @@
 ﻿using System;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Web.Models.SensorViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DormitorySystem.Controllers

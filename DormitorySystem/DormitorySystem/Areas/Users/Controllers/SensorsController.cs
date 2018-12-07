@@ -35,7 +35,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             var user = this.userManager.GetUserId(HttpContext.User);
             var userSensors = this.sensorsService.ListSensors(user);
-            var model = userSensors.Select(us => new UserIndexViewModel(us)).ToList();
+            var model = userSensors.Select(us => new UserIndexModel(us)).ToList();
 
             return View(model);
         }
