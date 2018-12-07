@@ -1,8 +1,5 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 {
@@ -12,10 +9,17 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
         {
         }
 
-        public RegisterSensorModel(SampleSensor sampleSensor, string userId)
+        public RegisterSensorModel(SampleSensor model, string userId)
         {
-            SampleSensor = sampleSensor;
-            UserId = userId;           
+            UserId = userId;
+
+            SampleSensorId = model.Id;
+            MinPollingInterval = model.MinPollingInterval;
+            MinValue = model.MinValue;
+            MaxValue = model.MaxValue;
+            MeasureType = model.Measure.MeasureType;
+            Tag = model.Tag;
+            Description = model.Description;
         }
 
         public RegisterSensorModel(UserSensor model)
@@ -57,7 +61,6 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 
         public string MeasureType { get; set; }
         public SampleSensor SampleSensor { get; set; }
-        public int MyProperty { get; set; }
         public string Tag { get; set; }
         public string Description { get; set; }
     }

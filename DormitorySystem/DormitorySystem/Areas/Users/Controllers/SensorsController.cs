@@ -4,7 +4,6 @@ using DormitorySystem.Common.Constants;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
-using DormitorySystem.Services.ServiceModels;
 using DormitorySystem.Web.Areas.Users.Models;
 using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
 using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
@@ -45,7 +44,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             var user = this.userManager.GetUserId(HttpContext.User);
             var data = this.sensorsService.ListSensors(user)
-                .Select(s=>new UserSensorsCoordinatesModel(s));         
+                .Select(s => new UserSensorsCoordinatesModel(s));
             return Json(data);
         }
 
@@ -91,12 +90,26 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 return View(model);
             }
 
+            //TODO min>=max
+
             if (model.UserId == null)
             {
                 model.UserId = this.userManager.GetUserId(HttpContext.User);
             }
 
-            var registrationData = ConvertUserSensorViewModelToServiceSensorModel(model);
+            var registrationData = new UserSensor()
+            {
+                Name = model.Name,
+                PollingInterval = model.UserPollingInterval,
+                SampleSensorId = model.SampleSensorId,
+                UserId = model.UserId,
+                UserMinValue = model.UserMinValue,
+                UserMaxValue = model.UserMaxValue,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                SendNotification = model.SendNotification,
+                IsPrivate = model.IsPrivate
+            };
 
             var sensor = this.sensorsService.RegisterSensor(registrationData);
 
@@ -134,32 +147,23 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 return View();
             }
 
-            var editedSensor = ConvertUserSensorViewModelToServiceSensorModel(model);
+            var editedSensor = new UserSensor()
+            {
+                Name = model.Name,
+                PollingInterval = model.UserPollingInterval,
+                SampleSensorId = model.SampleSensorId,
+                UserId = model.UserId,
+                UserMinValue = model.UserMinValue,
+                UserMaxValue = model.UserMaxValue,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                SendNotification = model.SendNotification,
+                IsPrivate = model.IsPrivate
+            };
 
             var sensor = this.sensorsService.EditSensor(editedSensor);
 
-            return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id});
-        }
-
-        private ServiceSensorModel ConvertUserSensorViewModelToServiceSensorModel
-            (EditSensorModel userSensor)
-        {
-            var serviceSensorModel = new ServiceSensorModel()
-            {
-                Name = userSensor.Name,
-                UserSensorId = userSensor.Id,
-                UserId = userSensor.UserId,
-                SampleSensorId = userSensor.SampleSensorId,
-                UserPollingInterval = userSensor.UserPollingInterval,
-                UserMinValue = userSensor.UserMinValue,
-                UserMaxValue = userSensor.UserMaxValue,
-                Latitude = userSensor.Latitude,
-                Longitude = userSensor.Longitude,
-                SendNotification = userSensor.SendNotification,
-                IsPrivate = userSensor.IsPrivate
-            };
-
-            return serviceSensorModel;
+            return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
         }
     }
 }

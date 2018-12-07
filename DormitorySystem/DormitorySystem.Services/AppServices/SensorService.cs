@@ -2,7 +2,6 @@
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
-using DormitorySystem.Services.ServiceModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -96,49 +95,29 @@ namespace DormitorySystem.Services.AppServices
             return sensor;
         }
 
-        public UserSensor RegisterSensor(ServiceSensorModel registrationData)
+        public UserSensor RegisterSensor(UserSensor newSensor)
         {
-            var newSensor = ConvertServiceSensorModelToUserSensor(registrationData, new UserSensor());
-
             this.context.UserSensors.Add(newSensor);
             this.context.SaveChanges();
 
             return newSensor;
         }
 
-        public UserSensor EditSensor(ServiceSensorModel editData)
+        public UserSensor EditSensor(UserSensor editedSensor)
         {
             var sensor = this.context.UserSensors
                 .Include(s => s.SampleSensor)
-                .SingleOrDefault(s => s.Id == editData.UserSensorId);
+                .SingleOrDefault(s => s.Id == editedSensor.Id);
 
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
             }
 
-            sensor = ConvertServiceSensorModelToUserSensor(editData, sensor);
+            sensor = editedSensor;
 
             this.context.SaveChanges();
             return sensor;
-        }
-
-        private UserSensor ConvertServiceSensorModelToUserSensor
-            (ServiceSensorModel serviceSensorModel, UserSensor userSensor)
-        {
-            userSensor.Id = serviceSensorModel.UserSensorId;
-            userSensor.Name = serviceSensorModel.Name;
-            userSensor.UserId = serviceSensorModel.UserId;
-            userSensor.SampleSensorId = serviceSensorModel.SampleSensorId;
-            userSensor.PollingInterval = serviceSensorModel.UserPollingInterval;
-            userSensor.UserMinValue = serviceSensorModel.UserMinValue;
-            userSensor.UserMaxValue = serviceSensorModel.UserMaxValue;
-            userSensor.Latitude = serviceSensorModel.Latitude;
-            userSensor.Longitude = serviceSensorModel.Longitude;
-            userSensor.SendNotification = serviceSensorModel.SendNotification;
-            userSensor.IsPrivate = serviceSensorModel.IsPrivate;
-
-            return userSensor;
         }
     }
 }
