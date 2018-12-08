@@ -5,7 +5,7 @@ using DormitorySystem.Web.Models.SensorsViewModels;
 
 namespace DormitorySystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/value")]
     [ApiController]
     public class APIController
     {
@@ -18,13 +18,12 @@ namespace DormitorySystem.Controllers
         
         // GET: api/Test
         [HttpGet]
-        public double Get()
+        public double Get(Guid sensorId)
         {
             var sensor = this.sensorsService
-                .GetSampleSensor(Guid.Parse("81A2E1B1-EA5D-4356-8266-B6B42471653E"));
-            var model = new SensorInformationModel(sensor);
+                .GetSampleSensor(sensorId);
 
-            return model.Value;
+            return sensor.ValueCurrent;
         }
     }
 }

@@ -18,12 +18,12 @@ namespace DormitorySystem.Services.AppServices
             this.context = context;
         }
 
-        public SampleSensor GetSampleSensor(Guid id)
+        public SampleSensor GetSampleSensor(Guid sampleSensorId)
         {
             var sensor = this.context.SampleSensors
                 .Include(s => s.SensorType)
                 .Include(s => s.Measure)
-                .SingleOrDefault(s => s.Id == id);
+                .SingleOrDefault(s => s.Id == sampleSensorId);
 
             if (sensor == null)
             {

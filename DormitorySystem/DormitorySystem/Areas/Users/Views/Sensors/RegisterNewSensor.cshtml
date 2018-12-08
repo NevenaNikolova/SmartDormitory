@@ -38,6 +38,11 @@
                     <span asp-validation-for="UserMaxValue" class="text-danger"></span>
                 </div>
             }
+            else
+            {
+                <input asp-for="UserMinValue" value="0" class="form-control hidden" />
+                <input asp-for="UserMaxValue" value="1" class="form-control hidden" />
+            }
 
             <div class="form-group">
                 <div class="checkbox">
