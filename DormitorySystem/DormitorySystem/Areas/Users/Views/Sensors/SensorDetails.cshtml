@@ -14,7 +14,11 @@
                 </tr>
                 <tr>
                     <th>Update Sensor Interval</th>
-                    <td>@Model.UserPollingInterval</td>
+                    <td>
+                        <div id="Polling-Interval" data-content="@Model.UserPollingInterval">
+                            @Model.UserPollingInterval
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <th>Latitude</th>
@@ -46,7 +50,17 @@
     <div class="col-md-6 text-center">
         <h3>Value</h3>
         <hr />
-        <div class="chart" id="graph"></div>
+        <div class="center-block GaugeMeter" id="GaugeMeter_1"
+             data-percent="20"
+             data-text_size=0.22
+             data-append="%"
+             data-size="250"
+             data-width="15"
+             data-style="Arch"
+             data-theme="Red-Gold-Green"
+             data-animationstep=0
+             data-animate_gauge_colors=false
+             data-animate_text_colors=false></div>
     </div>
 </div>
 
@@ -63,46 +77,21 @@
 @section Scripts{
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
-    //
-    <script src="~/js/test.js"></script>
+    <script src="~/js/GaugeMeter.js"></script>
+    <script>
+        const $pollingInterval = $('#Polling-Interval').data();
+        $(document).ready(function () {
+
+            function runChart() {
+                $(".GaugeMeter").gaugeMeter();
+                debugger;
+            };
+
+            setInterval(runChart, $pollingInterval * 1000)
+        });
+    </script>
 }
 
 @section Styles{
-    <style>
-        #graph {
-            position: relative;
-            margin: 20px;
-            width: 120px;
-            height: 120px;
-        }
-
-        canvas {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        span {
-            color: #555;
-            display: block;
-            line-height: 220px;
-            text-align: center;
-            width: 220px;
-            font-family: sans-serif;
-            font-size: 40px;
-            font-weight: 100;
-            margin-left: 5px;
-        }
-
-        input {
-            width: 200px;
-        }
-
-        span {
-        }
-
-        .table {
-        }
-    </style>
+    <link href="~/css/GaugeStyle.css" rel="stylesheet" />
 }
