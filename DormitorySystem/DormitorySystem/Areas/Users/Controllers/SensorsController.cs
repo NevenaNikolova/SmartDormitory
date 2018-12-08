@@ -116,7 +116,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
-            return this.RedirectToAction("ListSampleSensors", new { userId = model.UserId });
+            return this.RedirectToAction("Index", new { userId = model.UserId });
         }
 
         [HttpGet]
