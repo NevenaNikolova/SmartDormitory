@@ -3,8 +3,11 @@
     public class WebConstants
     {
         public const string UserSensorViewModelBindingString =
-            "Id, UserId, SampleSensorId, Name, UserPollingInterval," +
-            "Latitude, Longitude, SendNotification," +
-            "IsPrivate, UserMinValue, UserMaxValue";
+            "Id, UserId, SampleSensorId," +
+            "Name, Latitude, Longitude," +
+            "SendNotification, IsPrivate," +
+            "UserPollingInterval, UserMinValue, UserMaxValue," +
+            "MaxValue, MinValue, MinPollingInterval," +
+            "MeasureType, Description, Tag";
     }
 }

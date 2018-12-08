@@ -88,10 +88,15 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             if (!ModelState.IsValid)
             {
+                this.TempData["Lng-Lat"] = "Plaeas set the location of the sensor";
+                return View(model);
+            }
+            if (model.UserMinValue>=model.UserMaxValue)
+            {
+                this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
                 return View(model);
             }
 
-            //TODO min>=max
 
             if (model.UserId == null)
             {
@@ -116,7 +121,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
-            return this.RedirectToAction("Index", new { userId = model.UserId });
+            return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
         }
 
         [HttpGet]
@@ -145,7 +150,12 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return View();
+                return View(model);
+            }
+            if (model.UserMinValue >= model.UserMaxValue)
+            {
+                this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
+                return View(model);
             }
 
             var editedSensor = new UserSensor()

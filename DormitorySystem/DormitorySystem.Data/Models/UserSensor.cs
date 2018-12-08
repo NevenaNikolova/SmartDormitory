@@ -1,5 +1,6 @@
 ﻿using DormitorySystem.Data.Models.Abstractions;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DormitorySystem.Data.Models
 {
@@ -13,13 +14,17 @@ namespace DormitorySystem.Data.Models
         public string UserId { get; set; }
         public User User { get; set; }
 
-        //Required min 3 max 60
+        [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string Name { get; set; }
         public int PollingInterval { get; set; }
-        //Required 
+
+        [Required]
         public string Latitude { get; set; }
-        //Required 
+        [Required]
         public string Longitude { get; set; }
+
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }
         public double? UserMinValue { get; set; }

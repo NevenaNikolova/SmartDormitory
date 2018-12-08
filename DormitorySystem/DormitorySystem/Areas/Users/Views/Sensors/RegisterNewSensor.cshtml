@@ -4,6 +4,7 @@
 <h4>"@Model.Description"</h4>
 
 <hr />
+<h4 class="text-danger">@TempData["Lng-Lat"]</h4>
 <div class="clearfix">
     <form asp-action="RegisterNewSensor" method="post" name="registerForm">
         <div class="form-group col-md-6">
@@ -16,23 +17,24 @@
             <div class="form-row">
                 <label asp-for="UserPollingInterval" class="control-label"></label>
                 <input asp-for="UserPollingInterval" class="form-control"
-                       value="@Model.MinPollingInterval" min="@Model.MinPollingInterval" />
+                       value="@Model.UserPollingInterval" min="@Model.MinPollingInterval" />
                 <span asp-validation-for="UserPollingInterval" class="text-danger"></span>
             </div>
 
             @if (!Model.MeasureType.Contains("true") && !Model.MeasureType.Contains("false"))
             {
+                <h4 class="text-danger">@TempData["Invalid-Min-Max-Value"]</h4>
                 <div class="form-group">
                     <label asp-for="UserMinValue" class="control-label"></label>
                     <input asp-for="UserMinValue" class="form-control"
-                           type="number" value="@Model.MinValue"
+                           type="number" value="@Model.UserMinValue"
                            required min="@Model.MinValue" max="@Model.MaxValue" />
                     <span asp-validation-for="UserMinValue" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="UserMaxValue" class="control-label"></label>
-                    <input asp-for="UserMaxValue" class="form-control"
-                           type="number" required min="@Model.MinValue" max="@Model.MaxValue" value="@Model.MaxValue" />
+                    <input asp-for="UserMaxValue" class="form-control" value="@Model.UserMaxValue"
+                           type="number" required min="@Model.MinValue" max="@Model.MaxValue" />
                     <span asp-validation-for="UserMaxValue" class="text-danger"></span>
                 </div>
             }
@@ -56,7 +58,7 @@
             <div id="map" style="height:400px; width:400px;"></div>
             <input asp-for="Latitude" class="form-control" type="hidden" id="lat" value="" required />
             <span asp-validation-for="Latitude" class="text-danger"></span>
-            <input asp-for="Longitude" class="form-control" type="hidden" id="lng" value=""  required />
+            <input asp-for="Longitude" class="form-control" type="hidden" id="lng" value="" required />
             <span asp-validation-for="Longitude" class="text-danger"></span>
         </div>
 
@@ -64,6 +66,12 @@
             <input asp-for="Id" class="form-control hidden" />
             <input asp-for="SampleSensorId" class="form-control hidden" />
             <input asp-for="UserId" class="form-control hidden" />
+            <input asp-for="MaxValue" class="form-control hidden" />
+            <input asp-for="MinValue" class="form-control hidden" />
+            <input asp-for="MeasureType" class="form-control hidden" />
+            <input asp-for="MinPollingInterval" class="form-control hidden" />
+            <input asp-for="Description" class="form-control hidden" />
+            <input asp-for="Tag" class="form-control hidden" />
         </div>
         <div class="form-group">
             <input type="submit" value="Register" class="btn btn-default" />
