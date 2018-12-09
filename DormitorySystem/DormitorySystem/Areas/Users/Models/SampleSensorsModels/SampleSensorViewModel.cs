@@ -1,5 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 {
@@ -26,12 +27,19 @@ namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 
         public string Tag { get; set; }
         public string Description { get; set; }
+
+        [Display(Name = "Minimum Update Interval in Seconds")]
         public int MinPollingInterval { get; set; }
 
         public Measure Measure { get; set; }
 
+        [Display(Name ="Current Value")]
         public double ValueCurrent { get; set; }
+
+        [Display(Name ="Min Value")]
         public double? MinValue { get; set; }
+
+        [Display(Name ="Max Value")]
         public double? MaxValue { get; set; }
 
         public SensorType Type { get; set; }

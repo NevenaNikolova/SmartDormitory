@@ -1,5 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 using DormitorySystem.Web.Areas.Admin.Models.AbstractModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace DormitorySystem.Web.Areas.Users.Models
 {
@@ -16,9 +17,15 @@ namespace DormitorySystem.Web.Areas.Users.Models
             this.SensorType = model.SampleSensor.SensorType.Name;
             this.IsPrivate = model.IsPrivate;
         }
+        [Display(Name="Sensor Type")]
         public string SensorType { get; set; }
+
         public string Description { get; set; }
+
+        [Display(Name = "Current Value")]
         public string CurrentValue { get; set; }
+
+        [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
     }
 }

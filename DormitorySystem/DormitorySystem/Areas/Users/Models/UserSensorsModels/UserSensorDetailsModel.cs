@@ -1,6 +1,7 @@
 ﻿using DormitorySystem.Data.Models;
 using DormitorySystem.Web.Areas.Admin.Models.AbstractModels;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 {
@@ -20,13 +21,26 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
         }
 
         public Guid SampleSensorId { get; set; }
+
+        [Display(Name = "Update Interval in Seconds")]
         public int UserPollingInterval { get; set; }
+
+        [Display(Name = "Custom Min Value")]
         public double? UserMinValue { get; set; }
+
+        [Display(Name = "Custom Max Value")]
         public double? UserMaxValue { get; set; }
+
         public string Latitude { get; set; }
         public string Longitude { get; set; }
+
+        [Display(Name = "Values Out of Range Alert")]
         public bool SendNotification { get; set; }
+
+        [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
+
+        [Display(Name="Measure")]
         public string MeasureType { get; set; }
     }
 }

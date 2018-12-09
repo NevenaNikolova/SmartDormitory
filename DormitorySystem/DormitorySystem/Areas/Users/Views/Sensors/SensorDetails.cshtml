@@ -79,12 +79,19 @@
 
 <div>
     <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
-       class="btn btn-info active" role="button">
-        Edit
-    </a>
-    <br />
+       class="btn btn-info active" role="button">Edit</a>
+</div> 
+<br />
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <a asp-area="Admin" asp-controller="ManageSensors" asp-action="AllUserSensors">Back to Admin panel</a>
+    </div>
+}
+else
+{
     <a asp-action="Index">Back to List</a>
-</div>
+}
 
 
 @section Scripts{

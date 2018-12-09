@@ -43,9 +43,16 @@ namespace DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels
         [Required]
         public bool GDPR { get; set; }
 
+        [Display(Name ="Deleted")]
         public bool IsDeleted { get; set; }
+
+        [Display(Name ="Deleted On")]
         public DateTime? DeletedOn { get; set; }
+
+        [Display(Name ="Registered On")]
         public DateTime? CreatedOn { get; set; }
+
+        [Display(Name ="Modified On")]
         public DateTime? ModifiedOn { get; set; }
 
         [Display(Name = "Roles")]
