@@ -4,6 +4,7 @@ using DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Admin.Controllers
 {
@@ -11,24 +12,25 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
-        private readonly IUsersService usersService;       
+        private readonly IUsersService usersService;
 
         public HomeController(IUsersService usersService)
         {
-            this.usersService = usersService;        
+            this.usersService = usersService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = this.usersService.ListUsers()
-                .Select(u => new UserModel(u));
+            var users = await this.usersService.ListUsersAsync();
 
             if (users.Count() == 0)
             {
                 return RedirectToAction("Index");
             }
+            
+            var model = users.Select(u => new UserModel(u));
 
-            return View(users);
+            return View(model);
         }
     }
 }

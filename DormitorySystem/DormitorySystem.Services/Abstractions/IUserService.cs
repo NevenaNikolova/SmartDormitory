@@ -1,21 +1,13 @@
 ﻿using DormitorySystem.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.Abstractions
 {
     public interface IUsersService
     {
-        User GetUser(string Id);
-        IEnumerable<User> ListUsers();
+        Task<User> GetUserAsync(string Id);
 
-        
-
-        //UserSensor EditSensor(Guid userSensorId, string newName, int newPolling, string newLatitude,
-        //    string newLongitude, bool newNotification, bool newIsPrivate);   
-
-       // User AssignRoles(string userId);
-
+        Task<IEnumerable<User>> ListUsersAsync();
     }
 }

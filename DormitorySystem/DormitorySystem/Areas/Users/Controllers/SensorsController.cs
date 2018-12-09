@@ -20,15 +20,12 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
     {
         private readonly ISensorsService sensorsService;
         private readonly UserManager<User> userManager;
-        private readonly IUsersService usersService;
 
         public SensorsController(
             ISensorsService userSensorService,
-            UserManager<User> userManager,
-            IUsersService userService)
+            UserManager<User> userManager)
         {
             this.sensorsService = userSensorService;
-            this.usersService = userService;
             this.userManager = userManager;
         }
 

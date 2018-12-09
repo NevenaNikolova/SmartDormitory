@@ -21,15 +21,13 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         private readonly IUsersService usersService;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly ISensorsService sensorsService;
 
-        public ManageUsersController(IUsersService usersService, UserManager<User> userManager, 
-            RoleManager<IdentityRole> roleManager, ISensorsService sensorsService)
+        public ManageUsersController(IUsersService usersService, UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this.usersService = usersService;
             this.userManager = userManager;
             this.roleManager = roleManager;
-            this.sensorsService = sensorsService;
         }
 
         public IActionResult Index()
@@ -39,7 +37,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserDetails(string id)
         {
-            var user = this.usersService.GetUser(id);
+            var user = await this.usersService.GetUserAsync(id);
             var roles = await this.userManager.GetRolesAsync(user);
             return View(new UserModel(user, string.Join(", ", roles)));
         }
@@ -67,7 +65,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
                     Text = r.Name,
                     Value = r.Name,
                 });
-               
+
             return View(rolesSelectListItems);
         }
 

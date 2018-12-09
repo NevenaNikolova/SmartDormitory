@@ -1,9 +1,7 @@
 ﻿using System.Linq;
-using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DormitorySystem.Web.Areas.Admin.Controllers
@@ -12,17 +10,10 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ManageSensorsController : Controller
     {
-        private readonly IUsersService usersService;
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
         private readonly ISensorsService sensorsService;
 
-        public ManageSensorsController(IUsersService usersService, UserManager<User> userManager, 
-            RoleManager<IdentityRole> roleManager, ISensorsService sensorsService)
+        public ManageSensorsController(ISensorsService sensorsService)
         {
-            this.usersService = usersService;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
             this.sensorsService = sensorsService;
         }
 
