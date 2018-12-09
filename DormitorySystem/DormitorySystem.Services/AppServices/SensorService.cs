@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.AppServices
 {
@@ -18,12 +19,12 @@ namespace DormitorySystem.Services.AppServices
             this.context = context;
         }
 
-        public SampleSensor GetSampleSensor(Guid sampleSensorId)
+        public async Task<SampleSensor> GetSampleSensorAsync(Guid sampleSensorId)
         {
-            var sensor = this.context.SampleSensors
+            var sensor = await this.context.SampleSensors
                 .Include(s => s.SensorType)
                 .Include(s => s.Measure)
-                .SingleOrDefault(s => s.Id == sampleSensorId);
+                .SingleOrDefaultAsync(s => s.Id == sampleSensorId);
 
             if (sensor == null)
             {
@@ -33,12 +34,12 @@ namespace DormitorySystem.Services.AppServices
             return sensor;
         }
 
-        public IEnumerable<SampleSensor> ListSampleSensors()
+        public async Task<IEnumerable<SampleSensor>> ListSampleSensorsAsync()
         {
-            var sampleSensors = this.context.SampleSensors
+            var sampleSensors = await this.context.SampleSensors
                 .Include(s => s.SensorType)
                 .Include(s => s.Measure)
-                .ToList();
+                .ToListAsync();
 
             if (sampleSensors == null)
             {
@@ -48,7 +49,7 @@ namespace DormitorySystem.Services.AppServices
             return sampleSensors;
         }
 
-        public IEnumerable<UserSensor> ListSensors(string userId = "all")
+        public async Task<IEnumerable<UserSensor>> ListSensorsAsync(string userId = "all")
         {
             IQueryable<UserSensor> allSensors = this.context.UserSensors
                     .Include(us => us.SampleSensor)
@@ -61,16 +62,16 @@ namespace DormitorySystem.Services.AppServices
                 allSensors = allSensors.Where(id => id.UserId == userId);
             }
 
-            return allSensors;
+            return await allSensors.ToListAsync();
         }
 
-        public IEnumerable<UserSensor> GetPublicSensors()
+        public async Task<IEnumerable<UserSensor>> GetPublicSensorsAsync()
         {
-            var sensors = this.context.UserSensors
+            var sensors = await this.context.UserSensors
                 .Where(s => s.IsPrivate == false)
                 .Include(us => us.User)
                 .Include(us => us.SampleSensor)
-                .ToList();
+                .ToListAsync();
 
             if (sensors == null)
             {
@@ -80,13 +81,14 @@ namespace DormitorySystem.Services.AppServices
             return sensors;
         }
 
-        public UserSensor GetUserSensor(Guid userSensorId)
+        public async Task<UserSensor> GetUserSensorAsync(Guid userSensorId)
         {
-            var sensor = this.context.UserSensors
+            var sensor = await this.context.UserSensors
                 .Include(us => us.User)
                 .Include(us => us.SampleSensor.SensorType)
                 .Include(us => us.SampleSensor.Measure)
-                 .SingleOrDefault(s => s.Id == userSensorId);
+                .SingleOrDefaultAsync(s => s.Id == userSensorId);
+
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
@@ -95,18 +97,18 @@ namespace DormitorySystem.Services.AppServices
             return sensor;
         }
 
-        public UserSensor RegisterSensor(UserSensor newSensor)
+        public async Task<UserSensor> RegisterSensorAsync(UserSensor newSensor)
         {
-            this.context.UserSensors.Add(newSensor);
-            this.context.SaveChanges();
+            await this.context.UserSensors.AddAsync(newSensor);
+            await this.context.SaveChangesAsync();
 
             return newSensor;
         }
 
-        public UserSensor EditSensor(UserSensor editedSensor)
+        public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             this.context.Update(editedSensor);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
             return editedSensor;
         }
     }

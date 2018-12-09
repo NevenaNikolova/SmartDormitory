@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels;
 using Microsoft.AspNetCore.Authorization;
@@ -21,32 +22,33 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         {
             return View();
         }
-        public IActionResult ListUserSensors(string id, string userName)
+        public async Task<IActionResult> ListUserSensors(string id, string userName)
         {
-            var userSensors = this.sensorsService.ListSensors(id)
-                .Select(us => new ListSensorViewModel(us))
-                .ToList();
+            var userSensors = await this.sensorsService.ListSensorsAsync(id);
+
+            var sensorsData = userSensors.Select(us => new ListSensorViewModel(us));
 
             if (userSensors == null)
             {
                 return NoContent();
             }
 
-            var model = new ListSensorSViewModel(userSensors, id, userName);
+            var model = new ListSensorSViewModel(sensorsData, id, userName);
 
             return View(model);
         }
-        public IActionResult AllUserSensors()
+        public async Task<IActionResult> AllUserSensors()
         {
-            var userSensors = this.sensorsService.ListSensors()
-                .Select(us => new AllSensorViewModel(us))
-                .ToList();
+            var userSensors = await this.sensorsService.ListSensorsAsync();
+
+            var allSensors = userSensors.Select(us => new AllSensorViewModel(us));
+
             if (userSensors == null)
             {
                 return NoContent();
             }
 
-            var model = new AllSensorSViewModel(userSensors);
+            var model = new AllSensorSViewModel(allSensors);
 
             return View(model);
         }

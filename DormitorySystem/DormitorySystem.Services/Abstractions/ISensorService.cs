@@ -1,23 +1,24 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.Abstractions
 {
     public interface ISensorsService
     {
-        UserSensor GetUserSensor(Guid id);
+        Task<UserSensor> GetUserSensorAsync(Guid id);
 
-        UserSensor RegisterSensor(UserSensor newSensor);
+        Task<UserSensor> RegisterSensorAsync(UserSensor newSensor);
 
-        UserSensor EditSensor(UserSensor editedSensor);
+        Task<UserSensor> EditSensorAsync(UserSensor editedSensor);
 
-        IEnumerable<UserSensor> GetPublicSensors();
+        Task<IEnumerable<UserSensor>> GetPublicSensorsAsync();
 
-        IEnumerable<SampleSensor> ListSampleSensors();
+        Task<IEnumerable<SampleSensor>> ListSampleSensorsAsync();
 
-        IEnumerable<UserSensor> ListSensors(string userId = "all");
+        Task<IEnumerable<UserSensor>> ListSensorsAsync(string userId = "all");
 
-        SampleSensor GetSampleSensor(Guid id);
+        Task<SampleSensor> GetSampleSensorAsync(Guid id);
     }
 }

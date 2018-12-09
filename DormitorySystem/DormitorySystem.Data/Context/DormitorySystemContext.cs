@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using DormitorySystem.Data.Abstractions;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Data.Models.Abstractions;
@@ -41,11 +43,11 @@ namespace DormitorySystem.Data.Context
             base.OnModelCreating(builder);
         }
 
-        public override int SaveChanges()
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             this.ApplyAuditInfoRules();
             this.ApplyDeletionRules();
-            return base.SaveChanges();
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         private void ApplyDeletionRules()

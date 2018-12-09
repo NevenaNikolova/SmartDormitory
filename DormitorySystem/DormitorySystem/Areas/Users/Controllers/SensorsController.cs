@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DormitorySystem.Common.Constants;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
@@ -29,51 +30,56 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var user = this.userManager.GetUserId(HttpContext.User);
-            var userSensors = this.sensorsService.ListSensors(user);
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var userSensors = await this.sensorsService.ListSensorsAsync(user.Id);
+
             var model = userSensors.Select(us => new UserIndexModel(us)).ToList();
 
             return View(model);
         }
 
-        public JsonResult ViewSensorsOnMap()
+        public async Task<JsonResult> ViewSensorsOnMap()
         {
-            var user = this.userManager.GetUserId(HttpContext.User);
-            var data = this.sensorsService.ListSensors(user)
-                .Select(s => new SensorsCoordinatesModel(s));
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            var listSensors = await this.sensorsService.ListSensorsAsync(user.Id);
+
+            var data = listSensors.Select(s => new SensorsCoordinatesModel(s));
+
             return Json(data);
         }
 
-        public IActionResult SensorDetails(Guid userSensorid)
+        public async Task<IActionResult> SensorDetails(Guid userSensorid)
         {
-            var userSensor = this.sensorsService.GetUserSensor(userSensorid);
+            var userSensor = await this.sensorsService.GetUserSensorAsync(userSensorid);
+
             var model = new UserSensorDetailsModel(userSensor);
+
             return View(model);
         }
 
-        public IActionResult ListSampleSensors(string userId)
+        public async Task<IActionResult> ListSampleSensors(string userId)
         {
-            var sampleSensors = this.sensorsService.ListSampleSensors()
-                .Select(s => new SampleSensorViewModel(s));
+            var listSensors = await this.sensorsService.ListSampleSensorsAsync();
 
-            var a = userId;
-
-            if (sampleSensors == null)
+            if (listSensors == null)
             {
                 throw new SensorNullableException("No sensors at the moment.");
             }
 
-            var model = new ListSampleSensorViewModel(sampleSensors, userId);
+            var sampleSensorsModel = listSensors.Select(s => new SampleSensorViewModel(s));
+
+            var model = new ListSampleSensorViewModel(sampleSensorsModel, userId);
 
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult RegisterNewSensor(Guid sampleSensorId, string userId)
+        public async Task<IActionResult> RegisterNewSensor(Guid sampleSensorId, string userId)
         {
-            var sensor = this.sensorsService.GetSampleSensor(sampleSensorId);
+            var sensor = await this.sensorsService.GetSampleSensorAsync(sampleSensorId);
+
             var model = new RegisterSensorModel(sensor, userId);
 
             return View(model);
@@ -81,24 +87,24 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult RegisterNewSensor
+        public async Task<IActionResult> RegisterNewSensor
             ([Bind(include: WebConstants.UserSensorViewModelBindingString)] RegisterSensorModel model)
         {
             if (!ModelState.IsValid)
             {
-                this.TempData["Lng-Lat"] = "Plaeas set the location of the sensor";
+                this.TempData["Lng-Lat"] = "Please set the location of the sensor";
                 return View(model);
             }
-            if (model.UserMinValue>=model.UserMaxValue)
+            if (model.UserMinValue >= model.UserMaxValue)
             {
                 this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
                 return View(model);
             }
 
-
             if (model.UserId == null)
             {
-                model.UserId = this.userManager.GetUserId(HttpContext.User);
+                var currentUser = await this.userManager.GetUserAsync(HttpContext.User);
+                model.UserId = currentUser.Id;
             }
 
             var registrationData = new UserSensor()
@@ -115,7 +121,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 IsPrivate = model.IsPrivate
             };
 
-            var sensor = this.sensorsService.RegisterSensor(registrationData);
+            var sensor = await this.sensorsService.RegisterSensorAsync(registrationData);
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
@@ -123,13 +129,13 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditSensor(Guid id)
+        public async Task<IActionResult> EditSensor(Guid id)
         {
             if (id == null)
             {
                 return BadRequest();
             }
-            var userSensor = this.sensorsService.GetUserSensor(id);
+            var userSensor = await this.sensorsService.GetUserSensorAsync(id);
 
             if (userSensor == null)
             {
@@ -143,7 +149,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditSensor(
+        public async Task<IActionResult> EditSensor(
             [Bind(include: WebConstants.UserSensorViewModelBindingString)] EditSensorModel model)
         {
             if (!this.ModelState.IsValid)
@@ -171,7 +177,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 IsPrivate = model.IsPrivate
             };
 
-            var sensor = this.sensorsService.EditSensor(editedSensor);
+            var sensor = await this.sensorsService.EditSensorAsync(editedSensor);
 
             return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
         }

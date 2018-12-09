@@ -6,6 +6,7 @@ using DormitorySystem.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using DormitorySystem.Web.Models.SensorsViewModels;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Controllers
 {
@@ -29,10 +30,12 @@ namespace DormitorySystem.Controllers
         {
             return View();
         }
-        public JsonResult GetPublicSensors()
+        public async Task<JsonResult> GetPublicSensors()
         {
-            var data = this.sensorService.GetPublicSensors()
-                .Select(s=>new SensorsCoordinatesModel(s));
+            var publicSensors = await this.sensorService.GetPublicSensorsAsync();
+
+            var data = publicSensors.Select(s => new SensorsCoordinatesModel(s));
+
             return Json(data);
         }
         public IActionResult About()
@@ -41,14 +44,12 @@ namespace DormitorySystem.Controllers
 
             return View();
         }
-
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
 
             return View();
         }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

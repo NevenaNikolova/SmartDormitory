@@ -1,7 +1,7 @@
 ﻿using System;
 using DormitorySystem.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
-using DormitorySystem.Web.Models.SensorsViewModels;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Controllers
 {
@@ -15,13 +15,11 @@ namespace DormitorySystem.Controllers
         {
             this.sensorsService = userSensorService;
         }
-        
-        // GET: api/Test
+
         [HttpGet]
-        public double Get(Guid sensorId)
+        public async Task<double> Get(Guid sensorId)
         {
-            var sensor = this.sensorsService
-                .GetSampleSensor(sensorId);
+            var sensor = await this.sensorsService.GetSampleSensorAsync(sensorId);
 
             return sensor.ValueCurrent;
         }
