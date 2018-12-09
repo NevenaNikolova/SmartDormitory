@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DormitorySystem</title>
 
-    <link rel="shortcut icon" href="~/logo.ico" type="image/x-icon"/>
-    <link rel="stylesheet" href="~/datatables.css" />
+    <link rel="shortcut icon" href="~/images/icons/logo.ico" type="image/x-icon" />
+    <link href="~/css/datatables.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
 
@@ -35,7 +35,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><img src="~/images/logo.png" alt="Company Logo" height="60" align="middle"/></li>
+                    <li><img src="~/images/logo_grey.png" alt="Company Logo" height="60" align="middle"/></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
@@ -66,7 +66,7 @@
 
         <script src="~/lib/jquery/dist/jquery.js"></script>
 
-        <script src="~/datatables.js"></script>
+        <script src="~/js/datatables.js"></script>
 
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
