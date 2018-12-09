@@ -46,31 +46,9 @@
     <div class="col-md-6 text-center">
         <h3>Value</h3>
         <hr />
-        @if (!Model.MeasureType.Contains("true") && !Model.MeasureType.Contains("false"))
-        {
-            <div class="center-block GaugeMeter" id="GaugeMeter_1"
-                 data-text_size=0.19
-                 data-size="250"
-                 data-width="10"
-                 data-style="Arch"
-                 data-theme="Green-Gold-Red"
-                 data-animationstep=0
-                 data-animate_gauge_colors=true
-                 data-animate_text_colors=true></div>
-        }
-        else
-        {
-            <div class="center-block GaugeMeter" id="GaugeMeter_1"
-                 data-label=" "
-                 data-text=" "
-                 data-size="100"
-                 data-width="250"
-                 data-style="Full"
-                 data-theme="Red-Green"
-                 data-animationstep=0
-                 data-animate_gauge_colors=true
-                 data-animate_text_colors=true></div>
-        }
+
+        <partial name="_GaugeMetersPartialView" model="@Model" />
+
         <div id="error" hidden>
             <h4><span style="color:red">There is no connection to the applications at this moment</span></h4>
         </div>
@@ -80,7 +58,7 @@
 <div>
     <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
        class="btn btn-info active" role="button">Edit</a>
-</div> 
+</div>
 <br />
 @if (User.IsInRole("Admin"))
 {
@@ -101,7 +79,9 @@ else
     <script>
         const pollingInterval = @Model.UserPollingInterval * 1000;
         const url = "/api/value" + "?sensorId=" + "@Model.SampleSensorId";
-
+        const mTypeTrue = @Model.MeasureType.Contains("true").ToString().ToLower();
+        const mTypeFalse = @Model.MeasureType.Contains("false").ToString().ToLower();
+        const mType = mTypeTrue || mTypeFalse;
         runChart();
 
         $(document).ready(function () {
@@ -110,25 +90,39 @@ else
 
         function runChart() {
             $.get(url, function () {
-                if ($('#GaugeMeter_1').is(":hidden")) {
-                    $('#GaugeMeter_1').show();
+                if ($('#data-visualization').is(":hidden")) {
+                    $('#data-visualization').show();
                     $('#error').hide();
                 }
-            })
+                })
                .fail(function () {
-                   $('#GaugeMeter_1').hide();
+                   $('#data-visualization').hide();
                    $('#error').show();
-               })
-               .then(data =>
-                   $("#GaugeMeter_1").gaugeMeter({
-                       text: data,
-                       used: data - @Model.UserMinValue,
-                       total: @Model.UserMaxValue - @Model.UserMinValue,
-                       label: "@Model.Type",
-                       append: "@Model.MeasureType"
-                   })
-            );
+                })
+                .then(data => drawChart(data, mType));
         };
+
+        function drawChart(value, measureType)
+        {
+            if (!measureType) {
+                 $("#data-visualization").gaugeMeter({
+                     text: value,
+                     used: Math.round(value - @Model.UserMinValue),
+                     total: @Model.UserMaxValue - @Model.UserMinValue,
+                     label: "@Model.Type",
+                     append: "@Model.MeasureType"
+                })
+               }
+            else {
+                if (value) {
+                       $('#false').hide();
+                       $('#true').show();
+                   } else {
+                       $('#true').hide();
+                       $('#false').show();
+                   }
+               }
+           }
     </script>
 }
 
