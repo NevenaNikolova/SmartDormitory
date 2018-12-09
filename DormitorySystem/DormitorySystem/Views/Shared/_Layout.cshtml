@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DormitorySystem</title>
 
+    <link rel="shortcut icon" href="~/logo.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="~/datatables.css" />
 
     @RenderSection("Styles", required: false)
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-slate.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -29,13 +30,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Dormitory System</a>
+                </button>       
+               
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li><img src="~/images/logo.png" alt="Company Logo" height="60" align="middle"/></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-
                     @if (User.IsInRole("User") || User.IsInRole("Admin"))
                     {
                         <li><a asp-area="Users" asp-controller="Sensors" asp-action="Index">My Sensors</a></li>
@@ -57,7 +58,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - DormitorySystem</p>
+            <p>&copy; 2018 - Dormitory System</p>
         </footer>
     </div>
 
