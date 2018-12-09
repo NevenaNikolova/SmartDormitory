@@ -16,6 +16,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
             this.UserId = userId;
             this.Tag = sampleSensor.Tag;
             this.Description = sampleSensor.Description;         
+            this.MeasureType = sampleSensor.Measure.MeasureType;
             this.MinPollingInterval = sampleSensor.MinPollingInterval;
             this.UserPollingInterval = this.MinPollingInterval;
             this.MinValue = sampleSensor.MinValue;
