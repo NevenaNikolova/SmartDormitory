@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
-using DormitorySystem.Web.Areas.Admin.Models;
 using DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,14 +15,12 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Admin")]
     public class ManageUsersController : Controller
     {
-        private readonly IUsersService usersService;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
 
-        public ManageUsersController(IUsersService usersService, UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+        public ManageUsersController
+            (UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            this.usersService = usersService;
             this.userManager = userManager;
             this.roleManager = roleManager;
         }
@@ -37,7 +32,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> UserDetails(string id)
         {
-            var user = await this.usersService.GetUserAsync(id);
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
             var roles = await this.userManager.GetRolesAsync(user);
             return View(new UserModel(user, string.Join(", ", roles)));
         }
@@ -86,6 +81,5 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
