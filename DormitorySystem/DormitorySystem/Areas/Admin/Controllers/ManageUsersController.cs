@@ -17,12 +17,15 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IUsersService usersService;
 
-        public ManageUsersController
-            (UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        public ManageUsersController(UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager, 
+            IUsersService usersService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.usersService = usersService;
         }
 
         public IActionResult Index()
