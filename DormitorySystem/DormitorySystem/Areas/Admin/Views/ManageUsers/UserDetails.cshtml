@@ -19,20 +19,25 @@
                     <td>
                         <div class="checkbox">
                             <label>
-                                <input asp-for="@Model.GDPR"/>
+                                <input asp-for="@Model.GDPR" />
                             </label>
-                        </div>                   
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th>Status</th>
                     @if (Model.IsDeleted)
                     {
-                        <td>Deleted</td> }
+                        <td>Deleted</td>
+                    }
                     else
                     {
                         <td>Active</td>
                     }
+                </tr>
+                <tr>
+                    <th>Deleted On</th>
+                    <td>@Model.DeletedOn</td>
                 </tr>
                 <tr>
                     <th>Created On</th>
@@ -55,6 +60,21 @@
         </table>
     </div>
 </div>
+@if (Model.IsDeleted)
+{
+    <div>
+        <a asp-area="Admin" asp-controller="ManageUsers" asp-action="DeleteUser" asp-route-id="@Model.Id"
+           class="btn btn-info disabled" role="button">Delete</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-area="Admin" asp-controller="ManageUsers" asp-action="DeleteUser" asp-route-id="@Model.Id"
+           class="btn btn-info active" role="button">Delete</a>
+    </div>
+}
+
 <div>
     <a asp-controller="Home" asp-action="Index">Back to Admin panel</a>
 </div>

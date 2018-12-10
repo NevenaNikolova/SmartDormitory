@@ -87,5 +87,12 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user=await this.usersService.DeleteUserAsync(id);
+
+            return RedirectToAction("UserDetails", new { id = user.Id });
+        }
+
     }
 }

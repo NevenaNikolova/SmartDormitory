@@ -9,5 +9,7 @@ namespace DormitorySystem.Services.Abstractions
         Task<User> GetUserAsync(string Id);
 
         Task<IEnumerable<User>> ListUsersAsync();
+
+        Task<User> DeleteUserAsync(string Id);
     }
 }

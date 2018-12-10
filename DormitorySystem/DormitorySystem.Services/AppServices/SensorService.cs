@@ -121,6 +121,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             this.context.Update(editedSensor);
+            editedSensor.ModifiedOn = DateTime.Now;
             await this.context.SaveChangesAsync();
             return editedSensor;
         }
