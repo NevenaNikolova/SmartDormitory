@@ -5,7 +5,7 @@ namespace DormitorySystem.Data.Abstractions
 {
     public interface ISeedApiData
     {
-        Task SetCollections();
+        Task<bool> SetCollections();
         Measure[] MeasureCollection { get; }
         SensorType[] TypesCollection { get; }
         SampleSensor[] SensorCollection { get; }

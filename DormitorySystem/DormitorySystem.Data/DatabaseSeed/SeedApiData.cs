@@ -24,16 +24,26 @@ namespace DormitorySystem.Data.DatabaseSeed
             this.apiProvider = apiProvider;
         }
 
-        public async Task SetCollections()
+        public async Task<bool> SetCollections()
         {
-            this.apiData = await LoadApiDataAsync();
+            var responseAll = await apiProvider.ReturnResponseAsync
+                (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
 
-            var measures = CreateMeasuresCollection();
-            var types = CreateTypesCollection();
+            if (responseAll.Key)
+            {
+                var response = "{" + "\"data\"" + ":" + responseAll.Value + "}";
 
-            this.MeasureCollection = measures.Values.ToArray();
-            this.TypesCollection = types.Values.ToArray();
-            this.SensorCollection = CreateSensorsCollection(measures, types);
+                this.apiData = JObject.Parse(response);
+
+                var measures = CreateMeasuresCollection();
+                var types = CreateTypesCollection();
+
+                this.MeasureCollection = measures.Values.ToArray();
+                this.TypesCollection = types.Values.ToArray();
+                this.SensorCollection = CreateSensorsCollection(measures, types);
+            }
+
+            return responseAll.Key;
         }
 
         public Measure[] MeasureCollection
@@ -49,15 +59,6 @@ namespace DormitorySystem.Data.DatabaseSeed
         public SampleSensor[] SensorCollection
         {
             get => sensorCollection; private set => sensorCollection = value;
-        }
-
-        public async Task<JObject> LoadApiDataAsync()
-        {
-            var responseAll = await apiProvider.ReturnResponseAsync(ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
-
-            var response = "{" + "\"data\"" + ":" + responseAll.Value + "}";
-
-            return JObject.Parse(response);
         }
 
         private SampleSensor[] CreateSensorsCollection

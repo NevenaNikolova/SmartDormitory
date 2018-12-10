@@ -46,24 +46,27 @@ namespace DormitorySystem.Services.BackgroundService
                        (ApiConstants.ICBSensorApiListAllSensor,
                        ApiConstants.ICBApiAuthorizationToken);
 
-            var result = "{" + "\"data\"" + ":" + response.Value + "}";
-
-            JObject allApiSensores = JObject.Parse(result);
-
-            foreach (var sensor in allApiSensores["data"])
+            if (response.Key)
             {
-                string sensorId = sensor["SensorId"].ToString();
+                var result = "{" + "\"data\"" + ":" + response.Value + "}";
 
-                if (!listOfSensors.ContainsKey(sensorId))
+                JObject allApiSensores = JObject.Parse(result);
+
+                foreach (var sensor in allApiSensores["data"])
                 {
-                    var measureType = sensor["MeasureType"].ToString();
-                    string tag = sensor["Tag"].ToString();
-                    string typeTag = tag.Substring(0, tag.IndexOf("Sensor"));
+                    string sensorId = sensor["SensorId"].ToString();
 
-                    var measure = CheckForNewMeasureType(measureType);
-                    var type = CheckForNewSensorType(typeTag);
+                    if (!listOfSensors.ContainsKey(sensorId))
+                    {
+                        var measureType = sensor["MeasureType"].ToString();
+                        string tag = sensor["Tag"].ToString();
+                        string typeTag = tag.Substring(0, tag.IndexOf("Sensor"));
 
-                    listOfSensors.Add(sensorId, AddNewSensoreToDatabase(measure, type, sensor));
+                        var measure = CheckForNewMeasureType(measureType);
+                        var type = CheckForNewSensorType(typeTag);
+
+                        listOfSensors.Add(sensorId, AddNewSensoreToDatabase(measure, type, sensor));
+                    }
                 }
             }
 
@@ -155,13 +158,21 @@ namespace DormitorySystem.Services.BackgroundService
                        (ApiConstants.ICBSensorApiBaseUrl
                        + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
 
-                    JObject sensorResponse = JObject.Parse(response.Value);
+                    if (response.Key)
+                    {
+                        JObject sensorResponse = JObject.Parse(response.Value);
 
-                    sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
-                    sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());
+                        sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
+                        sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());
+                        sensor.IsOnline = true;
+                    }
+                    else
+                    {
+                        sensor.TimeStamp = DateTime.Now.ToString();
+                        sensor.IsOnline = false;
+                    }
 
                     sensorForUpdate.Add(sensor);
-
                     isAnySensorForUpdate = true;
                 }
             }
