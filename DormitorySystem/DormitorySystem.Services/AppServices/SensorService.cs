@@ -41,10 +41,10 @@ namespace DormitorySystem.Services.AppServices
                 .Include(s => s.Measure)
                 .ToListAsync();
 
-            if (sampleSensors == null)
-            {
-                throw new SensorNullableException("There is no such sensors.");
-            }
+            //if (sampleSensors == null)
+            //{
+            //    throw new SensorNullableException("There is no such sensors.");
+            //}
 
             return sampleSensors;
         }
@@ -73,10 +73,10 @@ namespace DormitorySystem.Services.AppServices
                 .Include(us => us.SampleSensor)
                 .ToListAsync();
 
-            if (sensors == null)
-            {
-                throw new SensorNullableException("There is no such sensors.");
-            }
+            //if (sensors == null)
+            //{
+            //    throw new SensorNullableException("There is no such sensors.");
+            //}
 
             return sensors;
         }
