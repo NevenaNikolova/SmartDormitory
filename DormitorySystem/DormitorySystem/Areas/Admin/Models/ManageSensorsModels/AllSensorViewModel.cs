@@ -1,5 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 using DormitorySystem.Web.Areas.Admin.Models.AbstractModels;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
@@ -10,9 +11,11 @@ namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
         public AllSensorViewModel(UserSensor model) : base(model)
         {
             UserEmail = model.User.Email;
+            DeletedOn = model.DeletedOn;
         }
 
         [Display(Name="Email")]
         public string UserEmail { get; set; }
+        public DateTime? DeletedOn { get; set; }
     }
 }

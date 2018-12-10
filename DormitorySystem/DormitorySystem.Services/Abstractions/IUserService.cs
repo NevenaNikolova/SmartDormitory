@@ -7,5 +7,7 @@ namespace DormitorySystem.Services.Abstractions
     public interface IUsersService
     {
         Task<IEnumerable<User>> ListUsersAsync();
+
+        Task<User> DeleteUserAsync(string Id);
     }
 }

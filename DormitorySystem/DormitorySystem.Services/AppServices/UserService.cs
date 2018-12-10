@@ -3,6 +3,7 @@ using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,6 +25,20 @@ namespace DormitorySystem.Services.AppServices
                 .ToListAsync();
 
             return users;
+        }
+
+        public async Task<User> DeleteUserAsync(string Id)
+        {
+            var user = await this.contex.Users
+                .SingleOrDefaultAsync(u => u.Id == Id);
+            if (user == null)
+            {
+                throw new UserNullableException("There is no such user.");
+            }
+            user.isDeleted = true;
+            user.DeletedOn = DateTime.Now;
+            await this.contex.SaveChangesAsync();
+            return user;
         }
     }
 }

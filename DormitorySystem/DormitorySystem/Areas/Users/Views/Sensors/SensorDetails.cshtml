@@ -40,6 +40,14 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <th>This Sensor is Disabled</th>
+                    <td>
+                        <div class="checkbox">
+                            <input class="col-md-6" asp-for="@Model.IsDeleted" disabled>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -55,10 +63,26 @@
     </div>
 </div>
 
-<div>
-    <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
-       class="btn btn-info active" role="button">Edit</a>
-</div>
+@if (Model.IsDeleted)
+{
+    <div>
+        <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
+           class="btn btn-info disabled" role="button">Edit</a>
+
+        <a asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
+           class="btn btn-info disabled" role="button">Delete</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
+           class="btn btn-info active" role="button">Edit</a>
+
+        <a asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
+           class="btn btn-info active" role="button">Delete</a>
+    </div>
+}
 <br />
 @if (User.IsInRole("Admin"))
 {

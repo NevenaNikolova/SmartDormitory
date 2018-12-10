@@ -88,7 +88,7 @@ namespace DormitorySystem.Services.AppServices
                 .Include(us => us.SampleSensor.SensorType)
                 .Include(us => us.SampleSensor.Measure)
                 .SingleOrDefaultAsync(s => s.Id == userSensorId);
-
+            
             if (sensor == null)
             {
                 throw new SensorNullableException("There is no such sensor.");
@@ -96,7 +96,20 @@ namespace DormitorySystem.Services.AppServices
 
             return sensor;
         }
+        public async Task<UserSensor> DeleteUserSensorAsync(Guid userSensorId)
+        {
+            var sensor = await this.context.UserSensors            
+                .SingleOrDefaultAsync(s => s.Id == userSensorId);
 
+            if (sensor == null)
+            {
+                throw new SensorNullableException("There is no such sensor.");
+            }
+            sensor.isDeleted = true;
+            sensor.DeletedOn = DateTime.Now;
+            await this.context.SaveChangesAsync();
+            return sensor;
+        }
         public async Task<UserSensor> RegisterSensorAsync(UserSensor newSensor)
         {
             await this.context.UserSensors.AddAsync(newSensor);
@@ -108,6 +121,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             this.context.Update(editedSensor);
+            editedSensor.ModifiedOn = DateTime.Now;
             await this.context.SaveChangesAsync();
             return editedSensor;
         }
