@@ -20,6 +20,7 @@ namespace DormitorySystem.Services.Abstractions
         Task<IEnumerable<UserSensor>> ListSensorsAsync(string userId = "all");
 
         Task<SampleSensor> GetSampleSensorAsync(Guid id);
+
         Task<UserSensor> DeleteUserSensorAsync(Guid userSensorId);
     }
 }

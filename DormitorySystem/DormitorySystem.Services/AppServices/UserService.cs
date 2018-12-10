@@ -5,6 +5,7 @@ using DormitorySystem.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.AppServices
@@ -16,6 +17,15 @@ namespace DormitorySystem.Services.AppServices
         public UserService(DormitorySystemContext contex)
         {
             this.contex = contex;
+        }
+
+        public async Task<User> GetUserWithSensorsAsync(string userId)
+        {
+            var user = await this.contex.Users
+                .Include(u => u.Sensors)
+                .SingleOrDefaultAsync(u => u.Id == userId);
+
+            return user;
         }
 
         public async Task<IEnumerable<User>> ListUsersAsync()
