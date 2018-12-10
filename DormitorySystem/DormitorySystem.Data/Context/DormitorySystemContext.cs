@@ -34,7 +34,7 @@ namespace DormitorySystem.Data.Context
         {
             this.seedUsers.SeedRole(builder);
             this.seedUsers.SeedAdmin(builder);
-            this.seedApiData.SetCollections();
+            this.seedApiData.SetCollections().Wait();
 
             builder.Entity<Measure>().HasData(this.seedApiData.MeasureCollection);
             builder.Entity<SensorType>().HasData(this.seedApiData.TypesCollection);

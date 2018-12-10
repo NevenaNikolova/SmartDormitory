@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.BackgroundService
 {
@@ -39,15 +39,16 @@ namespace DormitorySystem.Services.BackgroundService
             return result;
         }
 
-        public IDictionary<string, SampleSensor> CheckForNewSensor
+        public async Task<IDictionary<string, SampleSensor>> CheckForNewSensor
             (IDictionary<string, SampleSensor> listOfSensors)
         {
-            string response = apiProvider.ReturnResponse
+            var response = await apiProvider.ReturnResponseAsync
                        (ApiConstants.ICBSensorApiListAllSensor,
                        ApiConstants.ICBApiAuthorizationToken);
-            response = "{" + "\"data\"" + ":" + response + "}";
 
-            JObject allApiSensores = JObject.Parse(response);
+            var result = "{" + "\"data\"" + ":" + response.Value + "}";
+
+            JObject allApiSensores = JObject.Parse(result);
 
             foreach (var sensor in allApiSensores["data"])
             {
@@ -141,7 +142,7 @@ namespace DormitorySystem.Services.BackgroundService
             return result;
         }
 
-        public IDictionary<string, SampleSensor> UpdateSensors(IDictionary<string, SampleSensor> listOfSensors)
+        public async Task<IDictionary<string, SampleSensor>> UpdateSensors(IDictionary<string, SampleSensor> listOfSensors)
         {
             ICollection<SampleSensor> sensorForUpdate = new List<SampleSensor>();
 
@@ -150,11 +151,11 @@ namespace DormitorySystem.Services.BackgroundService
             {
                 if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
                 {
-                    string response = apiProvider.ReturnResponse
+                    var response = await apiProvider.ReturnResponseAsync
                        (ApiConstants.ICBSensorApiBaseUrl
                        + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
 
-                    JObject sensorResponse = JObject.Parse(response);
+                    JObject sensorResponse = JObject.Parse(response.Value);
 
                     sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
                     sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());

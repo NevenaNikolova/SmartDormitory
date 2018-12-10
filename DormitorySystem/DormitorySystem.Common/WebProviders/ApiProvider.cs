@@ -1,16 +1,49 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using DormitorySystem.Common.Abstractions;
 
 namespace DormitorySystem.Common.WebProvider
 {
     public class ApiProvider : IApiProvider
     {
-        public string ReturnResponse(string url, string header)
+        private readonly HttpClient httpClient;
+        private KeyValuePair<bool, string> result;
+
+        public ApiProvider(HttpClient httpClient)
         {
-            var client = new WebClient();
-            client.Headers.Add(header);
-            var response = client.DownloadString(url);
-            return response;
+            this.httpClient = httpClient;
+        }
+
+        public async Task<KeyValuePair<bool, string>> ReturnResponseAsync(string url, string header)
+        {
+            string[] headerKeyValue = header.Split(':');
+
+            if (headerKeyValue.Length != 2)
+            {
+                throw new Exception("ops");
+            }
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add(headerKeyValue[0], headerKeyValue[1]);
+
+            var response = await httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                this.result = new KeyValuePair<bool, string>
+                    (response.IsSuccessStatusCode,
+                    await response.Content.ReadAsStringAsync());
+            }
+            else
+            {
+                this.result = new KeyValuePair<bool, string>
+                    (response.IsSuccessStatusCode,
+                    response.StatusCode.ToString());
+            }
+
+            return result;
         }
     }
 }

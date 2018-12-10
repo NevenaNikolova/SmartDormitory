@@ -17,12 +17,16 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly IUsersService usersService;
 
         public ManageUsersController
-            (UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+            (UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
+            IUsersService usersService)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.usersService = usersService;
         }
 
         public IActionResult Index()
@@ -84,7 +88,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var user=await this.usersService.DeleteUserAsync(id);
+            var user = await this.usersService.DeleteUserAsync(id);
 
             return RedirectToAction("UserDetails", new { id = user.Id });
         }

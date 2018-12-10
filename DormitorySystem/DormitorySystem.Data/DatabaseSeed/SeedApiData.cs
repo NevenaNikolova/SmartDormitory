@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Data.DatabaseSeed
 {
@@ -23,9 +24,9 @@ namespace DormitorySystem.Data.DatabaseSeed
             this.apiProvider = apiProvider;
         }
 
-        public void SetCollections()
+        public async Task SetCollections()
         {
-            this.apiData = LoadApiData();
+            this.apiData = await LoadApiDataAsync();
 
             var measures = CreateMeasuresCollection();
             var types = CreateTypesCollection();
@@ -50,14 +51,13 @@ namespace DormitorySystem.Data.DatabaseSeed
             get => sensorCollection; private set => sensorCollection = value;
         }
 
-        private JObject LoadApiData()
+        public async Task<JObject> LoadApiDataAsync()
         {
-            var responseAll = apiProvider.ReturnResponse
-                (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
+            var responseAll = await apiProvider.ReturnResponseAsync(ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
 
-            responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
+            var response = "{" + "\"data\"" + ":" + responseAll.Value + "}";
 
-            return JObject.Parse(responseAll);
+            return JObject.Parse(response);
         }
 
         private SampleSensor[] CreateSensorsCollection

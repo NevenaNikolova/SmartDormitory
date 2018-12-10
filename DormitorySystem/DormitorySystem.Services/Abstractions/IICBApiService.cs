@@ -1,7 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.Abstractions
 {
@@ -9,10 +8,10 @@ namespace DormitorySystem.Services.Abstractions
     {
         IDictionary<string, SampleSensor> InitialSensorLoad();
 
-        IDictionary<string, SampleSensor> CheckForNewSensor
-            (IDictionary<string, SampleSensor> listOfSensors);
+        Task<IDictionary<string, SampleSensor>> CheckForNewSensor
+              (IDictionary<string, SampleSensor> listOfSensors);
 
-        IDictionary<string, SampleSensor> UpdateSensors
-            (IDictionary<string, SampleSensor> listOfSensors);
+        Task<IDictionary<string, SampleSensor>> UpdateSensors
+             (IDictionary<string, SampleSensor> listOfSensors);
     }
 }

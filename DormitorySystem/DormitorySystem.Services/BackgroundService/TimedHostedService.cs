@@ -37,14 +37,14 @@ namespace DormitorySystem.Services.BackgroundService
             return Task.CompletedTask;
         }
 
-        private void CheckForNewSensor(object state)
+        private async void CheckForNewSensor(object state)
         {
             int number = listOfSensors.Count;
 
             using (var scope = service.CreateScope())
             {
                 var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-                listOfSensors = iCBApiService.CheckForNewSensor(listOfSensors);
+                listOfSensors = await iCBApiService.CheckForNewSensor(listOfSensors);
             }
 
             number = listOfSensors.Count - number;
@@ -64,14 +64,14 @@ namespace DormitorySystem.Services.BackgroundService
             return $"Initial sensor load was completed on {DateTime.Now.Date}";
         }
 
-        private void UpdateSensor(object state)
+        private async void UpdateSensor(object state)
         {
             this.logger.LogInformation("Start searching for outdated sensors.");
 
             using (var scope = service.CreateScope())
             {
                 var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-                listOfSensors = iCBApiService.UpdateSensors(listOfSensors);
+                listOfSensors = await iCBApiService.UpdateSensors(listOfSensors);
             }
 
             this.logger.LogInformation("Sensors are up to date.");
