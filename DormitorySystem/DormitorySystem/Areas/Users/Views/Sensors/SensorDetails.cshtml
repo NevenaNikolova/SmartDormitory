@@ -60,6 +60,12 @@
         <div id="error" hidden>
             <h4><span style="color:red">There is no connection to the applications at this moment</span></h4>
         </div>
+        <div id="error" hidden>
+            <h4><span style="color:red">There is no connection to the applications at this moment</span></h4>
+        </div>
+        <div id="sensor-is-offline" hidden>
+            <h4><span style="color:red">The Sensor is offline</span></h4>
+        </div>
     </div>
 </div>
 
@@ -106,13 +112,20 @@ else
         const mTypeTrue = @Model.MeasureType.Contains("true").ToString().ToLower();
         const mTypeFalse = @Model.MeasureType.Contains("false").ToString().ToLower();
         const mType = mTypeTrue || mTypeFalse;
-        runChart();
+        const startUpdateAfter = @Model.StartUpdateAfter;
+
+        getData();
 
         $(document).ready(function () {
-            setInterval(runChart, pollingInterval)
+            setTimeout(runVisualization, startUpdateAfter)
         });
 
-        function runChart() {
+        function runVisualization()
+        {
+            setInterval(getData, pollingInterval)
+        };
+
+        function getData() {
             $.get(url, function () {
                 if ($('#data-visualization').is(":hidden")) {
                     $('#data-visualization').show();
@@ -126,27 +139,35 @@ else
                 .then(data => drawChart(data, mType));
         };
 
-        function drawChart(value, measureType)
+        function drawChart(data, measureType)
         {
-            if (!measureType) {
-                 $("#data-visualization").gaugeMeter({
-                     text: value,
-                     used: Math.round(value - @Model.UserMinValue),
-                     total: @Model.UserMaxValue - @Model.UserMinValue,
-                     label: "@Model.Type",
-                     append: "@Model.MeasureType"
-                })
-               }
-            else {
-                if (value) {
-                       $('#false').hide();
-                       $('#true').show();
-                   } else {
-                       $('#true').hide();
-                       $('#false').show();
+            if (data.isOnline) {
+                $('#sensor-is-offline').hide();
+                $('#data-visualization').show();
+
+                if (!measureType) {
+                    $("#data-visualization").gaugeMeter({
+                        text: data.value,
+                        used: Math.round(data.value - @Model.UserMinValue),
+                        total: @Model.UserMaxValue - @Model.UserMinValue,
+                        label: "@Model.Type",
+                        append: "@Model.MeasureType"
+                    })
                    }
-               }
-           }
+                else {
+                    if (data.value) {
+                           $('#false').hide();
+                           $('#true').show();
+                    } else {
+                        $('#true').hide();
+                        $('#false').show();
+                    }
+                }
+            } else {
+                $('#data-visualization').hide();
+                $('#sensor-is-offline').show();
+            }
+        }
     </script>
 }
 

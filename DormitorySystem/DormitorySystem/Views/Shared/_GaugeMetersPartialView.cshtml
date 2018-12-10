@@ -9,6 +9,8 @@
              data-width="15"
              data-style="Arch"
              data-theme="Blue-Gold-Red"
+             data-label_color="#c9c9c9"
+             data-back="#33383f"
              data-animationstep=0
              data-animate_gauge_colors=true
              data-animate_text_colors=true></div>
@@ -20,10 +22,12 @@
              data-size="250"
              data-width="10"
              data-theme="LightBlue-DarkBlue"
+             data-back="#3b3f43"
+             data-fill="#23272b"
+             data-label_color="#c9c9c9"
              data-animationstep=0
              data-animate_gauge_colors=true
-             data-animate_text_colors=true
-             data-fill="#d8e6fe"></div>
+             data-animate_text_colors=true></div>
         break;
     case "electricpowerconsumtion":
         <div class="center-block GaugeMeter" id="data-visualization"
@@ -32,6 +36,9 @@
              data-width="7"
              data-style="Arch"
              data-theme="Green-Gold-Red"
+             data-back="#2b2f35"
+             data-label_color="#c9c9c9"
+             data-fill="#23272b"
              data-animationstep=0
              data-animate_gauge_colors=true
              data-animate_text_colors=true></div>
@@ -43,6 +50,7 @@
              data-width="20"
              data-style="Semi"
              data-theme="Noise"
+             data-label_color="#c9c9c9"
              data-animationstep=0
              data-animate_gauge_colors=true
              data-animate_text_colors=true
@@ -50,14 +58,14 @@
         break;
     case "occupancy":
         <div class="text-center" id="true" hidden>
-            <div class="progress center-block" style="height: 30px; width: 150px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
+            <div class="progress center-block" style="height: 250px; width: 100px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
                 <div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" style="width: 100%;">
                     The space is occupied
                 </div>
             </div>
         </div>
         <div class="text-center" id="false" hidden>
-            <div class="progress center-block" style="height: 30px; width: 150px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
+            <div class="progress center-block" style="height: 250px; width: 100px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
                 <div class="progress-bar progress-bar-striped active progress-bar-danger" role="progressbar" style="width: 100%;">
                     The space is not occupied
                 </div>
@@ -66,14 +74,14 @@
         break;
     case "door":
         <div class="text-center" id="true" hidden>
-            <div class="progress center-block" style="height: 30px; width: 150px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
+            <div class="progress center-block" style="height: 250px; width: 100px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
                 <div class="progress-bar progress-bar-striped active progress-bar-success" role="progressbar" style="width: 100%;">
                     The door is open
                 </div>
             </div>
         </div>
         <div class="text-center" id="false" hidden>
-            <div class="progress center-block" style="height: 30px; width: 150px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
+            <div class="progress center-block" style="height: 250px; width: 100px; box-shadow: 2px 2px 2px rgba(68, 68, 68, 1)">
                 <div class="progress-bar progress-bar-striped active progress-bar-danger" role="progressbar" style="width: 100%;">
                     The door is closed
                 </div>

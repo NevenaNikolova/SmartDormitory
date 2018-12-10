@@ -16,6 +16,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
 
             this.SensorType = model.SampleSensor.SensorType.Name;
             this.IsPrivate = model.IsPrivate;
+            this.IsOnline = model.SampleSensor.IsOnline;
         }
         [Display(Name="Sensor Type")]
         public string SensorType { get; set; }
@@ -27,5 +28,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
 
         [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
+
+        public bool IsOnline { get; set; }
     }
 }

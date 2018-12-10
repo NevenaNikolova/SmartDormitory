@@ -19,6 +19,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
             this.MeasureType = model.SampleSensor.Measure.MeasureType;
             this.SampleSensorId = model.SampleSensorId;
             this.IsDeleted = model.isDeleted;
+            this.StartUpdateAfter = (DateTime.Now - DateTime.Parse(model.SampleSensor.TimeStamp)).Seconds;
         }
 
         public Guid SampleSensorId { get; set; }
@@ -41,9 +42,11 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
         [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
 
-        [Display(Name="Measure")]
+        [Display(Name = "Measure")]
         public string MeasureType { get; set; }
 
         public bool IsDeleted { get; set; }
+
+        public int StartUpdateAfter { get; set; }
     }
 }
