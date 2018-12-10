@@ -18,20 +18,6 @@ namespace DormitorySystem.Services.AppServices
             this.contex = contex;
         }
 
-        public async Task<User> GetUserAsync(string Id)
-        {
-            var user = await this.contex.Users
-                .Include(u => u.Sensors)
-                .SingleOrDefaultAsync(u => u.Id == Id);
-
-            if (user == null)
-            {
-                throw new UserNullableException("There is no such user.");
-            }
-
-            return user;
-        }
-
         public async Task<IEnumerable<User>> ListUsersAsync()
         {
             var users = await this.contex.Users
