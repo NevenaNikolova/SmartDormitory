@@ -1,7 +1,10 @@
-﻿namespace DormitorySystem.Common.Abstractions
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace DormitorySystem.Common.Abstractions
 {
     public interface IApiProvider
     {
-        string ReturnResponse(string url, string header);
+        Task<KeyValuePair<bool, string>> ReturnResponseAsync(string url, string header);
     }
 }

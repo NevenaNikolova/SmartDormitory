@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace DormitorySystem.Data.DatabaseSeed
 {
@@ -23,16 +24,26 @@ namespace DormitorySystem.Data.DatabaseSeed
             this.apiProvider = apiProvider;
         }
 
-        public void SetCollections()
+        public async Task<bool> SetCollections()
         {
-            this.apiData = LoadApiData();
+            var responseAll = await apiProvider.ReturnResponseAsync
+                (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
 
-            var measures = CreateMeasuresCollection();
-            var types = CreateTypesCollection();
+            if (responseAll.Key)
+            {
+                var response = "{" + "\"data\"" + ":" + responseAll.Value + "}";
 
-            this.MeasureCollection = measures.Values.ToArray();
-            this.TypesCollection = types.Values.ToArray();
-            this.SensorCollection = CreateSensorsCollection(measures, types);
+                this.apiData = JObject.Parse(response);
+
+                var measures = CreateMeasuresCollection();
+                var types = CreateTypesCollection();
+
+                this.MeasureCollection = measures.Values.ToArray();
+                this.TypesCollection = types.Values.ToArray();
+                this.SensorCollection = CreateSensorsCollection(measures, types);
+            }
+
+            return responseAll.Key;
         }
 
         public Measure[] MeasureCollection
@@ -48,16 +59,6 @@ namespace DormitorySystem.Data.DatabaseSeed
         public SampleSensor[] SensorCollection
         {
             get => sensorCollection; private set => sensorCollection = value;
-        }
-
-        private JObject LoadApiData()
-        {
-            var responseAll = apiProvider.ReturnResponse
-                (ApiConstants.ICBSensorApiListAllSensor, ApiConstants.ICBApiAuthorizationToken);
-
-            responseAll = "{" + "\"data\"" + ":" + responseAll + "}";
-
-            return JObject.Parse(responseAll);
         }
 
         private SampleSensor[] CreateSensorsCollection

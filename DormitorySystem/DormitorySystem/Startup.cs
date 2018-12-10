@@ -15,6 +15,8 @@ using DormitorySystem.Services.BackgroundService;
 using DormitorySystem.Services.AppServices;
 using DormitorySystem.Common.WebProvider;
 using DormitorySystem.Common.Abstractions;
+using System.Net.Http;
+using System;
 
 namespace DormitorySystem
 {
@@ -93,7 +95,7 @@ namespace DormitorySystem
         {
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddHostedService<TimedHostedService>();
-            services.AddScoped<IApiProvider, ApiProvider>();
+            services.AddHttpClient<IApiProvider, ApiProvider>();
 
             services.AddScoped<ISensorsService, SensorService>();
             services.AddScoped<IUsersService, UserService>();

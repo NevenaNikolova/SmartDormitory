@@ -34,11 +34,14 @@ namespace DormitorySystem.Data.Context
         {
             this.seedUsers.SeedRole(builder);
             this.seedUsers.SeedAdmin(builder);
-            this.seedApiData.SetCollections();
 
-            builder.Entity<Measure>().HasData(this.seedApiData.MeasureCollection);
-            builder.Entity<SensorType>().HasData(this.seedApiData.TypesCollection);
-            builder.Entity<SampleSensor>().HasData(this.seedApiData.SensorCollection);
+            bool hasResponse = this.seedApiData.SetCollections().Result;
+            if (hasResponse)
+            {
+                builder.Entity<Measure>().HasData(this.seedApiData.MeasureCollection);
+                builder.Entity<SensorType>().HasData(this.seedApiData.TypesCollection);
+                builder.Entity<SampleSensor>().HasData(this.seedApiData.SensorCollection);
+            }
 
             base.OnModelCreating(builder);
         }

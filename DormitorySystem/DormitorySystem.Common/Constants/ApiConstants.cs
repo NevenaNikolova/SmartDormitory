@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DormitorySystem.Common.Constants
+﻿namespace DormitorySystem.Common.Constants
 {
     public class ApiConstants
     {
