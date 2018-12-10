@@ -181,5 +181,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
         }
+
+        public async Task<IActionResult> DeleteSensor(Guid id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+            var sensor = await this.sensorsService.DeleteUserSensorAsync(id);
+
+            return this.RedirectToAction("SensorDetails", new { userSensorid = id });
+        }
     }
 }

@@ -3,12 +3,13 @@
 <table id="user-sensors" class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th class="col-md-2 text-center">User</th>
+            <th class="col-md-1 text-center">User</th>
             <th class="col-md-2 text-center">Sensor Name</th>
             <th class="col-md-2 text-center">Sensor Type</th>
             <th class="col-md-2 text-center">Registered On</th>
             <th class="col-md-2 text-center">Modified On</th>
-            <th class="col-md-2 text-center">Details</th>
+            <th class="col-md-2 text-center">Deleted On</th>
+            <th class="col-md-1 text-center">Details</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             <td>@sensor.Type</td>
             <td>@sensor.CreatedOn</td>
             <td>@sensor.ModifiedOn</td>
+            <td>@sensor.DeletedOn</td>
             <td>
                 <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
                    asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">

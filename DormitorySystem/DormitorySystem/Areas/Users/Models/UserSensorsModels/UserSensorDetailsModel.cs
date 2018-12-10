@@ -18,6 +18,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
             this.IsPrivate = model.IsPrivate;
             this.MeasureType = model.SampleSensor.Measure.MeasureType;
             this.SampleSensorId = model.SampleSensorId;
+            this.IsDeleted = model.isDeleted;
         }
 
         public Guid SampleSensorId { get; set; }
@@ -42,5 +43,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 
         [Display(Name="Measure")]
         public string MeasureType { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
