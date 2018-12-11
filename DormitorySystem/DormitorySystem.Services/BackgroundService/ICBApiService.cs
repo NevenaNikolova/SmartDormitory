@@ -16,18 +16,22 @@ namespace DormitorySystem.Services.BackgroundService
     {
         private readonly DormitorySystemContext context;
         private readonly IApiProvider apiProvider;
+        private readonly INotificationsService notifications;
 
-        public ICBApiService(DormitorySystemContext context, IApiProvider apiProvider)
+        public ICBApiService(DormitorySystemContext context,
+            IApiProvider apiProvider,
+            INotificationsService notifications)
         {
             this.context = context;
             this.apiProvider = apiProvider;
+            this.notifications = notifications;
         }
 
         public IDictionary<string, SampleSensor> InitialSensorLoad()
         {
             var result = new Dictionary<string, SampleSensor>();
 
-            var sensors = this.context.SampleSensors;
+            var sensors = this.context.SampleSensors.ToList();
 
             foreach (var sensor in sensors)
             {
@@ -179,8 +183,9 @@ namespace DormitorySystem.Services.BackgroundService
 
             if (isAnySensorForUpdate)
             {
-                context.UpdateRange(sensorForUpdate);
-                context.SaveChanges();
+                this.context.UpdateRange(sensorForUpdate);
+                this.context.SaveChanges();
+                this.notifications.CheckForOutOfRangeSensors(sensorForUpdate);
             }
 
             return listOfSensors;

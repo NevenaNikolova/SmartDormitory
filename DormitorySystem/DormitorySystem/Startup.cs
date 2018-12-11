@@ -17,6 +17,8 @@ using DormitorySystem.Common.WebProvider;
 using DormitorySystem.Common.Abstractions;
 using System.Net.Http;
 using System;
+using DormitorySystem.Services.HubsServices;
+using DormitorySystem.Services.HubsServices.Hubs;
 
 namespace DormitorySystem
 {
@@ -59,6 +61,11 @@ namespace DormitorySystem
 
             app.UseAuthentication();
 
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotifyHub>("/notifyHub");
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -79,6 +86,7 @@ namespace DormitorySystem
         private void RegisterInfrastructure(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddSignalR();
 
             services
                .AddMvc()
@@ -100,6 +108,8 @@ namespace DormitorySystem
             services.AddScoped<ISensorsService, SensorService>();
             services.AddScoped<IUsersService, UserService>();
             services.AddScoped<IICBApiService, ICBApiService>();
+            services.AddScoped<INotificationsService, NotificationsService>();
+            services.AddScoped<IHubService, HubService>();
             services.AddScoped<ISeedUsers, SeedUsers>();
             services.AddScoped<ISeedApiData, SeedApiData>();
         }
