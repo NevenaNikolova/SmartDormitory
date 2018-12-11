@@ -21,12 +21,13 @@ namespace DormitorySystem.Controllers
         public async Task<JsonResult> Get(Guid sensorId)
         {
             var sensor = await this.sensorsService.GetSampleSensorAsync(sensorId);
-
+            var sensorTimeStamp = DateTime.Parse(sensor.TimeStamp);
             return new JsonResult(new
             {
                 value = sensor.ValueCurrent,
                 isOnline = sensor.IsOnline,
-                timeStanp = sensor.TimeStamp
+                timeInMinute = sensorTimeStamp.Minute,
+                timeInSecond = sensorTimeStamp.Second,
             });
         }
     }

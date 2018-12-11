@@ -19,7 +19,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
             this.MeasureType = model.SampleSensor.Measure.MeasureType;
             this.SampleSensorId = model.SampleSensorId;
             this.IsDeleted = model.isDeleted;
-            this.StartUpdateAfter = (DateTime.Now - DateTime.Parse(model.SampleSensor.TimeStamp)).Seconds;
+            this.TimeStamp = DateTime.Parse(model.SampleSensor.TimeStamp);
         }
 
         public Guid SampleSensorId { get; set; }
@@ -47,6 +47,6 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 
         public bool IsDeleted { get; set; }
 
-        public int StartUpdateAfter { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
 }

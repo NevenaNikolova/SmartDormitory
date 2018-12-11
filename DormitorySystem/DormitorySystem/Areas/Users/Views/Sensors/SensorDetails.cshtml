@@ -54,8 +54,9 @@
     <div class="col-md-6 text-center">
         <h3>Current Value</h3>
         <hr />
-
-        <partial name="_GaugeMetersPartialView" model="@Model" />
+        <div id="data-visualization">
+            <partial name="_GaugeMetersPartialView" model="@Model" />
+        </div>
 
         <div id="error" hidden>
             <h4><span style="color:red">There is no connection to the applications at this moment</span></h4>
@@ -107,41 +108,44 @@ else
             crossorigin="anonymous"></script>
     <script src="~/js/GaugeMeter.js"></script>
     <script>
-        const pollingInterval = @Model.UserPollingInterval * 1000;
+        const pollingInterval = @Model.UserPollingInterval;
         const url = "/api/value" + "?sensorId=" + "@Model.SampleSensorId";
         const mTypeTrue = @Model.MeasureType.Contains("true").ToString().ToLower();
         const mTypeFalse = @Model.MeasureType.Contains("false").ToString().ToLower();
         const mType = mTypeTrue || mTypeFalse;
-        const startUpdateAfter = @Model.StartUpdateAfter;
+        let timeStamp = new Date($.now());
+        timeStamp.setMinutes(@Model.TimeStamp.Minute);
+        timeStamp.setSeconds(@Model.TimeStamp.Second - 10);
 
         getData();
 
         $(document).ready(function () {
-            setTimeout(runVisualization, startUpdateAfter)
+            setInterval(getData, 5000)
         });
 
-        function runVisualization()
-        {
-            setInterval(getData, pollingInterval)
-        };
-
         function getData() {
-            $.get(url, function () {
-                if ($('#data-visualization').is(":hidden")) {
-                    $('#data-visualization').show();
-                    $('#error').hide();
-                }
+            if (new Date(timeStamp) < new Date($.now())) {
+                $.get(url, function () {
+                    if ($('#data-visualization').is(":hidden")) {
+                        $('#data-visualization').show();
+                        $('#error').hide();
+                    }
                 })
-               .fail(function () {
-                   $('#data-visualization').hide();
-                   $('#error').show();
-                })
-                .then(data => drawChart(data, mType));
+                    .fail(function () {
+                        $('#data-visualization').hide();
+                        $('#error').show();
+                    })
+                    .then(data => drawChart(data, mType)
+                    );
+            }
         };
 
         function drawChart(data, measureType)
         {
             if (data.isOnline) {
+                timeStamp.setMinutes(data.timeInMinute)
+                timeStamp.setSeconds(data.timeInSecond)
+                timeStamp.setSeconds(timeStamp.getSeconds() + pollingInterval);
                 $('#sensor-is-offline').hide();
                 $('#data-visualization').show();
 

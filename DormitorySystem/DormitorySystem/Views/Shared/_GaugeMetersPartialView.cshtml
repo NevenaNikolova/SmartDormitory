@@ -3,7 +3,7 @@
 @switch (Model.Type.ToLower())
 {
     case "temperature":
-        <div class="center-block GaugeMeter" id="data-visualization"
+        <div class="center-block GaugeMeter"
              data-text_size=0.21
              data-size="250"
              data-width="15"
@@ -17,7 +17,7 @@
         break;
 
     case "humidity":
-        <div class="center-block GaugeMeter" id="data-visualization"
+        <div class="center-block GaugeMeter"
              data-text_size=0.19
              data-size="250"
              data-width="10"
@@ -30,7 +30,7 @@
              data-animate_text_colors=true></div>
         break;
     case "electricpowerconsumtion":
-        <div class="center-block GaugeMeter" id="data-visualization"
+        <div class="center-block GaugeMeter"
              data-text_size=0.19
              data-size="250"
              data-width="7"
@@ -44,7 +44,7 @@
              data-animate_text_colors=true></div>
         break;
     case "noise":
-        <div class="center-block GaugeMeter" id="data-visualization"
+        <div class="center-block GaugeMeter"
              data-text_size=0.19
              data-size="250"
              data-width="20"
@@ -89,6 +89,6 @@
         </div>
         break;
     default:
-        <div class="center-block GaugeMeter" id="data-visualization"></div>
+        <div class="center-block GaugeMeter"></div>
         break;
 }
