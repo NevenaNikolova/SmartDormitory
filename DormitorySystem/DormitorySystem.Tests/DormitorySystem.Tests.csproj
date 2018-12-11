@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ControllersTests\Admin\" />
+    <Folder Include="ControllersTests\Admin\ManageUsersControllerTests\" />
   </ItemGroup>
 
 </Project>

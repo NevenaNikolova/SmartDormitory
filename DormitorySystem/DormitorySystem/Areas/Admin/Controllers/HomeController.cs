@@ -30,7 +30,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             
             var model = users.Select(u => new UserModel(u));
 
-            return View(model);
+            return View("Index", model);
         }
     }
 }

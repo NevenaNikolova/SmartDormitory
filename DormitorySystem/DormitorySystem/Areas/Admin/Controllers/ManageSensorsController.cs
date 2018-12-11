@@ -35,7 +35,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             var model = new ListSensorSViewModel(sensorsData, id, userName);
 
-            return View(model);
+            return View("ListUserSensors", model);
         }
         public async Task<IActionResult> AllUserSensors()
         {
