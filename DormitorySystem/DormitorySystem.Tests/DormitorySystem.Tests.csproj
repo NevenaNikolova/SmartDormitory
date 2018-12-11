@@ -16,6 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\DormitorySystem.Data\DormitorySystem.Data.csproj" />
     <ProjectReference Include="..\DormitorySystem.Services\DormitorySystem.Services.csproj" />
+    <ProjectReference Include="..\DormitorySystem\DormitorySystem.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ControllersTests\Admin\" />
   </ItemGroup>
 
 </Project>

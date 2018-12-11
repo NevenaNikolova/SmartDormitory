@@ -56,7 +56,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var model = new UserSensorDetailsModel(userSensor);
 
-            return View(model);
+            return View("SensorDetails", model);
         }
 
         public async Task<IActionResult> ListSampleSensors(string userId)

@@ -28,6 +28,6 @@ namespace DormitorySystem.Data.Models
         public bool SendNotification { get; set; }
         public bool IsPrivate { get; set; }
         public double? UserMinValue { get; set; }
-        public double? UserMaxValue { get; set; }
+        public double? UserMaxValue { get; set; }      
     }
 }
