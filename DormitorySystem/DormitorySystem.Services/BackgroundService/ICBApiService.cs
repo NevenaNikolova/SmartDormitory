@@ -185,7 +185,6 @@ namespace DormitorySystem.Services.BackgroundService
             {
                 this.context.UpdateRange(sensorForUpdate);
                 await this.context.SaveChangesAsync();
-                this.notifications.CheckForOutOfRangeSensors(sensorForUpdate);
             }
 
             return listOfSensors;

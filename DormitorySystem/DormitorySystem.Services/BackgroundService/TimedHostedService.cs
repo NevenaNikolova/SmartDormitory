@@ -34,7 +34,19 @@ namespace DormitorySystem.Services.BackgroundService
 
             this.timer = new Timer(UpdateSensor, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
+            this.timer = new Timer(CheckForValidValue, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+
             return Task.CompletedTask;
+        }
+
+        private async void CheckForValidValue(object state)
+        {
+            using (var scope = service.CreateScope())
+            {
+                var notificationsService
+                    = scope.ServiceProvider.GetRequiredService<INotificationsService>();
+               await notificationsService.CheckForOutOfRangeSensorsAsync(listOfSensors);
+            }
         }
 
         private async void CheckForNewSensor(object state)
