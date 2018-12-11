@@ -13,8 +13,28 @@
                     <td>@Model.Name</td>
                 </tr>
                 <tr>
+                    <th>Type</th>
+                    <td>@Model.Type</td>
+                </tr>
+                <tr>
+                    <th>Registered On</th>
+                    <td>@Model.CreatedOn</td>
+                </tr>
+                <tr>
+                    <th>Edited On</th>
+                    <td>@Model.ModifiedOn</td>
+                </tr>
+                <tr>
                     <th>Update Sensor Interval</th>
                     <td>@Model.UserPollingInterval</td>
+                </tr>
+                <tr>
+                    <th>Sensor Minimum Value</th>
+                    <td>@Model.UserMinValue @Model.MeasureType</td>
+                </tr>
+                <tr>
+                    <th>Sensor Maximum Value</th>
+                    <td>@Model.UserMaxValue @Model.MeasureType</td>
                 </tr>
                 <tr>
                     <th>Latitude</th>
@@ -25,6 +45,10 @@
                     <td>@Model.Longitude</td>
                 </tr>
                 <tr>
+                    <th>Current Value Last Updated On</th>
+                    <td>@Model.TimeStamp</td>
+                </tr>
+                <tr>
                     <th>Notify me if Sensor Values are Out Of Range</th>
                     <td>
                         <div class="checkbox">
@@ -33,7 +57,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>This Sensor is Visible only for Me</th>
+                    <th>Sensor is Visible only for Me</th>
                     <td>
                         <div class="checkbox">
                             <input class="col-md-6" asp-for="@Model.IsPrivate" disabled>
@@ -41,7 +65,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>This Sensor is Disabled</th>
+                    <th>Sensor is Disabled</th>
                     <td>
                         <div class="checkbox">
                             <input class="col-md-6" asp-for="@Model.IsDeleted" disabled>
