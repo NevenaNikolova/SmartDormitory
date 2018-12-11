@@ -20,8 +20,8 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
     {
         [TestMethod]
         public async Task Return_SensorDetailsView()
-        {          
-            var sensorsService = new Mock<ISensorsService>();      
+        {
+            var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
             var testSensor = TestUserSensor();
 
@@ -32,13 +32,13 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 
             var result = await controller.SensorDetails(testSensor.Id) as ViewResult;
 
-            Assert.AreEqual("SensorDetails", result.ViewName);            
+            Assert.AreEqual("SensorDetails", result.ViewName);
         }
 
         [TestMethod]
         public async Task ReturnUserSensor_AsUserSensorDetailsModel()
-        {           
-            var sensorsService = new Mock<ISensorsService>();           
+        {
+            var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
             var testSensor = TestUserSensor();
 
@@ -86,9 +86,11 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 Description = "Test Sensor",
                 MinPollingInterval = 20,
                 MeasureId = measure.Id,
+                Measure = measure,
                 ValueCurrent = 50,
                 SensorTypeId = sensorType.Id,
-                SensorType=sensorType,
+                SensorType = sensorType,
+                TimeStamp = DateTime.Now.ToString(),
                 IsOnline = true
             };
             var user = new User()
@@ -100,21 +102,22 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
             var userSensor = new UserSensor
             {
                 Id = Guid.Parse("00000000-0000-0000-0000-000000000444"),
-                Name="Test",  
+                Name = "Test",
                 CreatedOn = DateTime.Now,
                 isDeleted = false,
                 SampleSensorId = sampleSensor.Id,
+                SampleSensor = sampleSensor,
                 PollingInterval = 100,
-                UserMinValue=100,
-                UserMaxValue=200,
+                UserMinValue = 100,
+                UserMaxValue = 200,
                 Latitude = "51.1524",
                 Longitude = "55.546",
                 SendNotification = true,
                 IsPrivate = false,
-                User=user,
-                UserId=user.Id,
-            };     
-            
+                User = user,
+                UserId = user.Id,
+            };
+
             return userSensor;
         }
 

@@ -1,9 +1,6 @@
 ﻿using DormitorySystem.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DormitorySystem.Web.Areas.Admin.Models.AbstractModels
 {
@@ -27,10 +24,10 @@ namespace DormitorySystem.Web.Areas.Admin.Models.AbstractModels
 
         public string Type { get; set; }
 
-        [Display(Name="Registered On")]
+        [Display(Name = "Registered On")]
         public DateTime CreatedOn { get; set; }
 
-        [Display(Name="Modified On")]
+        [Display(Name = "Modified On")]
         public DateTime? ModifiedOn { get; set; }
     }
 }
