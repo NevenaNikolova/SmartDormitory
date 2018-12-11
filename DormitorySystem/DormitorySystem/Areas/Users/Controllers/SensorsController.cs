@@ -72,7 +72,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var model = new ListSampleSensorViewModel(sampleSensorsModel, userId);
 
-            return View(model);
+            return View("ListSampleSensors", model);
         }
 
         [HttpGet]
@@ -82,7 +82,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var model = new RegisterSensorModel(sensor, userId);
 
-            return View(model);
+            return View("RegisterNewSensor", model);
         }
 
         [HttpPost]
@@ -144,7 +144,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var model = new EditSensorModel(userSensor);
 
-            return View(model);
+            return View("EditSensor",model);
         }
 
         [HttpPost]

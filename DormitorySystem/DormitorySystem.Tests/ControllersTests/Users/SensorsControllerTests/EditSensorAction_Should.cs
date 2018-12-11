@@ -16,39 +16,39 @@ using System.Threading.Tasks;
 namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 {
     [TestClass]
-    public class SensorDetailsAction_Should
+    public class EditSensorAction_Should
     {
         [TestMethod]
-        public async Task Return_SensorDetailsView()
-        {
-            var sensorsService = new Mock<ISensorsService>();
+        public async Task Return_EditSensorView()
+        {           
+            var sensorsService = new Mock<ISensorsService>();         
             var mockUserManager = GetUserManagerMock();
             var testSensor = TestUserSensor();
 
             sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+               ReturnsAsync(testSensor);
 
             var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controller.SensorDetails(testSensor.Id) as ViewResult;
+            var result = await controller.EditSensor(testSensor.Id) as ViewResult;
 
-            Assert.AreEqual("SensorDetails", result.ViewName);
+            Assert.AreEqual("EditSensor", result.ViewName);
         }
 
         [TestMethod]
-        public async Task ReturnUserSensor_AsUserSensorDetailsModel()
+        public async Task ReturnUserSensor_AsEditSensorModel()
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
             var testSensor = TestUserSensor();
 
             sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+               ReturnsAsync(testSensor);
 
-            var controler = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controler.SensorDetails(testSensor.Id) as ViewResult;
-            var viewModel = (UserSensorDetailsModel)result.ViewData.Model;
+            var result = await controller.EditSensor(testSensor.Id) as ViewResult;
+            var viewModel = (EditSensorModel)result.ViewData.Model;
 
             Assert.AreEqual(testSensor.Id, viewModel.Id);
         }
@@ -66,7 +66,6 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 new Mock<IServiceProvider>().Object,
                 new Mock<ILogger<UserManager<User>>>().Object);
         }
-
         private static UserSensor TestUserSensor()
         {
             var measure = new Measure
@@ -96,7 +95,7 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
             var user = new User()
             {
                 Id = "00000000-0000-0000-0000-000000000001",
-                Email = "new@user.com",             
+                Email = "new@user.com",
             };
             var userSensor = new UserSensor
             {
@@ -119,6 +118,6 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 
             return userSensor;
         }
-
     }
 }
+

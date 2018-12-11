@@ -1,7 +1,7 @@
 ﻿using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Users.Controllers;
-using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
+using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,47 +10,51 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 {
     [TestClass]
-    public class SensorDetailsAction_Should
+    public class ListSampleSensorsAction_Should
     {
         [TestMethod]
-        public async Task Return_SensorDetailsView()
-        {
-            var sensorsService = new Mock<ISensorsService>();
+        public async Task Return_ListSampleSensorsView()
+        {            
+            var sensorsService = new Mock<ISensorsService>();           
             var mockUserManager = GetUserManagerMock();
-            var testSensor = TestUserSensor();
+            var user = GetUser();
+            var testSampleSensor = GetSampleSensor();
 
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+            sensorsService.Setup(s => s.ListSampleSensorsAsync()).
+                ReturnsAsync(new List<SampleSensor>() { testSampleSensor });
 
             var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controller.SensorDetails(testSensor.Id) as ViewResult;
+            var result = await controller.ListSampleSensors(user.Id) as ViewResult;
 
-            Assert.AreEqual("SensorDetails", result.ViewName);
+            Assert.AreEqual("ListSampleSensors", result.ViewName);
         }
 
         [TestMethod]
-        public async Task ReturnUserSensor_AsUserSensorDetailsModel()
+        public async Task ReturnAllSampleSensors_AsListSampleSensorViewModel()
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
-            var testSensor = TestUserSensor();
+            var user = GetUser();
+            var testSampleSensor = GetSampleSensor();
 
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+            sensorsService.Setup(s => s.ListSampleSensorsAsync()).
+                ReturnsAsync(new List<SampleSensor>() { testSampleSensor });
 
-            var controler = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controler.SensorDetails(testSensor.Id) as ViewResult;
-            var viewModel = (UserSensorDetailsModel)result.ViewData.Model;
+            var result = await controller.ListSampleSensors(user.Id) as ViewResult;
 
-            Assert.AreEqual(testSensor.Id, viewModel.Id);
+            var viewModel = (ListSampleSensorViewModel)result.ViewData.Model;
+
+            Assert.AreEqual(1, viewModel.SampleSensors.Count());
         }
 
         private static Mock<UserManager<User>> GetUserManagerMock()
@@ -66,8 +70,16 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 new Mock<IServiceProvider>().Object,
                 new Mock<ILogger<UserManager<User>>>().Object);
         }
-
-        private static UserSensor TestUserSensor()
+        private static User GetUser()
+        {
+            var user = new User()
+            {
+                Id = "00000000-0000-0000-0000-000000000001",
+                Email = "new@user.com",
+            };
+            return user;
+        }
+        private static SampleSensor GetSampleSensor()
         {
             var measure = new Measure
             {
@@ -93,32 +105,8 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 TimeStamp = DateTime.Now.ToString(),
                 IsOnline = true
             };
-            var user = new User()
-            {
-                Id = "00000000-0000-0000-0000-000000000001",
-                Email = "new@user.com",             
-            };
-            var userSensor = new UserSensor
-            {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000444"),
-                Name = "Test",
-                CreatedOn = DateTime.Now,
-                isDeleted = false,
-                SampleSensorId = sampleSensor.Id,
-                SampleSensor = sampleSensor,
-                PollingInterval = 100,
-                UserMinValue = 100,
-                UserMaxValue = 200,
-                Latitude = "51.1524",
-                Longitude = "55.546",
-                SendNotification = true,
-                IsPrivate = false,
-                User = user,
-                UserId = user.Id,
-            };
-
-            return userSensor;
+            return sampleSensor;
         }
-
     }
 }
+
