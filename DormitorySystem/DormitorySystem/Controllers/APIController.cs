@@ -2,6 +2,7 @@
 using DormitorySystem.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace DormitorySystem.Controllers
 {
@@ -17,11 +18,17 @@ namespace DormitorySystem.Controllers
         }
 
         [HttpGet]
-        public async Task<double> Get(Guid sensorId)
+        public async Task<JsonResult> Get(Guid sensorId)
         {
             var sensor = await this.sensorsService.GetSampleSensorAsync(sensorId);
-
-            return sensor.ValueCurrent;
+            var sensorTimeStamp = DateTime.Parse(sensor.TimeStamp);
+            return new JsonResult(new
+            {
+                value = sensor.ValueCurrent,
+                isOnline = sensor.IsOnline,
+                timeInMinute = sensorTimeStamp.Minute,
+                timeInSecond = sensorTimeStamp.Second,
+            });
         }
     }
 }

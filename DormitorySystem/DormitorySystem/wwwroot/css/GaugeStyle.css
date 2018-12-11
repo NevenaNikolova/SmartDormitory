@@ -33,7 +33,7 @@
     }
 
     .GaugeMeter B {
-        Color: Black;
+        Color: black;
         Font-Weight: 300;
         Font-Size: .8em;
         Opacity: .8;
