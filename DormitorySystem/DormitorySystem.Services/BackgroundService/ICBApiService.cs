@@ -66,10 +66,10 @@ namespace DormitorySystem.Services.BackgroundService
                         string tag = sensor["Tag"].ToString();
                         string typeTag = tag.Substring(0, tag.IndexOf("Sensor"));
 
-                        var measure = CheckForNewMeasureType(measureType);
-                        var type = CheckForNewSensorType(typeTag);
+                        var measure = await CheckForNewMeasureType(measureType);
+                        var type = await CheckForNewSensorType(typeTag);
 
-                        listOfSensors.Add(sensorId, AddNewSensoreToDatabase(measure, type, sensor));
+                        listOfSensors.Add(sensorId, await AddNewSensoreToDatabase(measure, type, sensor));
                     }
                 }
             }
@@ -77,7 +77,7 @@ namespace DormitorySystem.Services.BackgroundService
             return listOfSensors;
         }
 
-        private SampleSensor AddNewSensoreToDatabase
+        private async Task<SampleSensor> AddNewSensoreToDatabase
             (Measure measure, SensorType type, JToken sensorData)
         {
             string description = sensorData["Description"].ToString();
@@ -106,13 +106,13 @@ namespace DormitorySystem.Services.BackgroundService
                 TimeStamp = DateTime.Now.ToString()
             };
 
-            this.context.SampleSensors.Add(newSensor);
-            this.context.SaveChanges();
+            await this.context.SampleSensors.AddAsync(newSensor);
+            await this.context.SaveChangesAsync();
 
             return newSensor;
         }
 
-        private SensorType CheckForNewSensorType(string typeTag)
+        private async Task<SensorType> CheckForNewSensorType(string typeTag)
         {
             var result = this.context.SensorTypes
                 .SingleOrDefault(t => t.Name == typeTag);
@@ -123,14 +123,14 @@ namespace DormitorySystem.Services.BackgroundService
                 {
                     Name = typeTag
                 };
-                this.context.SensorTypes.Add(result);
-                this.context.SaveChanges();
+                await this.context.SensorTypes.AddAsync(result);
+                await this.context.SaveChangesAsync();
             }
 
             return result;
         }
 
-        private Measure CheckForNewMeasureType(string measureType)
+        private async Task<Measure> CheckForNewMeasureType(string measureType)
         {
             var result = this.context.Measures
                 .SingleOrDefault(m => m.MeasureType == measureType);
@@ -142,8 +142,8 @@ namespace DormitorySystem.Services.BackgroundService
                     MeasureType = measureType
                 };
 
-                this.context.Measures.Add(result);
-                this.context.SaveChanges();
+                await this.context.Measures.AddAsync(result);
+                await this.context.SaveChangesAsync();
             }
 
             return result;
@@ -184,7 +184,7 @@ namespace DormitorySystem.Services.BackgroundService
             if (isAnySensorForUpdate)
             {
                 this.context.UpdateRange(sensorForUpdate);
-                this.context.SaveChanges();
+                await this.context.SaveChangesAsync();
                 this.notifications.CheckForOutOfRangeSensors(sensorForUpdate);
             }
 
