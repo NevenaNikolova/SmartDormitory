@@ -16,41 +16,42 @@ using System.Threading.Tasks;
 namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 {
     [TestClass]
-    public class SensorDetailsAction_Should
+    public class RegisterNewSensorAction_Should
     {
         [TestMethod]
-        public async Task Return_SensorDetailsView()
-        {
-            var sensorsService = new Mock<ISensorsService>();
+        public async Task Return_RegisterNewSensorView()
+        {          
+            var sensorsService = new Mock<ISensorsService>();      
             var mockUserManager = GetUserManagerMock();
-            var testSensor = TestUserSensor();
+            var testSampleSensor = GetSampleSensor();
+            var user = GetUser();
 
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+            sensorsService.Setup(s => s.GetSampleSensorAsync(It.IsAny<Guid>())).
+                ReturnsAsync(testSampleSensor);
 
             var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controller.SensorDetails(testSensor.Id) as ViewResult;
+            var result = await controller.RegisterNewSensor(testSampleSensor.Id, user.Id) as ViewResult;
 
-            Assert.AreEqual("SensorDetails", result.ViewName);
+            Assert.AreEqual("RegisterNewSensor", result.ViewName);
         }
 
         [TestMethod]
-        public async Task ReturnUserSensor_AsUserSensorDetailsModel()
+        public async Task ReturnUserSensor_AsRegisterSensorModel()
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
-            var testSensor = TestUserSensor();
+            var testSampleSensor = GetSampleSensor();
+            var user = GetUser();
 
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
+            sensorsService.Setup(s => s.GetSampleSensorAsync(It.IsAny<Guid>())).
+                ReturnsAsync(testSampleSensor);
 
-            var controler = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var result = await controller.RegisterNewSensor(testSampleSensor.Id, user.Id) as ViewResult;
+            var viewModel = (RegisterSensorModel)result.ViewData.Model;
 
-            var result = await controler.SensorDetails(testSensor.Id) as ViewResult;
-            var viewModel = (UserSensorDetailsModel)result.ViewData.Model;
-
-            Assert.AreEqual(testSensor.Id, viewModel.Id);
+            Assert.AreEqual(testSampleSensor.Id, viewModel.SampleSensorId);
         }
 
         private static Mock<UserManager<User>> GetUserManagerMock()
@@ -66,8 +67,7 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 new Mock<IServiceProvider>().Object,
                 new Mock<ILogger<UserManager<User>>>().Object);
         }
-
-        private static UserSensor TestUserSensor()
+        private static SampleSensor GetSampleSensor()
         {
             var measure = new Measure
             {
@@ -93,32 +93,16 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 TimeStamp = DateTime.Now.ToString(),
                 IsOnline = true
             };
+            return sampleSensor;
+        }
+        private static User GetUser()
+        {
             var user = new User()
             {
                 Id = "00000000-0000-0000-0000-000000000001",
-                Email = "new@user.com",             
+                Email = "new@user.com",
             };
-            var userSensor = new UserSensor
-            {
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000444"),
-                Name = "Test",
-                CreatedOn = DateTime.Now,
-                isDeleted = false,
-                SampleSensorId = sampleSensor.Id,
-                SampleSensor = sampleSensor,
-                PollingInterval = 100,
-                UserMinValue = 100,
-                UserMaxValue = 200,
-                Latitude = "51.1524",
-                Longitude = "55.546",
-                SendNotification = true,
-                IsPrivate = false,
-                User = user,
-                UserId = user.Id,
-            };
-
-            return userSensor;
+            return user;
         }
-
     }
 }

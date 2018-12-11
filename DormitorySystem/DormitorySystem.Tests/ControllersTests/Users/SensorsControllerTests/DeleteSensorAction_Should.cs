@@ -1,9 +1,7 @@
 ﻿using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Users.Controllers;
-using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,41 +14,20 @@ using System.Threading.Tasks;
 namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 {
     [TestClass]
-    public class SensorDetailsAction_Should
+    public class DeleteSensorAction_Should
     {
         [TestMethod]
-        public async Task Return_SensorDetailsView()
+        public async Task InvokeOnce_DeleteUserSensorAsync()
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
             var testSensor = TestUserSensor();
-
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
-
+          
             var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
 
-            var result = await controller.SensorDetails(testSensor.Id) as ViewResult;
+            await controller.DeleteSensor(testSensor.Id);
 
-            Assert.AreEqual("SensorDetails", result.ViewName);
-        }
-
-        [TestMethod]
-        public async Task ReturnUserSensor_AsUserSensorDetailsModel()
-        {
-            var sensorsService = new Mock<ISensorsService>();
-            var mockUserManager = GetUserManagerMock();
-            var testSensor = TestUserSensor();
-
-            sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
-                ReturnsAsync(testSensor);
-
-            var controler = new SensorsController(sensorsService.Object, mockUserManager.Object);
-
-            var result = await controler.SensorDetails(testSensor.Id) as ViewResult;
-            var viewModel = (UserSensorDetailsModel)result.ViewData.Model;
-
-            Assert.AreEqual(testSensor.Id, viewModel.Id);
+            sensorsService.Verify(s => s.DeleteUserSensorAsync(testSensor.Id), Times.Once());
         }
 
         private static Mock<UserManager<User>> GetUserManagerMock()
@@ -66,7 +43,6 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
                 new Mock<IServiceProvider>().Object,
                 new Mock<ILogger<UserManager<User>>>().Object);
         }
-
         private static UserSensor TestUserSensor()
         {
             var measure = new Measure
@@ -96,7 +72,7 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
             var user = new User()
             {
                 Id = "00000000-0000-0000-0000-000000000001",
-                Email = "new@user.com",             
+                Email = "new@user.com",
             };
             var userSensor = new UserSensor
             {
@@ -119,6 +95,6 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 
             return userSensor;
         }
-
     }
 }
+
