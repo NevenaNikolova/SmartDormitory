@@ -174,7 +174,8 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 Latitude = model.Latitude,
                 Longitude = model.Longitude,
                 SendNotification = model.SendNotification,
-                IsPrivate = model.IsPrivate
+                IsPrivate = model.IsPrivate,
+                CreatedOn = model.RegisteredOn
             };
 
             var sensor = await this.sensorsService.EditSensorAsync(editedSensor);

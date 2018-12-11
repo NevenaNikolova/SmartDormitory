@@ -8,6 +8,6 @@
             "SendNotification, IsPrivate," +
             "UserPollingInterval, UserMinValue, UserMaxValue," +
             "MaxValue, MinValue, MinPollingInterval," +
-            "MeasureType, Description, Tag";
+            "MeasureType, Description, Tag, RegisteredOn";
     }
 }
