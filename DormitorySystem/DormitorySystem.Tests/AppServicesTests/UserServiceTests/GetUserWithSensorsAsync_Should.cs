@@ -11,21 +11,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
+namespace DormitorySystem.Tests.AppServicesTests.UserServiceTests
 {
     [TestClass]
-    public class RegisterSensorAsync_Should
+    public class GetUserWithSensorsAsync_Should
     {
         [TestMethod]
-        public async Task RegisterUserSensor_WhenValidParamsArePassed()
+        public async Task ReturnProperUserWithSensors_WhenValidIdIsPassed()
         {
             //Arrange
             var contextOptions = new DbContextOptionsBuilder<DormitorySystemContext>()
-                .UseInMemoryDatabase("RegisterUserSensor_WhenValidParamsArePassed")
+                .UseInMemoryDatabase("ReturnProperUserSensor_WhenValidIdIsPassed")
                 .Options;
 
             var seedUsersMock = new Mock<ISeedUsers>();
             var seedApiDataMock = new Mock<ISeedApiData>();
+
+            var user = new User
+            {
+                Id = "00000000-0000-0000-0000-000000000001",
+                Email = "new@user.com",
+                Sensors = new List<UserSensor>()
+            };
 
             var measure = new Measure
             {
@@ -56,30 +63,28 @@ namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
                 SampleSensorId = sampleSensor.Id,
                 PollingInterval = 100,
                 SendNotification = true,
-                IsPrivate = false
-            };
+                IsPrivate = false,
+                UserId=user.Id
+            };          
 
             //Act
             using (var actContext = new DormitorySystemContext(contextOptions,
                 seedUsersMock.Object, seedApiDataMock.Object))
             {
-                actContext.Measures.Add(measure);
-                actContext.SensorTypes.Add(sensorType);
-                actContext.SampleSensors.Add(sampleSensor);     
+                actContext.Users.Add(user);
+                actContext.UserSensors.Add(userSensor);                
                 actContext.SaveChanges();
             }
-
             //Assert
             using (var assertContext = new DormitorySystemContext(contextOptions,
                 seedUsersMock.Object, seedApiDataMock.Object))
             {
-                var service = new SensorService(assertContext);
-                var result = await service.RegisterSensorAsync(userSensor);
+                var service = new UserService(assertContext);
+                var result = await service.GetUserWithSensorsAsync(user.Id);
 
-                Assert.AreEqual(1, assertContext.UserSensors.Count());
-                Assert.IsTrue(assertContext.UserSensors.Contains(userSensor));
+                Assert.AreEqual(1, result.Sensors.Count());
+                Assert.AreEqual(userSensor.Id, result.Sensors.First().Id);
             }
         }
-      
     }
 }

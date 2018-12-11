@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AppServicesTests\UserServiceTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DormitorySystem.Data\DormitorySystem.Data.csproj" />
     <ProjectReference Include="..\DormitorySystem.Services\DormitorySystem.Services.csproj" />
   </ItemGroup>

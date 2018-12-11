@@ -38,10 +38,10 @@ namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
             }
         }
         [TestMethod]
-        public async Task ReturnCollection_WhenItIsNotEmpty()
+        public async Task ListSensors_WhenCollectionIsNotEmpty()
         {
             var contextOptions = new DbContextOptionsBuilder<DormitorySystemContext>()
-                .UseInMemoryDatabase("ReturnCollection_WhenItIsNotEmpty")
+                .UseInMemoryDatabase("ListSensors_WhenCollectionIsNotEmpty")
                 .Options;
 
             var seedUsersMock = new Mock<ISeedUsers>();
