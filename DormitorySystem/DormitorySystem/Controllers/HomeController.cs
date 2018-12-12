@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using DormitorySystem.Web.Models.SensorsViewModels;
 using System.Threading.Tasks;
+using System;
 
 namespace DormitorySystem.Controllers
 {
@@ -38,12 +39,16 @@ namespace DormitorySystem.Controllers
 
             return Json(data);
         }
+
+        [ResponseCache(Duration = 7200)]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
 
             return View();
         }
+
+        [ResponseCache(Duration = 7200)]
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";

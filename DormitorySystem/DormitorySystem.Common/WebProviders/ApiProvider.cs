@@ -27,8 +27,17 @@ namespace DormitorySystem.Common.WebProvider
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add(headerKeyValue[0], headerKeyValue[1]);
+            HttpResponseMessage response;
 
-            var response = await httpClient.SendAsync(request);
+            try
+            {
+                response = await httpClient.SendAsync(request);
+            }
+            catch (HttpRequestException ex)
+            {
+                result = new KeyValuePair<bool, string>(false, ex.Message);
+                return result;
+            }
 
             if (response.IsSuccessStatusCode)
             {
