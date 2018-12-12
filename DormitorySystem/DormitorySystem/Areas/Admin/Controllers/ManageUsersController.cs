@@ -41,7 +41,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             var roles = await this.userManager.GetRolesAsync(user);
 
             var model = new UserModel(user, string.Join(", ", roles));
-            return View(model);
+            return View("UserDetails", model);
         }
 
         public async Task<IActionResult> Roles(string id)
