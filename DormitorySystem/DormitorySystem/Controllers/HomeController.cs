@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Linq;
 using DormitorySystem.Web.Models.SensorsViewModels;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 
 namespace DormitorySystem.Controllers
@@ -16,24 +17,34 @@ namespace DormitorySystem.Controllers
         private readonly ISensorsService sensorService;
         private readonly IUsersService userService;
         private readonly UserManager<User> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public HomeController
             (ISensorsService sensorService,
              IUsersService userService,
-             UserManager<User> userManager)
+             UserManager<User> userManager,
+             IMemoryCache memoryCache)
         {
             this.sensorService = sensorService;
             this.userService = userService;
             this.userManager = userManager;
+            this.memoryCache = memoryCache;
         }
 
         public IActionResult Index()
         {
             return View();
         }
+
         public async Task<JsonResult> GetPublicSensors()
         {
-            var publicSensors = await this.sensorService.GetPublicSensorsAsync();
+            var publicSensors = await this.memoryCache.GetOrCreateAsync
+                ("PublicSensors", async entry =>
+             {
+                 entry.AbsoluteExpiration = DateTime.UtcNow.AddDays(12);
+                 var returnResult = await this.sensorService.GetPublicSensorsAsync();
+                 return returnResult;
+             });
 
             var data = publicSensors.Select(s => new SensorsCoordinatesModel(s));
 

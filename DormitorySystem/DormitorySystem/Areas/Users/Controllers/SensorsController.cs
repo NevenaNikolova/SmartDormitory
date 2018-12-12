@@ -12,6 +12,7 @@ using DormitorySystem.Web.Models.SensorsViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DormitorySystem.Web.Areas.Users.Controllers
 {
@@ -21,13 +22,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
     {
         private readonly ISensorsService sensorsService;
         private readonly UserManager<User> userManager;
+        private readonly IMemoryCache memoryCache;
 
         public SensorsController(
             ISensorsService userSensorService,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IMemoryCache memoryCache)
         {
             this.sensorsService = userSensorService;
             this.userManager = userManager;
+            this.memoryCache = memoryCache;
         }
 
         public async Task<IActionResult> Index()
@@ -61,11 +65,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public async Task<IActionResult> ListSampleSensors(string userId)
         {
-            var listSensors = await this.sensorsService.ListSampleSensorsAsync();
+            var listSensors = await this.memoryCache.GetOrCreate
+                ("List sample sensors", async entry =>
+            {
+                entry.AbsoluteExpiration = DateTime.UtcNow.AddHours(12);
+                return await this.sensorsService.ListSampleSensorsAsync();
+            });
 
             if (listSensors == null)
             {
-                throw new SensorNullableException("No sensors at the moment.");
+               return NoContent();
             }
 
             var sampleSensorsModel = listSensors.Select(s => new SampleSensorViewModel(s));
@@ -144,7 +153,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             var model = new EditSensorModel(userSensor);
 
-            return View("EditSensor",model);
+            return View("EditSensor", model);
         }
 
         [HttpPost]
