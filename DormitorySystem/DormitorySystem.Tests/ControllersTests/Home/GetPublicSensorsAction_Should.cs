@@ -4,6 +4,7 @@ using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Users.Controllers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,6 +25,7 @@ namespace DormitorySystem.Tests.ControllersTests.Home
         {       
             var sensorsService = new Mock<ISensorsService>();
             var usersService = new Mock<IUsersService>();
+            var memoryCacheMock = new MemoryCache(new MemoryCacheOptions());
             var mockUserManager = GetUserManagerMock();
 
             sensorsService.Setup(s => s.GetPublicSensorsAsync()).
@@ -33,7 +35,9 @@ namespace DormitorySystem.Tests.ControllersTests.Home
                     GetPrivateSensor(),
                 });
          
-            var controller = new HomeController(sensorsService.Object, usersService.Object, mockUserManager.Object);
+            var controller = new HomeController
+                (sensorsService.Object,usersService.Object,
+                mockUserManager.Object, memoryCacheMock);
 
             var result = await controller.GetPublicSensors();
 
@@ -43,8 +47,10 @@ namespace DormitorySystem.Tests.ControllersTests.Home
         [TestMethod]
         public async Task InvokeOnce_GetPublicSensorsAsync()
         {
+            //Arrange
             var sensorsService = new Mock<ISensorsService>();
             var usersService = new Mock<IUsersService>();
+            var memoryCacheMock = new MemoryCache(new MemoryCacheOptions());
             var mockUserManager = GetUserManagerMock();
 
             sensorsService.Setup(s => s.GetPublicSensorsAsync()).
@@ -54,10 +60,17 @@ namespace DormitorySystem.Tests.ControllersTests.Home
                     GetPrivateSensor(),
                 });
 
-            var controller = new HomeController(sensorsService.Object, usersService.Object, mockUserManager.Object);
+            var controller = new HomeController
+                (sensorsService.Object,
+                usersService.Object,
+                mockUserManager.Object,
+                memoryCacheMock);
 
-            await controller.GetPublicSensors();
+            //Act
+            await controller.GetPublicSensors(); // first call
+            await controller.GetPublicSensors(); // second call from memoryCache
 
+            //Assert
             sensorsService.Verify(s => s.GetPublicSensorsAsync(), Times.Once());
         }
 

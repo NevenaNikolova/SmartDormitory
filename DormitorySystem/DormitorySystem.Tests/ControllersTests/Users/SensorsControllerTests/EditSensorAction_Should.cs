@@ -4,6 +4,7 @@ using DormitorySystem.Web.Areas.Users.Controllers;
 using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,12 +24,14 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {           
             var sensorsService = new Mock<ISensorsService>();         
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new Mock<IMemoryCache>();
             var testSensor = TestUserSensor();
 
             sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
                ReturnsAsync(testSensor);
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock.Object);
 
             var result = await controller.EditSensor(testSensor.Id) as ViewResult;
 
@@ -40,12 +43,14 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new Mock<IMemoryCache>();
             var testSensor = TestUserSensor();
 
             sensorsService.Setup(s => s.GetUserSensorAsync(It.IsAny<Guid>())).
                ReturnsAsync(testSensor);
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock.Object);
 
             var result = await controller.EditSensor(testSensor.Id) as ViewResult;
             var viewModel = (EditSensorModel)result.ViewData.Model;

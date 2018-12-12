@@ -4,6 +4,7 @@ using DormitorySystem.Web.Areas.Users.Controllers;
 using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,13 +25,15 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {            
             var sensorsService = new Mock<ISensorsService>();           
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new MemoryCache(new MemoryCacheOptions());
             var user = GetUser();
             var testSampleSensor = GetSampleSensor();
 
             sensorsService.Setup(s => s.ListSampleSensorsAsync()).
                 ReturnsAsync(new List<SampleSensor>() { testSampleSensor });
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock);
 
             var result = await controller.ListSampleSensors(user.Id) as ViewResult;
 
@@ -42,13 +45,15 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new MemoryCache(new MemoryCacheOptions());
             var user = GetUser();
             var testSampleSensor = GetSampleSensor();
 
             sensorsService.Setup(s => s.ListSampleSensorsAsync()).
                 ReturnsAsync(new List<SampleSensor>() { testSampleSensor });
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock);
 
             var result = await controller.ListSampleSensors(user.Id) as ViewResult;
 
@@ -56,6 +61,31 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
 
             Assert.AreEqual(1, viewModel.SampleSensors.Count());
         }
+
+        [TestMethod]
+        public async Task InvokeOnce__ListSampleSensorsAsync()
+        {
+            //Arrange
+            var sensorsService = new Mock<ISensorsService>();
+            var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new MemoryCache(new MemoryCacheOptions());
+            var user = GetUser();
+            var testSampleSensor = GetSampleSensor();
+
+            sensorsService.Setup(s => s.ListSampleSensorsAsync()).
+                ReturnsAsync(new List<SampleSensor>() { testSampleSensor });
+
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock);
+
+            //Act
+            await controller.ListSampleSensors(null);   // first call
+            await controller.ListSampleSensors(null);   // second call from memoryCache
+
+            //Assert
+            sensorsService.Verify(s => s.ListSampleSensorsAsync(), Times.Once());
+        }
+
 
         private static Mock<UserManager<User>> GetUserManagerMock()
         {

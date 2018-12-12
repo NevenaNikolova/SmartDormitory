@@ -2,6 +2,7 @@
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Users.Controllers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,9 +22,11 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new Mock<IMemoryCache>();
             var testSensor = TestUserSensor();
           
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock.Object);
 
             await controller.DeleteSensor(testSensor.Id);
 

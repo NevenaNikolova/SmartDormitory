@@ -4,6 +4,7 @@ using DormitorySystem.Web.Areas.Users.Controllers;
 using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,12 +25,14 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
             var sensorsService = new Mock<ISensorsService>();      
             var mockUserManager = GetUserManagerMock();
             var testSampleSensor = GetSampleSensor();
+            var memoryCacheMock = new Mock<IMemoryCache>();
             var user = GetUser();
 
             sensorsService.Setup(s => s.GetSampleSensorAsync(It.IsAny<Guid>())).
                 ReturnsAsync(testSampleSensor);
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock.Object);
 
             var result = await controller.RegisterNewSensor(testSampleSensor.Id, user.Id) as ViewResult;
 
@@ -41,13 +44,15 @@ namespace DormitorySystem.Tests.ControllersTests.Users.SensorsControllerTests
         {
             var sensorsService = new Mock<ISensorsService>();
             var mockUserManager = GetUserManagerMock();
+            var memoryCacheMock = new Mock<IMemoryCache>();
             var testSampleSensor = GetSampleSensor();
             var user = GetUser();
 
             sensorsService.Setup(s => s.GetSampleSensorAsync(It.IsAny<Guid>())).
                 ReturnsAsync(testSampleSensor);
 
-            var controller = new SensorsController(sensorsService.Object, mockUserManager.Object);
+            var controller = new SensorsController
+                (sensorsService.Object, mockUserManager.Object, memoryCacheMock.Object);
             var result = await controller.RegisterNewSensor(testSampleSensor.Id, user.Id) as ViewResult;
             var viewModel = (RegisterSensorModel)result.ViewData.Model;
 
