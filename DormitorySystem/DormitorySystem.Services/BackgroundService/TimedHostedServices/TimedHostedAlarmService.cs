@@ -1,15 +1,12 @@
-﻿using DormitorySystem.Data.Models;
-using DormitorySystem.Services.Abstractions;
+﻿using DormitorySystem.Services.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DormitorySystem.Services.BackgroundService
+namespace DormitorySystem.Services.BackgroundService.TimedHostedServices
 {
     public class TimedHostedAlarmService : IHostedService, IDisposable
     {
@@ -25,25 +22,26 @@ namespace DormitorySystem.Services.BackgroundService
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Timed Background Service is starting.");
+            this.logger.LogInformation("Check for unacceptable value is starting.");
 
-            this.timer = new Timer(CheckForValidValue, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            this.timer = new Timer(CheckForValidValue, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
 
             return Task.CompletedTask;
         }
 
         private async void CheckForValidValue(object state)
         {
-            this.logger.LogInformation("CHECK FOR VALID VALUE");
+            this.logger.LogInformation("Check for unacceptable value");
             this.logger.LogInformation("_____________________");
+
             using (var scope = service.CreateScope())
             {
                 var notificationsService
                     = scope.ServiceProvider.GetRequiredService<INotificationsService>();
 
-                await notificationsService.CheckForOutOfRangeSensorsAsync();
+                int count = await notificationsService.CheckForOutOfRangeSensorsAsync();
+                this.logger.LogInformation($"In {count} sensors the value is out of range");
             }
-            this.logger.LogInformation("CHECKING IS DONE");
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

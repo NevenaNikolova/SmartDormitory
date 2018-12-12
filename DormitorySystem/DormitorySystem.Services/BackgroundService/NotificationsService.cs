@@ -1,8 +1,5 @@
 ﻿using DormitorySystem.Data.Context;
-using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,8 +16,9 @@ namespace DormitorySystem.Services.BackgroundService
             this.hubService = hubService;
         }
 
-        public async Task CheckForOutOfRangeSensorsAsync()
+        public async Task<int> CheckForOutOfRangeSensorsAsync()
         {
+            int count = 0;
             var listOfSampleSensors = this.context.SampleSensors.ToList();
 
             foreach (var sampleSensor in listOfSampleSensors)
@@ -35,9 +33,11 @@ namespace DormitorySystem.Services.BackgroundService
                         && userSensor.SendNotification)
                     {
                         await hubService.Notify(userSensor.UserId, userSensor.Name);
+                        count++;
                     }
                 }
             }
+            return count;
         }
     }
 }

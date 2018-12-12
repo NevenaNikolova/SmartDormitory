@@ -1,17 +1,11 @@
-﻿using DormitorySystem.Data.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.Abstractions
 {
     public interface IICBApiService
     {
-        IDictionary<string, SampleSensor> InitialSensorLoad();
+        Task<int> CheckForNewSensor();
 
-        Task<IDictionary<string, SampleSensor>> CheckForNewSensor
-              (IDictionary<string, SampleSensor> listOfSensors);
-
-        Task<IDictionary<string, SampleSensor>> UpdateSensorsAsync
-             (IDictionary<string, SampleSensor> listOfSensors);
+        Task<int> UpdateSensorsAsync();
     }
 }

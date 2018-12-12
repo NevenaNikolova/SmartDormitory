@@ -14,7 +14,7 @@ connection.on("notify",
             });
         $.notify("The value of this sensor " + name.toUpperCase() + " is out of acceptable range!",
             {
-                autoHideDelay: 15000,
+                autoHideDelay: 35000,
                 position: 'left, bottom',
                 style: 'alert-danger'
             });

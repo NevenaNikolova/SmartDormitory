@@ -19,6 +19,7 @@ using System.Net.Http;
 using System;
 using DormitorySystem.Services.HubsServices;
 using DormitorySystem.Services.HubsServices.Hubs;
+using DormitorySystem.Services.BackgroundService.TimedHostedServices;
 
 namespace DormitorySystem
 {
@@ -102,9 +103,11 @@ namespace DormitorySystem
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddHttpClient<IApiProvider, ApiProvider>();
+
             services.AddHostedService<TimedHostedUpdateSensorService>();
             services.AddHostedService<TimedHostedAlarmService>();
-            services.AddHttpClient<IApiProvider, ApiProvider>();
+            services.AddHostedService<TimedHostedCheckForNewSensorService>();
 
             services.AddScoped<ISensorsService, SensorService>();
             services.AddScoped<IUsersService, UserService>();

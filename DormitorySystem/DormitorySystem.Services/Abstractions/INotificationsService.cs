@@ -4,6 +4,6 @@ namespace DormitorySystem.Services.Abstractions
 {
     public interface INotificationsService
     {
-        Task CheckForOutOfRangeSensorsAsync();
+        Task<int> CheckForOutOfRangeSensorsAsync();
     }
 }

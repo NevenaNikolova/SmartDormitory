@@ -27,25 +27,11 @@ namespace DormitorySystem.Services.BackgroundService
             this.notifications = notifications;
         }
 
-        public IDictionary<string, SampleSensor> InitialSensorLoad()
+        public async Task<int> CheckForNewSensor()
         {
-            var result = new Dictionary<string, SampleSensor>();
+            var listOfSensors = this.context.SampleSensors
+                .ToDictionary(ss => ss.Id.ToString(), ss => ss);
 
-            var sensors = this.context.SampleSensors.ToList();
-
-            foreach (var sensor in sensors)
-            {
-                if (!result.ContainsKey(sensor.Id.ToString()))
-                {
-                    result.Add(sensor.Id.ToString(), sensor);
-                }
-            }
-            return result;
-        }
-
-        public async Task<IDictionary<string, SampleSensor>> CheckForNewSensor
-            (IDictionary<string, SampleSensor> listOfSensors)
-        {
             var response = await apiProvider.ReturnResponseAsync
                        (ApiConstants.ICBSensorApiListAllSensor,
                        ApiConstants.ICBApiAuthorizationToken);
@@ -74,15 +60,17 @@ namespace DormitorySystem.Services.BackgroundService
                 }
             }
 
-            return listOfSensors;
+            return listOfSensors.Count;
         }
 
-        public async Task<IDictionary<string, SampleSensor>> UpdateSensorsAsync(IDictionary<string, SampleSensor> listOfSensors)
+        public async Task<int> UpdateSensorsAsync()
         {
             ICollection<SampleSensor> sensorForUpdate = new List<SampleSensor>();
 
+            var listOfSensors = this.context.SampleSensors.ToList();
+
             bool isAnySensorForUpdate = false;
-            foreach (var sensor in listOfSensors.Values)
+            foreach (var sensor in listOfSensors)
             {
                 if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
                 {
@@ -115,7 +103,7 @@ namespace DormitorySystem.Services.BackgroundService
                 await this.context.SaveChangesAsync();
             }
 
-            return listOfSensors;
+            return sensorForUpdate.Count();
         }
 
         private async Task<SampleSensor> AddNewSensoreToDatabase
