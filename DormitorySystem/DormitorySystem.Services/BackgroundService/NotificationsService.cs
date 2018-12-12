@@ -1,6 +1,7 @@
 ﻿using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,12 +19,14 @@ namespace DormitorySystem.Services.BackgroundService
             this.hubService = hubService;
         }
 
-        public async Task CheckForOutOfRangeSensorsAsync(IDictionary<string, SampleSensor> listOfSensors)
+        public async Task CheckForOutOfRangeSensorsAsync()
         {
-            foreach (var sampleSensor in listOfSensors.Values)
+            var listOfSampleSensors = this.context.SampleSensors.ToList();
+
+            foreach (var sampleSensor in listOfSampleSensors)
             {
                 var userSensors = this.context.UserSensors
-                    .Where(us => us.SampleSensorId == sampleSensor.Id).ToList();
+                               .Where(us => us.SampleSensorId == sampleSensor.Id).ToList();
 
                 foreach (var userSensor in userSensors)
                 {

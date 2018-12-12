@@ -77,6 +77,47 @@ namespace DormitorySystem.Services.BackgroundService
             return listOfSensors;
         }
 
+        public async Task<IDictionary<string, SampleSensor>> UpdateSensorsAsync(IDictionary<string, SampleSensor> listOfSensors)
+        {
+            ICollection<SampleSensor> sensorForUpdate = new List<SampleSensor>();
+
+            bool isAnySensorForUpdate = false;
+            foreach (var sensor in listOfSensors.Values)
+            {
+                if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
+                {
+                    var response = await apiProvider.ReturnResponseAsync
+                       (ApiConstants.ICBSensorApiBaseUrl
+                       + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
+
+                    if (response.Key)
+                    {
+                        JObject sensorResponse = JObject.Parse(response.Value);
+
+                        sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
+                        sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());
+                        sensor.IsOnline = true;
+                    }
+                    else
+                    {
+                        sensor.TimeStamp = DateTime.Now.ToString();
+                        sensor.IsOnline = false;
+                    }
+
+                    sensorForUpdate.Add(sensor);
+                    isAnySensorForUpdate = true;
+                }
+            }
+
+            if (isAnySensorForUpdate)
+            {
+                this.context.UpdateRange(sensorForUpdate);
+                await this.context.SaveChangesAsync();
+            }
+
+            return listOfSensors;
+        }
+
         private async Task<SampleSensor> AddNewSensoreToDatabase
             (Measure measure, SensorType type, JToken sensorData)
         {
@@ -147,47 +188,6 @@ namespace DormitorySystem.Services.BackgroundService
             }
 
             return result;
-        }
-
-        public async Task<IDictionary<string, SampleSensor>> UpdateSensors(IDictionary<string, SampleSensor> listOfSensors)
-        {
-            ICollection<SampleSensor> sensorForUpdate = new List<SampleSensor>();
-
-            bool isAnySensorForUpdate = false;
-            foreach (var sensor in listOfSensors.Values)
-            {
-                if (DateTime.Parse(sensor.TimeStamp).AddSeconds(sensor.MinPollingInterval) < DateTime.Now)
-                {
-                    var response = await apiProvider.ReturnResponseAsync
-                       (ApiConstants.ICBSensorApiBaseUrl
-                       + sensor.Id, ApiConstants.ICBApiAuthorizationToken);
-
-                    if (response.Key)
-                    {
-                        JObject sensorResponse = JObject.Parse(response.Value);
-
-                        sensor.TimeStamp = sensorResponse["TimeStamp"].ToString();
-                        sensor.ValueCurrent = InputValueConverter(sensorResponse["Value"].ToString());
-                        sensor.IsOnline = true;
-                    }
-                    else
-                    {
-                        sensor.TimeStamp = DateTime.Now.ToString();
-                        sensor.IsOnline = false;
-                    }
-
-                    sensorForUpdate.Add(sensor);
-                    isAnySensorForUpdate = true;
-                }
-            }
-
-            if (isAnySensorForUpdate)
-            {
-                this.context.UpdateRange(sensorForUpdate);
-                await this.context.SaveChangesAsync();
-            }
-
-            return listOfSensors;
         }
 
         private double InputValueConverter(string inputValue)

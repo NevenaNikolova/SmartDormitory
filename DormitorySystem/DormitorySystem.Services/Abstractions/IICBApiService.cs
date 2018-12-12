@@ -11,7 +11,7 @@ namespace DormitorySystem.Services.Abstractions
         Task<IDictionary<string, SampleSensor>> CheckForNewSensor
               (IDictionary<string, SampleSensor> listOfSensors);
 
-        Task<IDictionary<string, SampleSensor>> UpdateSensors
+        Task<IDictionary<string, SampleSensor>> UpdateSensorsAsync
              (IDictionary<string, SampleSensor> listOfSensors);
     }
 }

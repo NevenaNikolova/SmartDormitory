@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.BackgroundService
 {
-    public class TimedHostedService : IHostedService, IDisposable
+    public class TimedHostedUpdateSensorService : IHostedService, IDisposable
     {
         private readonly ILogger logger;
         private readonly IServiceProvider service;
         private Timer timer;
         private IDictionary<string, SampleSensor> listOfSensors;
 
-        public TimedHostedService(ILogger<TimedHostedService> logger, IServiceProvider service)
+        public TimedHostedUpdateSensorService(ILogger<TimedHostedUpdateSensorService> logger, IServiceProvider service)
         {
             this.logger = logger;
             this.service = service;
@@ -30,25 +30,27 @@ namespace DormitorySystem.Services.BackgroundService
             string report = InitialSensorLoad();
             this.logger.LogInformation(report);
 
-            this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(24));
+           // this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(12));
 
-            this.timer = new Timer(UpdateSensor, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
-
-            this.timer = new Timer(CheckForValidValue, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+            this.timer = new Timer(UpdateSensorAsync, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
             return Task.CompletedTask;
         }
 
-        private async void CheckForValidValue(object state)
+      
+
+        private async void UpdateSensorAsync(object state)
         {
+            this.logger.LogInformation("Start searching for outdated sensors.");
+
             using (var scope = service.CreateScope())
             {
-                var notificationsService
-                    = scope.ServiceProvider.GetRequiredService<INotificationsService>();
-               await notificationsService.CheckForOutOfRangeSensorsAsync(listOfSensors);
+                var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
+                listOfSensors = await iCBApiService.UpdateSensorsAsync(listOfSensors);
             }
-        }
 
+            this.logger.LogInformation("Sensors are up to date.");
+        }
         private async void CheckForNewSensor(object state)
         {
             int number = listOfSensors.Count;
@@ -76,22 +78,9 @@ namespace DormitorySystem.Services.BackgroundService
             return $"Initial sensor load was completed on {DateTime.Now.Date}";
         }
 
-        private async void UpdateSensor(object state)
-        {
-            this.logger.LogInformation("Start searching for outdated sensors.");
-
-            using (var scope = service.CreateScope())
-            {
-                var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
-                listOfSensors = await iCBApiService.UpdateSensors(listOfSensors);
-            }
-
-            this.logger.LogInformation("Sensors are up to date.");
-        }
-
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Timed Background Service is stopping.");
+            this.logger.LogInformation("Timed Background Service is stopping.".ToUpper());
 
             this.timer?.Change(Timeout.Infinite, 0);
 

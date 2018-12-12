@@ -102,7 +102,8 @@ namespace DormitorySystem
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddHostedService<TimedHostedService>();
+            services.AddHostedService<TimedHostedUpdateSensorService>();
+            services.AddHostedService<TimedHostedAlarmService>();
             services.AddHttpClient<IApiProvider, ApiProvider>();
 
             services.AddScoped<ISensorsService, SensorService>();
