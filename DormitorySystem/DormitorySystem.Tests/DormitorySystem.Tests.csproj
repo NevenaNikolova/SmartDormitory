@@ -19,8 +19,4 @@
     <ProjectReference Include="..\DormitorySystem\DormitorySystem.Web.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ControllersTests\Admin\ManageUsersControllerTests\" />
-  </ItemGroup>
-
 </Project>

@@ -50,7 +50,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             var model = new AllSensorSViewModel(allSensors);
 
-            return View(model);
+            return View("AllUserSensors", model);
         }
     }
 }
