@@ -55,7 +55,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             var model = new UserWithRolesModel(user, roles);
 
-            return View(model);
+            return View("Roles", model);
         }
 
         public IActionResult AddToRole(string id)
@@ -86,7 +86,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             this.TempData["Success-Message"] = $"User {user.Email} added to {role} role!";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> DeleteUser(string id)
