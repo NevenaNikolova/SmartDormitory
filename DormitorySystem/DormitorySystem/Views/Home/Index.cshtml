@@ -1,15 +1,34 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<h2></h2>
 
-<div class="clearfix">
-    <div class="text-center" >
-        <img src="~/images/logo.png" alt="Company Logo"/>
-     </div>
-    <div id="map" style="height:400px; width:100%"></div>
-    
+<h2></h2>
+<div class="container">
+    <div class="text-center" id="map" style="height:300px; width:auto;"></div>
+    <div class="text-center">
+        <h2>
+            Welcome to the Smart Dormitory!          
+        </h2>
+        <p>
+            The Smart Dormitory`s purpose is to analize how the living conditions in the dormitories
+            all over the world reflect on the performance of the students.
+        </p>
+        <p>
+            The company provides all participants with sensors and special equipment
+            as well as with an easy to use and user friendly informational system!
+        </p>
+        <p>
+            Once registered on our website, the user can choose sensors for temperature, humidity, noise,
+            electric power consumption, windows/doors, customise their performance according to his will and start receiving
+            real time data and notifications about the current values of the sensors.
+        </p>
+        <p>
+            See the public sensors of the other participants
+            on the map! Register in the Smart Dormitory today!
+        </p>                  
+    </div>
 </div>
+
 @section Scripts{
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSf7uuCGHIfwKEs5FjbBwG7ajA_0NuME4&callback=initMap">
