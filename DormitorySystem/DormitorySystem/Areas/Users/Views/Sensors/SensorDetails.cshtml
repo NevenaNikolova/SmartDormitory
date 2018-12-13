@@ -107,7 +107,7 @@ else
         <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
            class="btn btn-info active" role="button">Edit</a>
 
-        <a asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
+        <a id="delete" asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id" 
            class="btn btn-info active" role="button">Delete</a>
     </div>
 }
@@ -193,6 +193,12 @@ else
                 $('#sensor-is-offline').show();
             }
         }
+    </script>
+    <script>
+        const button = document.getElementById('delete')
+        button.addEventListener('click', () => {
+            confirm('This sensor will be deleted! Are you sure?');
+        });
     </script>
 }
 
