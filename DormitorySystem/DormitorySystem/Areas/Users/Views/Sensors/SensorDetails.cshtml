@@ -108,7 +108,7 @@ else
 
         <a class="btn btn-info delete"
            data-id="@Model.Id"
-           data-area="Users"
+           @*data-area="Users"*@
            data-controller="Sensors"
            data-action="DeleteSensor"
            data-body-message="You are about to delete this sensor. Are you sure?">Delete</a>
@@ -200,6 +200,7 @@ else
             }
         }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <script src="~/js/delete.js"></script>
 }
 
