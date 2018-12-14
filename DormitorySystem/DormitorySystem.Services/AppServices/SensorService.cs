@@ -68,7 +68,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<IEnumerable<UserSensor>> GetPublicSensorsAsync()
         {
             var sensors = await this.context.UserSensors
-                .Where(s => s.IsPrivate == false)
+                .Where(s => s.IsPrivate == false && s.isDeleted==false)
                 .Include(us => us.User)
                 .Include(us => us.SampleSensor)
                 .ToListAsync();

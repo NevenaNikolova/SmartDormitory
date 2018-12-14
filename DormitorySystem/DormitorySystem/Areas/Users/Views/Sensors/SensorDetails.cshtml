@@ -96,7 +96,6 @@
     <div>
         <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
            class="btn btn-info disabled" role="button">Edit</a>
-
         <a asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
            class="btn btn-info disabled" role="button">Delete</a>
     </div>
@@ -107,8 +106,15 @@ else
         <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
            class="btn btn-info active" role="button">Edit</a>
 
-        <a id="delete" asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id" 
-           class="btn btn-info active" role="button">Delete</a>
+        <a class="btn btn-info delete"
+           data-id="@Model.Id"
+           data-area="Users"
+           data-controller="Sensors"
+           data-action="DeleteSensor"
+           data-body-message="You are about to delete this sensor. Are you sure?">Delete</a>
+
+        @*<a id="delete" asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
+            class="btn btn-info active" role="button">Delete</a>*@
     </div>
 }
 <br />
@@ -194,12 +200,7 @@ else
             }
         }
     </script>
-    <script>
-        const button = document.getElementById('delete')
-        button.addEventListener('click', () => {
-            confirm('This sensor will be deleted! Are you sure?');
-        });
-    </script>
+    <script src="~/js/delete.js"></script>
 }
 
 @section Styles{

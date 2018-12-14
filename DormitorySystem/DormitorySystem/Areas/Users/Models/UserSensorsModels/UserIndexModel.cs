@@ -17,6 +17,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
             this.SensorType = model.SampleSensor.SensorType.Name;
             this.IsPrivate = model.IsPrivate;
             this.IsOnline = model.SampleSensor.IsOnline;
+            this.IsDeleted = model.isDeleted;
         }
         [Display(Name="Sensor Type")]
         public string SensorType { get; set; }
@@ -30,5 +31,7 @@ namespace DormitorySystem.Web.Areas.Users.Models
         public bool IsPrivate { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }
