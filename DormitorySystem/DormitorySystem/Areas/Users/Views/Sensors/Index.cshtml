@@ -17,33 +17,45 @@
         <tbody>
             @foreach (var sensor in Model)
             {
-                <tr>
-                    <td>@sensor.Name</td>
-                    <td>@sensor.SensorType</td>
-                    <td>@sensor.Description</td>
-                    @if (sensor.IsOnline)
-                    {
-                        <td>@sensor.CurrentValue</td>
-                    }
-                    else
-                    {
-                        <td class="text-center">Sensor is offline</td>
-                    }
-                    @if (!sensor.IsPrivate)
-                    {
-                        <td>Public</td>
-                    }
-                    else
-                    {
-                        <td>Private</td>
-                    }
+            <tr>
+                <td>@sensor.Name</td>
+                <td>@sensor.SensorType</td>
+                <td>@sensor.Description</td>
+                @if (sensor.IsOnline)
+                {
+                    <td>@sensor.CurrentValue</td>
+                }
+                else
+                {
+                    <td class="text-center">Sensor is offline</td>
+                }
+                @if (!sensor.IsPrivate)
+                {
+                    <td>Public</td>
+                }
+                else
+                {
+                    <td>Private</td>
+                }
+                @if (sensor.IsDeleted)
+                {
+                    <td>
+                        <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
+                           asp-route-userSensorid="@sensor.Id" class="btn btn-info disabled" role="button">
+                            Details
+                        </a>
+                    </td>
+                }
+                else
+                {
                     <td>
                         <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
                            asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
                             Details
                         </a>
                     </td>
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>
