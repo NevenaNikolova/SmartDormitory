@@ -118,7 +118,7 @@ namespace DormitorySystem.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToAction("Login");
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }

@@ -15,8 +15,6 @@ using DormitorySystem.Services.BackgroundService;
 using DormitorySystem.Services.AppServices;
 using DormitorySystem.Common.WebProvider;
 using DormitorySystem.Common.Abstractions;
-using System.Net.Http;
-using System;
 using DormitorySystem.Services.HubsServices;
 using DormitorySystem.Services.HubsServices.Hubs;
 using DormitorySystem.Services.BackgroundService.TimedHostedServices;
