@@ -26,6 +26,7 @@
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="alert-danger">@TempData["GDPR"]</div>
             <div class="form-group">
                 <div class="checkbox">
                     <label asp-for="GDPR">
