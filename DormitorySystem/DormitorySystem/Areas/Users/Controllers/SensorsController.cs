@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using DormitorySystem.Common.Constants;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Services.Exceptions;
+using DormitorySystem.Common.Exceptions;
 using DormitorySystem.Web.Areas.Users.Models;
 using DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels;
 using DormitorySystem.Web.Areas.Users.Models.UserSensorsModels;
@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace DormitorySystem.Web.Areas.Users.Controllers
 {
@@ -56,7 +57,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public async Task<IActionResult> SensorDetails(Guid userSensorid)
         {
-            var userSensor = await this.sensorsService.GetUserSensorAsync(userSensorid);
+            UserSensor userSensor;
+            try
+            {
+                userSensor = await this.sensorsService.GetUserSensorAsync(userSensorid);
+            }
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
+            }
 
             var model = new UserSensorDetailsModel(userSensor);
 
@@ -65,16 +75,20 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
         public async Task<IActionResult> ListSampleSensors(string userId)
         {
-            var listSensors = await this.memoryCache.GetOrCreate
-                ("List sample sensors", async entry =>
+            IEnumerable<SampleSensor> listSensors;
+            try
             {
-                entry.AbsoluteExpiration = DateTime.UtcNow.AddHours(12);
-                return await this.sensorsService.ListSampleSensorsAsync();
-            });
-
-            if (listSensors == null)
+                listSensors = await this.memoryCache.GetOrCreate
+                    ("List sample sensors", async entry =>
+                    {
+                        entry.AbsoluteExpiration = DateTime.UtcNow.AddHours(12);
+                        return await this.sensorsService.ListSampleSensorsAsync();
+                    });
+            }
+            catch (SensorNullableException ex)
             {
-               return NoContent();
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
             }
 
             var sampleSensorsModel = listSensors.Select(s => new SampleSensorViewModel(s));
@@ -87,7 +101,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpGet]
         public async Task<IActionResult> RegisterNewSensor(Guid sampleSensorId, string userId)
         {
-            var sensor = await this.sensorsService.GetSampleSensorAsync(sampleSensorId);
+            SampleSensor sensor;
+            try
+            {
+                sensor = await this.sensorsService.GetSampleSensorAsync(sampleSensorId);
+            }
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
+            }
 
             var model = new RegisterSensorModel(sensor, userId);
 
@@ -109,7 +132,6 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
                 return View(model);
             }
-
             if (model.UserId == null)
             {
                 var currentUser = await this.userManager.GetUserAsync(HttpContext.User);
@@ -130,7 +152,16 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 IsPrivate = model.IsPrivate
             };
 
-            var sensor = await this.sensorsService.RegisterSensorAsync(registrationData);
+            UserSensor sensor;
+            try
+            {
+                sensor = await this.sensorsService.RegisterSensorAsync(registrationData);
+            }
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
+            }
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
@@ -140,15 +171,17 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         [HttpGet]
         public async Task<IActionResult> EditSensor(Guid id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-            var userSensor = await this.sensorsService.GetUserSensorAsync(id);
+            if (id == null) { return BadRequest(); }
 
-            if (userSensor == null)
+            UserSensor userSensor;
+            try
             {
-                return NotFound();
+                userSensor = await this.sensorsService.GetUserSensorAsync(id);
+            }
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
             }
 
             var model = new EditSensorModel(userSensor);
@@ -187,18 +220,34 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
                 CreatedOn = model.RegisteredOn
             };
 
-            var sensor = await this.sensorsService.EditSensorAsync(editedSensor);
+            UserSensor sensor;
+            try
+            {
+                sensor = await this.sensorsService.EditSensorAsync(editedSensor);
+            }
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
+            }
 
             return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
         }
 
         public async Task<IActionResult> DeleteSensor(Guid id)
         {
-            if (id == null)
+            if (id == null) { return BadRequest(); }
+
+            UserSensor sensor;
+            try
             {
-                return BadRequest();
+                sensor = await this.sensorsService.DeleteUserSensorAsync(id);
             }
-            var sensor = await this.sensorsService.DeleteUserSensorAsync(id);
+            catch (SensorNullableException ex)
+            {
+                this.TempData["Service-Error"] = ex.Message;
+                return View("ServiceError");
+            }
 
             return this.RedirectToAction("SensorDetails", new { userSensorid = id });
         }

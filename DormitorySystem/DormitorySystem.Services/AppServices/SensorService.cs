@@ -1,7 +1,7 @@
-﻿using DormitorySystem.Data.Context;
+﻿using DormitorySystem.Common.Exceptions;
+using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,14 +22,9 @@ namespace DormitorySystem.Services.AppServices
         public async Task<SampleSensor> GetSampleSensorAsync(Guid sampleSensorId)
         {
             var sensor = await this.context.SampleSensors
-                .Include(s => s.SensorType)
-                .Include(s => s.Measure)
-                .SingleOrDefaultAsync(s => s.Id == sampleSensorId);
-
-            if (sensor == null)
-            {
-                throw new SensorNullableException("There is no such sensor.");
-            }
+                .Include(s => s.SensorType).Include(s => s.Measure)
+                .SingleOrDefaultAsync(s => s.Id == sampleSensorId)
+                ?? throw new SensorNullableException("There is no such sensor.");
 
             return sensor;
         }
@@ -37,14 +32,9 @@ namespace DormitorySystem.Services.AppServices
         public async Task<IEnumerable<SampleSensor>> ListSampleSensorsAsync()
         {
             var sampleSensors = await this.context.SampleSensors
-                .Include(s => s.SensorType)
-                .Include(s => s.Measure)
-                .ToListAsync();
-
-            //if (sampleSensors == null)
-            //{
-            //    throw new SensorNullableException("There is no such sensors.");
-            //}
+                .Include(s => s.SensorType).Include(s => s.Measure)
+                .ToListAsync()
+                ?? throw new SensorNullableException("There is no such sensors.");
 
             return sampleSensors;
         }
@@ -52,14 +42,12 @@ namespace DormitorySystem.Services.AppServices
         public async Task<IEnumerable<UserSensor>> ListSensorsAsync(string userId = "all")
         {
             IQueryable<UserSensor> allSensors = this.context.UserSensors
-                    .Include(us => us.SampleSensor)
-                    .Include(s => s.SampleSensor.SensorType)
-                    .Include(s => s.SampleSensor.Measure)
-                    .Include(us => us.User);
+                    .Include(us => us.SampleSensor).Include(s => s.SampleSensor.SensorType)
+                    .Include(s => s.SampleSensor.Measure).Include(us => us.User);
 
             if (userId != "all")
             {
-                allSensors = allSensors.Where(id => id.UserId == userId);
+                allSensors = allSensors.Where(us => us.UserId == userId && !us.isDeleted);
             }
 
             return await allSensors.ToListAsync();
@@ -68,15 +56,10 @@ namespace DormitorySystem.Services.AppServices
         public async Task<IEnumerable<UserSensor>> GetPublicSensorsAsync()
         {
             var sensors = await this.context.UserSensors
-                .Where(s => s.IsPrivate == false && s.isDeleted==false)
-                .Include(us => us.User)
-                .Include(us => us.SampleSensor)
-                .ToListAsync();
-
-            //if (sensors == null)
-            //{
-            //    throw new SensorNullableException("There is no such sensors.");
-            //}
+                .Where(s => !s.IsPrivate && !s.isDeleted)
+                .Include(us => us.User).Include(us => us.SampleSensor)
+                .ToListAsync()
+                ?? throw new SensorNullableException("There is no such sensors.");
 
             return sensors;
         }
@@ -84,27 +67,19 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> GetUserSensorAsync(Guid userSensorId)
         {
             var sensor = await this.context.UserSensors
-                .Include(us => us.User)
-                .Include(us => us.SampleSensor.SensorType)
+                .Include(us => us.User).Include(us => us.SampleSensor.SensorType)
                 .Include(us => us.SampleSensor.Measure)
-                .SingleOrDefaultAsync(s => s.Id == userSensorId);
-            
-            if (sensor == null)
-            {
-                throw new SensorNullableException("There is no such sensor.");
-            }
+                .SingleOrDefaultAsync(s => s.Id == userSensorId && !s.isDeleted)
+                ?? throw new SensorNullableException("There is no such sensor.");
 
             return sensor;
         }
         public async Task<UserSensor> DeleteUserSensorAsync(Guid userSensorId)
         {
-            var sensor = await this.context.UserSensors            
-                .SingleOrDefaultAsync(s => s.Id == userSensorId);
+            var sensor = await this.context.UserSensors
+                .SingleOrDefaultAsync(s => s.Id == userSensorId)
+                ?? throw new SensorNullableException("There is no such sensor.");
 
-            if (sensor == null)
-            {
-                throw new SensorNullableException("There is no such sensor.");
-            }
             sensor.isDeleted = true;
             sensor.DeletedOn = DateTime.Now;
             await this.context.SaveChangesAsync();
@@ -112,7 +87,10 @@ namespace DormitorySystem.Services.AppServices
         }
         public async Task<UserSensor> RegisterSensorAsync(UserSensor newSensor)
         {
-            await this.context.UserSensors.AddAsync(newSensor);
+            var newSensorForReg = newSensor
+                ?? throw new SensorNullableException("There is no sensor to registered.");
+
+            await this.context.UserSensors.AddAsync(newSensorForReg);
             await this.context.SaveChangesAsync();
 
             return newSensor;
@@ -120,8 +98,12 @@ namespace DormitorySystem.Services.AppServices
 
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
-            this.context.Update(editedSensor);
+            var modifiedSensor = editedSensor
+                ?? throw new SensorNullableException("There is no sensor to updated");
+
+            this.context.Update(modifiedSensor);
             editedSensor.ModifiedOn = DateTime.Now;
+
             await this.context.SaveChangesAsync();
             return editedSensor;
         }

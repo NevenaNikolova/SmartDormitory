@@ -2,7 +2,8 @@
 using DormitorySystem.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using DormitorySystem.Data.Models;
+using DormitorySystem.Common.Exceptions;
 
 namespace DormitorySystem.Controllers
 {
@@ -20,8 +21,24 @@ namespace DormitorySystem.Controllers
         [HttpGet]
         public async Task<JsonResult> Get(Guid sensorId)
         {
-            var sensor = await this.sensorsService.GetSampleSensorAsync(sensorId);
+            SampleSensor sensor;
+            try
+            {
+                sensor = await this.sensorsService.GetSampleSensorAsync(sensorId);
+            }
+            catch (SensorNullableException)
+            {
+                return new JsonResult(new
+                {
+                    value = "NaN",
+                    isOnline = false,
+                    timeInMinute = 0,
+                    timeInSecond = 0,
+                });
+            }
+
             var sensorTimeStamp = DateTime.Parse(sensor.TimeStamp);
+
             return new JsonResult(new
             {
                 value = sensor.ValueCurrent,

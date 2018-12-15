@@ -108,7 +108,7 @@ else
 
         <a class="btn btn-info delete"
            data-id="@Model.Id"
-           @*data-area="Users"*@
+           @*data-area="Users" *@
            data-controller="Sensors"
            data-action="DeleteSensor"
            data-body-message="You are about to delete this sensor. Are you sure?">Delete</a>
@@ -131,9 +131,7 @@ else
 
 
 @section Scripts{
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous"></script>
-    <script src="~/js/GaugeMeter.js"></script>
+    <script src="~/js/GaugeMeter.js"></script> @*Documentation https://github.com/Mictronics/GaugeMeter*@
     <script>
         const pollingInterval = @Model.UserPollingInterval;
         const url = "/api/value" + "?sensorId=" + "@Model.SampleSensorId";
