@@ -1,53 +1,54 @@
 ﻿@model IEnumerable<UserModel>
 
 <h2></h2>
-<div class="text-right">
-    <a asp-area="Admin" asp-controller="ManageSensors" asp-action="AllUserSensors"
-       class="btn btn-info btn-lg active" role="button">View All Sensors</a>
-</div>
-<h2>Users</h2>
 
-<table id="all-users" class="table table-striped">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Registered On</th>
-            <th>Status</th>
-            <th>Details</th>
-            <th>Roles</th>
-            <th>Sensors</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+    <div class="text-right">
+        <a asp-area="Admin" asp-controller="ManageSensors" asp-action="AllUserSensors"
+           class="btn btn-info btn-lg active" role="button">View All Sensors</a>
+    </div>
+    <h2>Users</h2>
+
+    <table id="all-users" class="table table-striped">
+        <thead>
             <tr>
-                <td>@user.UserName</td>
-                <td>@user.CreatedOn</td>
-                @if (user.IsDeleted)
-                {
-                    <td>Deleted</td> }
-                else
-                {
-                    <td>Active</td>
-                }
-                <td>
-                    <a asp-area="Admin" asp-controller="ManageUsers" asp-action="UserDetails" asp-route-id="@user.Id"
-                       class="btn-sm btn-info active" role="button">Details</a>
-                </td>
-                <td>
-                    <a asp-area="Admin" asp-controller="ManageUsers" asp-action="Roles" asp-route-id="@user.Id"
-                       class="btn-sm btn-info active" role="button">Roles</a>
-                </td>
-                <td>
-                    <a asp-area="Admin" asp-controller="ManageSensors" asp-action="ListUserSensors"
-                       asp-route-id="@user.Id" asp-route-userName="@user.UserName"
-                       class="btn-sm btn-info active" role="button">Sensors</a>
-                </td>
+                <th>Username</th>
+                <th>Registered On</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Roles</th>
+                <th>Sensors</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.CreatedOn</td>
+                    @if (user.IsDeleted)
+                    {
+                        <td>Deleted</td> }
+                    else
+                    {
+                        <td>Active</td>
+                    }
+                    <td>
+                        <a asp-area="Admin" asp-controller="ManageUsers" asp-action="UserDetails" asp-route-id="@user.Id"
+                           class="btn-sm btn-info active" role="button">Details</a>
+                    </td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="ManageUsers" asp-action="Roles" asp-route-id="@user.Id"
+                           class="btn-sm btn-info active" role="button">Roles</a>
+                    </td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="ManageSensors" asp-action="ListUserSensors"
+                           asp-route-id="@user.Id" asp-route-userName="@user.UserName"
+                           class="btn-sm btn-info active" role="button">Sensors</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 @section Scripts {
     <script script type="text/javascript" language="javascript">
         $(document).ready(function () {
