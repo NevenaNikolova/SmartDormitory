@@ -27,11 +27,15 @@
         e.preventDefault();
 
         target = e.target;
-        var Id = $(target).data('id');
-        var controller = $(target).data('controller');
-        var action = $(target).data('action');
-        var bodyMessage = $(target).data('body-message');
-        redirectUrl = $(target).data('redirect-url');
+        var Id = $(target).attr("data-id")       
+        console.log(Id);
+        var controller = $(target).attr("data-controller");
+        console.log(controller);
+        var action = $(target).attr("data-action");
+        console.log(action);
+        var bodyMessage = $(target).attr("data-body-message");
+        console.log(bodyMessage);
+        redirectUrl = $(target).attr("redirect-url");
 
         url = "/" + controller + "/" + action + "?Id=" + Id;
         $(".delete-modal-body").text(bodyMessage);
