@@ -20,6 +20,25 @@ connection.on("notify",
             });
     });
 
+connection.on("offline",
+    function (message) {
+        $.notify.addStyle('alert-danger',
+            {
+                html:
+                    "<div>" +
+                    "<div class='alert alert-danger alert-dismissible' role='alert'>" +
+                    "<span data-notify-text/>" +
+                    "</div>" +
+                    "</div>"
+            });
+        $.notify(message,
+            {
+                autoHideDelay: 35000,
+                globalPosition: 'middle',
+                style: 'alert-danger'
+            });
+    });
+
 connection.start().catch(function (err) {
     return console.error(err.toString());
 });

@@ -2,7 +2,7 @@
 using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.AppServices;
-using DormitorySystem.Services.Exceptions;
+using DormitorySystem.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;

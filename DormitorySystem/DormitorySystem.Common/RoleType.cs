@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DormitorySystem.Common
+﻿namespace DormitorySystem.Common
 {
     public enum RoleType
     {

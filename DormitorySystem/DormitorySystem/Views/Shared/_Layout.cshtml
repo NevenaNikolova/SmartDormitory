@@ -39,7 +39,7 @@
                 <ul class="nav navbar-nav">
                     <li><img src="~/images/logo_grey.png" alt="Company Logo" height="60" align="middle" /></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+                    @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="Users" asp-controller="Sensors" asp-action="Index">My Sensors</a></li>
                         <li><a asp-area="Users" asp-controller="Sensors" asp-action="ListSampleSensors">Register New Sensor</a></li>
@@ -73,7 +73,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
 
-        <script src="~/lib/notify/notify.js"></script>
+        <script src="~/lib/notify/notify.js"></script>  @*Documentation https://notifyjs.jpillora.com/*@
         <script src="~/lib/signalr/dist/browser/signalr.js"></script>
         <script src="~/js/SignalRHub.js"></script>
         <script src="~/js/delete.js"></script>

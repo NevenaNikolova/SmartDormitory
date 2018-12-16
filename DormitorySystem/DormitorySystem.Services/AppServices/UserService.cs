@@ -1,11 +1,10 @@
-﻿using DormitorySystem.Data.Context;
+﻿using DormitorySystem.Common.Exceptions;
+using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
-using DormitorySystem.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DormitorySystem.Services.AppServices
@@ -23,7 +22,8 @@ namespace DormitorySystem.Services.AppServices
         {
             var user = await this.contex.Users
                 .Include(u => u.Sensors)
-                .SingleOrDefaultAsync(u => u.Id == userId);
+                .SingleOrDefaultAsync(u => u.Id == userId)
+                ?? throw new UserNullableException("There is no such user.");
 
             return user;
         }
@@ -32,7 +32,8 @@ namespace DormitorySystem.Services.AppServices
         {
             var users = await this.contex.Users
                 .Include(u => u.Sensors)
-                .ToListAsync();
+                .ToListAsync()
+                ?? throw new UserNullableException("No users found.");
 
             return users;
         }
@@ -40,13 +41,12 @@ namespace DormitorySystem.Services.AppServices
         public async Task<User> DeleteUserAsync(string Id)
         {
             var user = await this.contex.Users
-                .SingleOrDefaultAsync(u => u.Id == Id);
-            if (user == null)
-            {
-                throw new UserNullableException("There is no such user.");
-            }
+                .SingleOrDefaultAsync(u => u.Id == Id)
+                ?? throw new UserNullableException("There is no such user.");
+
             user.isDeleted = true;
             user.DeletedOn = DateTime.Now;
+
             await this.contex.SaveChangesAsync();
             return user;
         }

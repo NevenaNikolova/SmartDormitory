@@ -95,7 +95,7 @@ namespace DormitorySystem.Controllers
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.GDPR)
             {
                 var user = new User
                 {
@@ -118,11 +118,11 @@ namespace DormitorySystem.Controllers
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
-                    return RedirectToAction("Login");
+                    return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
+            this.TempData["GDPR"] = "You should accept the GDPR policy to register in this site.";
             // If we got this far, something failed, redisplay form
             return View(model);
         }

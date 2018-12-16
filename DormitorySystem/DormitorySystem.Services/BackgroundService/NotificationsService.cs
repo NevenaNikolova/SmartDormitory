@@ -23,18 +23,26 @@ namespace DormitorySystem.Services.BackgroundService
 
             foreach (var sampleSensor in listOfSampleSensors)
             {
-                var userSensors = this.context.UserSensors
+                if (sampleSensor.IsOnline)
+                {
+                    var userSensors = this.context.UserSensors
                                .Where(us => us.SampleSensorId == sampleSensor.Id).ToList();
 
-                foreach (var userSensor in userSensors)
-                {
-                    if ((sampleSensor.ValueCurrent > userSensor.UserMaxValue
-                        || sampleSensor.ValueCurrent < userSensor.UserMinValue)
-                        && userSensor.SendNotification)
+                    foreach (var userSensor in userSensors)
                     {
-                        await hubService.Notify(userSensor.UserId, userSensor.Name);
-                        count++;
+                        if ((sampleSensor.ValueCurrent > userSensor.UserMaxValue
+                            || sampleSensor.ValueCurrent < userSensor.UserMinValue)
+                            && userSensor.SendNotification)
+                        {
+                            await hubService.Notify(userSensor.UserId, userSensor.Name);
+                            count++;
+                        }
                     }
+                }
+                else
+                {
+                    await hubService.NotifyToAll("Sensor is offline");
+                    return count;
                 }
             }
             return count;

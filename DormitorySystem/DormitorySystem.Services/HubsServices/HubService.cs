@@ -18,5 +18,10 @@ namespace DormitorySystem.Services.HubsServices
         {
             await hubContext.Clients.User(userId).SendAsync("Notify", name);
         }
+
+        public async Task NotifyToAll(string message)
+        {
+            await hubContext.Clients.All.SendAsync("Offline", message);
+        }
     }
 }
