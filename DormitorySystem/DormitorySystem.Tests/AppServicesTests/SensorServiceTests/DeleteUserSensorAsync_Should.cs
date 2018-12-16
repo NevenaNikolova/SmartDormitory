@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
@@ -75,9 +73,9 @@ namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
                 seedUsersMock.Object, seedApiDataMock.Object))
             {
                 var service = new SensorService(assertContext);
-                var result=await service.DeleteUserSensorAsync(userSensor.Id);
+                var result = await service.DeleteUserSensorAsync(userSensor.Id);
 
-                StringAssert.Contains("True", result.isDeleted.ToString());              
+                StringAssert.Contains("True", result.isDeleted.ToString());
             }
         }
 
