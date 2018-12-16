@@ -13,7 +13,7 @@ namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
         {
             this.UserSensors = userSensors;
             this.UserId = userId;
-            UserName = userName;
+            this.UserName = userName;
         }
 
         public string UserId { get; set; }

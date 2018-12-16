@@ -12,25 +12,25 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 
         public RegisterSensorModel(SampleSensor sampleSensor, string userId)
         {
-            this.SampleSensorId = sampleSensor.Id;
-            this.UserId = userId;
+            base.SampleSensorId = sampleSensor.Id;
+            base.UserId = userId;
             this.Tag = sampleSensor.Tag;
-            this.Description = sampleSensor.Description;         
-            this.MeasureType = sampleSensor.Measure.MeasureType;
-            this.MinPollingInterval = sampleSensor.MinPollingInterval;
-            this.UserPollingInterval = this.MinPollingInterval;
-            this.MinValue = sampleSensor.MinValue;
-            this.MaxValue = sampleSensor.MaxValue;
-            this.UserMinValue = this.MinValue;
-            this.UserMaxValue = this.MaxValue;
+            this.Description = sampleSensor.Description;
+            base.MeasureType = sampleSensor.Measure.MeasureType;
+            base.MinPollingInterval = sampleSensor.MinPollingInterval;
+            base.UserPollingInterval = base.MinPollingInterval;
+            base.MinValue = sampleSensor.MinValue;
+            base.MaxValue = sampleSensor.MaxValue;
+            base.UserMinValue = base.MinValue;
+            base.UserMaxValue = base.MaxValue;
         }
 
         public RegisterSensorModel(UserSensor model) : base(model)
-        {          
-            Tag = model.SampleSensor.Tag;
-            Description = model.SampleSensor.Description;
+        {
+            this.Tag = model.SampleSensor.Tag;
+            this.Description = model.SampleSensor.Description;
         }
-    
+
         public string Tag { get; set; }
         public string Description { get; set; }
     }

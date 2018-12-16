@@ -9,6 +9,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
     {
         public UserSensorDetailsModel(UserSensor model) : base(model)
         {
+            this.SampleSensorId = model.SampleSensorId;
             this.UserPollingInterval = model.PollingInterval;
             this.UserMinValue = model.UserMinValue;
             this.UserMaxValue = model.UserMaxValue;
@@ -17,7 +18,6 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
             this.SendNotification = model.SendNotification;
             this.IsPrivate = model.IsPrivate;
             this.MeasureType = model.SampleSensor.Measure.MeasureType;
-            this.SampleSensorId = model.SampleSensorId;
             this.IsDeleted = model.isDeleted;
             this.TimeStamp = DateTime.Parse(model.SampleSensor.TimeStamp);
         }
