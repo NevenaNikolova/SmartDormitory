@@ -108,10 +108,11 @@ else
 
         <a class="btn btn-info delete"
            data-id="@Model.Id"
-           @*data-area="Users" *@
+           data-area="Users"
            data-controller="Sensors"
            data-action="DeleteSensor"
-           data-body-message="You are about to delete this sensor. Are you sure?">Delete</a>
+           data-body-message="You are about to delete this sensor. Are you sure?"
+           data-redirect-url="Sensors/SensorDetails/@Model.Id">Delete</a>
 
         @*<a id="delete" asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
             class="btn btn-info active" role="button">Delete</a>*@
@@ -131,7 +132,9 @@ else
 
 
 @section Scripts{
-    <script src="~/js/GaugeMeter.js"></script> @*Documentation https://github.com/Mictronics/GaugeMeter*@
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="~/js/GaugeMeter.js"></script>
     <script>
         const pollingInterval = @Model.UserPollingInterval;
         const url = "/api/value" + "?sensorId=" + "@Model.SampleSensorId";
