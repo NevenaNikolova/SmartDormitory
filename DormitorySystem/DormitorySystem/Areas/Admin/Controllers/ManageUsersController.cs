@@ -107,7 +107,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             this.TempData["Success-Message"] = $"User {user.Email} added to {role} role!";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("UserDetails", new { id = user.Id });
         }
 
         public async Task<IActionResult> DeleteUser(string id)

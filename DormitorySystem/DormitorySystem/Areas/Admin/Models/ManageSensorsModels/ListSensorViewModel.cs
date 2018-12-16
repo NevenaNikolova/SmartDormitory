@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations;
 namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
 {
     public class ListSensorViewModel : BaseUserSensorViewModel
-    {      
-        
+    {
+
         public ListSensorViewModel(UserSensor model) : base(model)
         {
-            UserPollingInterval = model.PollingInterval;
-            IsPrivate = model.IsPrivate;
-            SendNotification = model.SendNotification;
+            this.UserPollingInterval = model.PollingInterval;
+            this.IsPrivate = model.IsPrivate;
+            this.SendNotification = model.SendNotification;
 
         }
         [Display(Name = "Update Interval in Seconds")]

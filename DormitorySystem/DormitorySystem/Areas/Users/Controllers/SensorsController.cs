@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace DormitorySystem.Web.Areas.Users.Controllers
 {
     [Area("Users")]
-    [Authorize(Roles = "User, Admin")]
+    [Authorize]
     public class SensorsController : Controller
     {
         private readonly ISensorsService sensorsService;
@@ -165,7 +165,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
 
             this.TempData["Success-Message"] = $"Sensor {sensor.Name} was registered successfully!";
 
-            return this.RedirectToAction("SensorDetails", new { userSensorid = sensor.Id });
+            return this.RedirectToAction("ListSampleSensors", new { userId = sensor.UserId });
         }
 
         [HttpGet]

@@ -6,7 +6,7 @@ namespace DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels
     {
         public AllSensorSViewModel(IEnumerable<AllSensorViewModel> allUserSensors)
         {
-            AllUserSensors = allUserSensors;
+            this.AllUserSensors = allUserSensors;
         }
 
         public IEnumerable<AllSensorViewModel> AllUserSensors { get; set; }
