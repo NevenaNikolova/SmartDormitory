@@ -11,8 +11,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">Warning</h4>
                         </div>
-                        <div class="modal-body delete-modal-body">
-                            
+                        <div class="modal-body delete-modal-body">                          
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-delete">Cancel</button>
@@ -29,15 +28,17 @@
         target = e.target;
         var Id = $(target).attr("data-id")       
         console.log(Id);
+        var area = $(target).attr("data-area");
         var controller = $(target).attr("data-controller");
         console.log(controller);
         var action = $(target).attr("data-action");
         console.log(action);
         var bodyMessage = $(target).attr("data-body-message");
         console.log(bodyMessage);
-        redirectUrl = $(target).attr("redirect-url");
-
-        url = "/" + controller + "/" + action + "?Id=" + Id;
+        redirectUrl = $(target).attr("data-redirect-url");
+        console.log(redirectUrl);
+        url = "/" + area + "/" + controller + "/" + action + "?Id=" + Id;
+        console.log(url);
         $(".delete-modal-body").text(bodyMessage);
         $("#deleteModal").modal('show');
     });

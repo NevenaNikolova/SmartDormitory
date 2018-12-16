@@ -107,12 +107,14 @@ else
            class="btn btn-info active" role="button">Edit</a>
 
         <a class="btn btn-info delete"
+           data-toggle="modal" 
+           data-target="#deleteModal"
            data-id="@Model.Id"
            data-area="Users"
            data-controller="Sensors"
            data-action="DeleteSensor"
            data-body-message="You are about to delete this sensor. Are you sure?"
-           data-redirect-url="Sensors/SensorDetails/@Model.Id">Delete</a>
+           data-redirect-url="/Users/Sensors/SensorDetails/@Model.Id">Delete</a>
 
         @*<a id="delete" asp-area="Users" asp-controller="Sensors" asp-action="DeleteSensor" asp-route-id="@Model.Id"
             class="btn btn-info active" role="button">Delete</a>*@
