@@ -5,7 +5,7 @@ GitHub url: https://github.com/smartDormitory/smartDormitory.git
 
 ## Project purpose:
 Following the best practices, studied at Telerik Academy Alpha and the ICB project requirements, 
-we developed The Smart Dormitory project. The Smart Dormitory is an informational system that collects data from various sensors located in college dormitories all over the world.
+we developed The Smart Dormitory project. The Smart Dormitory is an information system that collects data from various sensors located in college dormitories all over the world.
 According to the requirements, the data will be analized by independent research organization to evaluate the living conditions and map them to the performance of the students.
 
 ## Project architecture:
