@@ -1,4 +1,5 @@
-﻿using DormitorySystem.Data.Abstractions;
+﻿using DormitorySystem.Common.Exceptions;
+using DormitorySystem.Data.Abstractions;
 using DormitorySystem.Data.Context;
 using DormitorySystem.Data.Models;
 using DormitorySystem.Services.AppServices;
@@ -80,6 +81,26 @@ namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
                 Assert.IsTrue(assertContext.UserSensors.Contains(userSensor));
             }
         }
-      
+
+        [TestMethod]
+        [ExpectedException(typeof(SensorNullableException))]
+        public async Task ThrowSensorNullableException_WhenSensorIsNotPassed()
+        {
+            //Arrange
+            var contextOptions = new DbContextOptionsBuilder<DormitorySystemContext>()
+                .UseInMemoryDatabase("ThrowSensorNullableException_WhenSensorIsNotPassed")
+                .Options;
+
+            var seedUsersMock = new Mock<ISeedUsers>();
+            var seedApiDataMock = new Mock<ISeedApiData>();
+
+            //Assert
+            using (var assertContext = new DormitorySystemContext(contextOptions,
+                seedUsersMock.Object, seedApiDataMock.Object))
+            {
+                var service = new SensorService(assertContext);
+                var result = await service.RegisterSensorAsync(null);
+            }
+        }
     }
 }

@@ -89,6 +89,7 @@ namespace DormitorySystem.Services.AppServices
             var newSensorForReg = newSensor
                 ?? throw new SensorNullableException("There is no sensor to registered.");
 
+
             await this.context.UserSensors.AddAsync(newSensorForReg);
             await this.context.SaveChangesAsync();
 

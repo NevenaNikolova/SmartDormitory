@@ -6,9 +6,8 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
 {
     public class EditSensorModel : BaseRegisterEditViewModel
     {
-        public EditSensorModel()
-        {
-        }
+        public EditSensorModel() { }
+       
 
         public EditSensorModel(UserSensor model) : base(model)
         {

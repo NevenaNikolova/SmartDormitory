@@ -6,9 +6,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 {
     public class SampleSensorViewModel
     {
-        public SampleSensorViewModel()
-        {
-        }
+        public SampleSensorViewModel() { }
 
         public SampleSensorViewModel(SampleSensor sampleSensor)
         {
@@ -33,13 +31,13 @@ namespace DormitorySystem.Web.Areas.Users.Models.SampleSensorsModels
 
         public Measure Measure { get; set; }
 
-        [Display(Name ="Current Value")]
+        [Display(Name = "Current Value")]
         public double ValueCurrent { get; set; }
 
-        [Display(Name ="Min Value")]
+        [Display(Name = "Min Value")]
         public double? MinValue { get; set; }
 
-        [Display(Name ="Max Value")]
+        [Display(Name = "Max Value")]
         public double? MaxValue { get; set; }
 
         public SensorType Type { get; set; }

@@ -2,7 +2,6 @@
 
 namespace DormitorySystem.Web.Models.SensorsViewModels
 {
-    // Model for api
     public class SensorInformationModel
     {
         public SensorInformationModel(SampleSensor sampleSensor)

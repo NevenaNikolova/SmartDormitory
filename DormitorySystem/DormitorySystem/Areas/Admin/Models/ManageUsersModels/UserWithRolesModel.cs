@@ -5,10 +5,7 @@ namespace DormitorySystem.Web.Areas.Admin.Models.ManageUsersModels
 {
     public class UserWithRolesModel
     {
-        public UserWithRolesModel()
-        {
-
-        }
+        public UserWithRolesModel() { }
 
         public UserWithRolesModel(User user, IEnumerable<string> roles)
         {

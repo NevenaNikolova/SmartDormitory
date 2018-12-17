@@ -6,9 +6,7 @@ namespace DormitorySystem.Web.Areas.Users.Models.AbstractModels
 {
     public class BaseUserSensorViewModel
     {
-        public BaseUserSensorViewModel()
-        {
-        }
+        public BaseUserSensorViewModel() { }
 
         public BaseUserSensorViewModel(UserSensor model)
         {
@@ -22,10 +20,10 @@ namespace DormitorySystem.Web.Areas.Users.Models.AbstractModels
         [Required]
         [MinLength(3)]
         [MaxLength(50)]
-        [Display(Name ="Sensor Name")]
+        [Display(Name = "Sensor Name")]
         public string Name { get; set; }
 
-        [Display(Name= "This Sensor is Visible only for Me")]
+        [Display(Name = "This Sensor is Visible only for Me")]
         public bool IsPrivate { get; set; }
     }
 }

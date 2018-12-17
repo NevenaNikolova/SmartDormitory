@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using DormitorySystem.Common.Exceptions;
-using DormitorySystem.Data.Models;
 using DormitorySystem.Services.Abstractions;
 using DormitorySystem.Web.Areas.Admin.Models.ManageSensorsModels;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +16,6 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
         public ManageSensorsController(ISensorsService sensorsService)
         {
             this.sensorsService = sensorsService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public async Task<IActionResult> ListUserSensors(string id, string userName)

@@ -29,11 +29,6 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
             this.usersService = usersService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> UserDetails(string id)
         {
             User user;

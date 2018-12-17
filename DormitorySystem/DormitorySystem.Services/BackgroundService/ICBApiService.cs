@@ -190,7 +190,6 @@ namespace DormitorySystem.Services.BackgroundService
             }
         }
 
-        //Double check min max value
         private double[] ExtractValues(string descr)
         {
             var numbers = Regex.Matches(descr, @"(\+| -)?(\d+)(\,|\.)?(\d*)?");

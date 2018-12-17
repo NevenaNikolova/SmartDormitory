@@ -6,9 +6,8 @@ namespace DormitorySystem.Web.Areas.Users.Models.UserSensorsModels
     public class RegisterSensorModel : BaseRegisterEditViewModel
     {
 
-        public RegisterSensorModel()
-        {
-        }
+        public RegisterSensorModel() { }
+
 
         public RegisterSensorModel(SampleSensor sampleSensor, string userId)
         {
