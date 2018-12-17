@@ -29,6 +29,7 @@ ASP.Net Core MVC, MS SQL Server, EntityFramework, Bootstrap, SignalR, Ajax, Jque
 <img src="screenshots/registersensor.jpg">
 <img src="screenshots/sensordetails.jpg">
 <img src="screenshots/editsensor.jpg">
+<img src="screenshots/deletemodal.jpg">
 <img src="screenshots/adminindex.jpg">
 <img src="screenshots/adminusersensors.jpg">
 <img src="screenshots/adminallsensors.jpg">
