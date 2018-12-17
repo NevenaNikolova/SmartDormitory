@@ -58,8 +58,7 @@ namespace DormitorySystem.Services.AppServices
             var sensors = await this.context.UserSensors
                 .Where(s => !s.IsPrivate && !s.isDeleted)
                 .Include(us => us.User).Include(us => us.SampleSensor)
-                .ToListAsync()
-                ?? throw new SensorNullableException("There is no such sensors.");
+                .ToListAsync();
 
             return sensors;
         }
@@ -99,7 +98,11 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             var modifiedSensor = editedSensor
-                ?? throw new SensorNullableException("There is no sensor to updated");
+                ?? throw new SensorNullableException("There is no sensor to updated.");
+
+            modifiedSensor = await this.context.UserSensors
+                .SingleOrDefaultAsync(us => us.Id == editedSensor.Id)
+                ?? throw new SensorNullableException("This sensor don't exist in database.");
 
             this.context.Update(modifiedSensor);
             editedSensor.ModifiedOn = DateTime.Now;
