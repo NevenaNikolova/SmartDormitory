@@ -69,12 +69,38 @@
 }
 else
 {
-    <div>
-        <a asp-area="Admin" asp-controller="ManageUsers" asp-action="DeleteUser" asp-route-id="@Model.Id"
-           class="btn btn-info active" role="button">Delete</a>
+    <a class="btn btn-info delete"
+       data-toggle="modal"
+       data-target="#deleteModal"
+       data-id="@Model.Id"
+       data-area="Admin"
+       data-controller="ManageUsers"
+       data-action="DeleteUser"
+       data-body-message="You are about to delete this user. Are you sure?"
+       data-redirect-url="/Admin/ManageUsers/UserDetails/@Model.Id">Delete</a>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Warning</h4>
+                </div>
+                <div class="modal-body delete-modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="cancel-delete">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete">Delete</button>
+                </div>
+            </div>
+        </div>
     </div>
 }
 
 <div>
     <a asp-controller="Home" asp-action="Index">Back to Admin panel</a>
 </div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <script src="~/js/delete.js"></script>
+}
