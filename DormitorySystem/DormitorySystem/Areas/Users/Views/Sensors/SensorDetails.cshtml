@@ -105,16 +105,31 @@ else
     <div>
         <a asp-area="Users" asp-controller="Sensors" asp-action="EditSensor" asp-route-id="@Model.Id"
            class="btn btn-info active" role="button">Edit</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-info delete"
+               data-toggle="modal"
+               data-target="#deleteModal"
+               data-id="@Model.Id"
+               data-area="Users"
+               data-controller="Sensors"
+               data-action="DeleteSensor"
+               data-body-message="You are about to delete this sensor. Are you sure?"
+               data-redirect-url="/Admin/ManageSensors/AllUserSensors">Delete</a>
+        }
+        else
+        {
+            <a class="btn btn-info delete"
+               data-toggle="modal"
+               data-target="#deleteModal"
+               data-id="@Model.Id"
+               data-area="Users"
+               data-controller="Sensors"
+               data-action="DeleteSensor"
+               data-body-message="You are about to delete this sensor. Are you sure?"
+               data-redirect-url="/Users/Sensors/Index">Delete</a>
+        }
 
-        <a class="btn btn-info delete"
-           data-toggle="modal"
-           data-target="#deleteModal"
-           data-id="@Model.Id"
-           data-area="Users"
-           data-controller="Sensors"
-           data-action="DeleteSensor"
-           data-body-message="You are about to delete this sensor. Are you sure?"
-           data-redirect-url="/Users/Sensors/Index">Delete</a>
 
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">

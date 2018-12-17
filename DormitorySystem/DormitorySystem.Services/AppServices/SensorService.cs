@@ -86,11 +86,12 @@ namespace DormitorySystem.Services.AppServices
         }
         public async Task<UserSensor> RegisterSensorAsync(UserSensor newSensor)
         {
-            var newSensorForReg = newSensor
-                ?? throw new SensorNullableException("There is no sensor for registration.");
+            if (newSensor == null)
+            {
+                throw new SensorNullableException("There is no sensor for registration.");
+            }
 
-
-            await this.context.UserSensors.AddAsync(newSensorForReg);
+            await this.context.UserSensors.AddAsync(newSensor);
             await this.context.SaveChangesAsync();
 
             return newSensor;
@@ -98,10 +99,12 @@ namespace DormitorySystem.Services.AppServices
 
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
-            var modifiedSensor = editedSensor
-                 ?? throw new SensorNullableException("There is no sensor for update.");
+            if (editedSensor == null)
+            {
+                throw new SensorNullableException("There is no sensor for update.");
+            }
 
-            this.context.Update(modifiedSensor);
+            this.context.Update(editedSensor);
             editedSensor.ModifiedOn = DateTime.Now;
 
             await this.context.SaveChangesAsync();
