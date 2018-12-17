@@ -46,7 +46,7 @@ namespace DormitorySystem.Services.BackgroundService.TimedHostedServices
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Timed Background Service is stopping.".ToUpper());
+            this.logger.LogInformation("Timed background service is stopping.".ToUpper());
 
             this.timer?.Change(Timeout.Infinite, 0);
 

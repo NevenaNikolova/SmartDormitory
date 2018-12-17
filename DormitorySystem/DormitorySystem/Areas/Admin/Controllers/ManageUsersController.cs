@@ -54,7 +54,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             if (user == null)
             {
-                this.TempData["Service-Error"] = "There is no such user.";
+                this.TempData["Service-Error"] = "This user was not found.";
                 return View("ServiceError");
             }
 
@@ -86,7 +86,7 @@ namespace DormitorySystem.Web.Areas.Admin.Controllers
 
             if (user == null)
             {
-                this.TempData["Service-Error"] = "There is no such user.";
+                this.TempData["Service-Error"] = "This user was not found.";
                 return View("ServiceError");
             }
 

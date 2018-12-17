@@ -124,12 +124,12 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
         {
             if (!ModelState.IsValid)
             {
-                this.TempData["Lng-Lat"] = "Please set the location of the sensor";
+                this.TempData["Lng-Lat"] = "Please set the location of the sensor.";
                 return View(model);
             }
             if (model.UserMinValue >= model.UserMaxValue)
             {
-                this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
+                this.TempData["Invalid-Min-Max-Value"] = "The minimum value can not be equal to or greater than the maximum value.";
                 return View(model);
             }
             if (model.UserId == null)
@@ -200,7 +200,7 @@ namespace DormitorySystem.Web.Areas.Users.Controllers
             }
             if (model.UserMinValue >= model.UserMaxValue)
             {
-                this.TempData["Invalid-Min-Max-Value"] = "MinValue can not be equal to or greater than MaxValue.";
+                this.TempData["Invalid-Min-Max-Value"] = "The minimum value can not be equal to or greater than the maximum value.";
                 return View(model);
             }
 

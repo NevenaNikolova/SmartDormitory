@@ -23,7 +23,7 @@ namespace DormitorySystem.Services.AppServices
             var user = await this.contex.Users
                 .Include(u => u.Sensors)
                 .SingleOrDefaultAsync(u => u.Id == userId)
-                ?? throw new UserNullableException("There is no such user.");
+                ?? throw new UserNullableException("This user was not found.");
 
             return user;
         }
@@ -33,7 +33,7 @@ namespace DormitorySystem.Services.AppServices
             var users = await this.contex.Users
                 .Include(u => u.Sensors)
                 .ToListAsync()
-                ?? throw new UserNullableException("No users found.");
+                ?? throw new UserNullableException("No users were found.");
 
             return users;
         }
@@ -42,7 +42,7 @@ namespace DormitorySystem.Services.AppServices
         {
             var user = await this.contex.Users
                 .SingleOrDefaultAsync(u => u.Id == Id)
-                ?? throw new UserNullableException("There is no such user.");
+                ?? throw new UserNullableException("This user was not found.");
 
             user.isDeleted = true;
             user.DeletedOn = DateTime.Now;

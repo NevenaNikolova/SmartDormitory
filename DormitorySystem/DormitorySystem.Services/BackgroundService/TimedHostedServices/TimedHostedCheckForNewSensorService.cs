@@ -23,7 +23,7 @@ namespace DormitorySystem.Services.BackgroundService.TimedHostedServices
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Check for new sensor Service is starting.");
+            this.logger.LogInformation("Check for new sensor service is starting.");
 
             this.timer = new Timer(CheckForNewSensor, null, TimeSpan.Zero, TimeSpan.FromHours(12));
 
@@ -37,13 +37,13 @@ namespace DormitorySystem.Services.BackgroundService.TimedHostedServices
                 var iCBApiService = scope.ServiceProvider.GetRequiredService<IICBApiService>();
                 var count = await iCBApiService.CheckForNewSensor();
                 this.logger.LogInformation
-                          ($"Checking for new sensor is complete. Number of new sensor found is: {count}");
+                          ($"Checking for new sensor is complete. Number of new sensors found is: {count}");
             }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            this.logger.LogInformation("Timed Background Service is stopping.".ToUpper());
+            this.logger.LogInformation("Timed background service is stopping.".ToUpper());
 
             this.timer?.Change(Timeout.Infinite, 0);
 

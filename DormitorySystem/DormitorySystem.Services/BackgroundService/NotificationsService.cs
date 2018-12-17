@@ -41,7 +41,7 @@ namespace DormitorySystem.Services.BackgroundService
                 }
                 else
                 {
-                    await hubService.NotifyToAll("Sensor is offline");
+                    await hubService.NotifyToAll("This sensor is offline.");
                     return count;
                 }
             }

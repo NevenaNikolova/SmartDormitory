@@ -119,7 +119,7 @@ namespace DormitorySystem.Services.BackgroundService
 
             if (!Guid.TryParse(sensorData["SensorId"].ToString(), out Guid sensorId))
             {
-                throw new FormatException("Invalid sensorId information from Api");
+                throw new FormatException("Invalid sensor id information from the Api");
             }
 
             var newSensor = new SampleSensor()

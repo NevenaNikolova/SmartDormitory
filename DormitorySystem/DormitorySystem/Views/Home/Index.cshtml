@@ -52,25 +52,7 @@
                             position: { lat: parseFloat(data[i].Latitude), lng: parseFloat(data[i].Longitude)},
                             map: map,
                             title: data[i].Name
-                        });
-                        //contentStr[i] = data[i].Name;
-
-                        //infowindow[i] = new google.maps.InfoWindow({
-                        //    content: contentStr[i]
-                        //});
-
-                        //var mdl = marker[i];
-                        //google.maps.event.addListener(marker[i], 'mouseover', function (mdl, i) {
-                        //    return function () {
-                        //        infoWindow[i].open(map, marker[i]);
-                        //    }
-                        //});
-
-                        //google.maps.event.addListener(marker[i], 'mouseout', function (mdl, i) {
-                        //    return function () {
-                        //        infoWindow[i].close();
-                        //    }
-                        //});
+                        });                      
                     }
                 }
             );

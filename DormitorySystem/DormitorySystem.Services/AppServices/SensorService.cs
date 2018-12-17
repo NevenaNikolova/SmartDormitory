@@ -24,7 +24,7 @@ namespace DormitorySystem.Services.AppServices
             var sensor = await this.context.SampleSensors
                 .Include(s => s.SensorType).Include(s => s.Measure)
                 .SingleOrDefaultAsync(s => s.Id == sampleSensorId)
-                ?? throw new SensorNullableException("There is no such sensor.");
+                ?? throw new SensorNullableException("This sensor was not found.");
 
             return sensor;
         }
@@ -34,7 +34,7 @@ namespace DormitorySystem.Services.AppServices
             var sampleSensors = await this.context.SampleSensors
                 .Include(s => s.SensorType).Include(s => s.Measure)
                 .ToListAsync()
-                ?? throw new SensorNullableException("There is no such sensors.");
+                ?? throw new SensorNullableException("These sensors were not found.");
 
             return sampleSensors;
         }
@@ -69,7 +69,7 @@ namespace DormitorySystem.Services.AppServices
                 .Include(us => us.User).Include(us => us.SampleSensor.SensorType)
                 .Include(us => us.SampleSensor.Measure)
                 .SingleOrDefaultAsync(s => s.Id == userSensorId && !s.isDeleted)
-                ?? throw new SensorNullableException("There is no such sensor.");
+                ?? throw new SensorNullableException("This sensor was not found.");
 
             return sensor;
         }
@@ -77,7 +77,7 @@ namespace DormitorySystem.Services.AppServices
         {
             var sensor = await this.context.UserSensors
                 .SingleOrDefaultAsync(s => s.Id == userSensorId)
-                ?? throw new SensorNullableException("There is no such sensor.");
+                ?? throw new SensorNullableException("This sensor was not found.");
 
             sensor.isDeleted = true;
             sensor.DeletedOn = DateTime.Now;
@@ -87,7 +87,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> RegisterSensorAsync(UserSensor newSensor)
         {
             var newSensorForReg = newSensor
-                ?? throw new SensorNullableException("There is no sensor to registered.");
+                ?? throw new SensorNullableException("There is no sensor for registration.");
 
 
             await this.context.UserSensors.AddAsync(newSensorForReg);
@@ -99,7 +99,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             var modifiedSensor = editedSensor
-                 ?? throw new SensorNullableException("There is no sensor to updated.");
+                 ?? throw new SensorNullableException("There is no sensor for update.");
 
             this.context.Update(modifiedSensor);
             editedSensor.ModifiedOn = DateTime.Now;
