@@ -22,7 +22,7 @@ namespace DormitorySystem.Common.WebProvider
 
             if (headerKeyValue.Length != 2)
             {
-                throw new Exception("ops");
+                throw new Exception("Oops! The length of the header key-value must be 2 elements.");
             }
 
             var request = new HttpRequestMessage(HttpMethod.Get, url);

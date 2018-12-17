@@ -81,7 +81,7 @@ namespace DormitorySystem.Data.DatabaseSeed
 
                 if (!Guid.TryParse(item["SensorId"].ToString(), out Guid sensorId))
                 {
-                    throw new FormatException("Invalid sensorId information from Api");
+                    throw new FormatException("Invalid sensor id information from the Api.");
                 }
 
                 var newSensor = new SampleSensor()
@@ -144,8 +144,7 @@ namespace DormitorySystem.Data.DatabaseSeed
 
             return result;
         }
-
-        //Double check min max value
+    
         private double[] ExtractValues(string descr)
         {
             var numbers = Regex.Matches(descr, @"(\+| -)?(\d+)(\,|\.)?(\d*)?");
