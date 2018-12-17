@@ -15,20 +15,21 @@
     <tbody>
         @foreach (var sensor in Model.AllUserSensors)
         {
-        <tr>
-            <td>@sensor.UserEmail</td>
-            <td>@sensor.Name</td>
-            <td>@sensor.Type</td>
-            <td>@sensor.CreatedOn</td>
-            <td>@sensor.ModifiedOn</td>
-            <td>@sensor.DeletedOn</td>
-            <td>
-                <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
-                   asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
-                    Details
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>@sensor.UserEmail</td>
+                <td>@sensor.Name</td>
+                <td>@sensor.Type</td>
+                <td>@sensor.CreatedOn</td>
+                <td>@sensor.ModifiedOn</td>
+                <td>@sensor.DeletedOn</td>
+                <td>
+                    <a asp-area="Users" asp-controller="Sensors" asp-action="SensorDetails"
+                       asp-route-userSensorid="@sensor.Id" class="btn btn-info active" role="button">
+                        Details
+                    </a>
+                </td>
+
+            </tr>
         }
     </tbody>
 </table>
