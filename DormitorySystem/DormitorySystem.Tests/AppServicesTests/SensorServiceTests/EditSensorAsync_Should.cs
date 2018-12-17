@@ -113,26 +113,5 @@ namespace DormitorySystem.Tests.AppServicesTests.SensorServiceTests
                 var result = await service.EditSensorAsync(null);
             }
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(SensorNullableException))]
-        public async Task ThrowSensorNullableException_WhenSensorIsNotFound()
-        {
-            //Arrange
-            var contextOptions = new DbContextOptionsBuilder<DormitorySystemContext>()
-                .UseInMemoryDatabase("ThrowSensorNullableException_WhenSensorIsNotFound")
-                .Options;
-
-            var seedUsersMock = new Mock<ISeedUsers>();
-            var seedApiDataMock = new Mock<ISeedApiData>();
-
-            //Assert
-            using (var assertContext = new DormitorySystemContext(contextOptions,
-                seedUsersMock.Object, seedApiDataMock.Object))
-            {
-                var service = new SensorService(assertContext);
-                var result = await service.EditSensorAsync(new UserSensor());
-            }
-        }
     }
 }

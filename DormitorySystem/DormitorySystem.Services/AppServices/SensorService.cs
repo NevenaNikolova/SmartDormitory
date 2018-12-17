@@ -99,11 +99,7 @@ namespace DormitorySystem.Services.AppServices
         public async Task<UserSensor> EditSensorAsync(UserSensor editedSensor)
         {
             var modifiedSensor = editedSensor
-                ?? throw new SensorNullableException("There is no sensor to updated.");
-
-            modifiedSensor = await this.context.UserSensors
-                .SingleOrDefaultAsync(us => us.Id == editedSensor.Id)
-                ?? throw new SensorNullableException("This sensor don't exist in database.");
+                 ?? throw new SensorNullableException("There is no sensor to updated.");
 
             this.context.Update(modifiedSensor);
             editedSensor.ModifiedOn = DateTime.Now;
