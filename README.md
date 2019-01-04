@@ -1,6 +1,7 @@
 ## THE SMART DORMITORY PROJECT
 
 ## Team: Nevena Nikolova, Antonio Iliev 
+Video: https://vimeo.com/309069431
 GitHub url: https://github.com/smartDormitory/smartDormitory.git
 
 ## Project purpose:
