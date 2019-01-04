@@ -2,8 +2,8 @@
 
 ## Team: Nevena Nikolova, Antonio Iliev 
 Video: https://vimeo.com/309069431
-GitHub url: https://github.com/smartDormitory/smartDormitory.git
 
+GitHub url: https://github.com/smartDormitory/smartDormitory.git
 ## Project purpose:
 Following the best practices, studied at Telerik Academy Alpha and the ICB project requirements, 
 we developed The Smart Dormitory project. The Smart Dormitory is an information system that collects data from various sensors located in college dormitories all over the world.
